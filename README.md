@@ -1,6 +1,21 @@
-## CoD4 Novo
+## CoD4 Novo **<sup>alpha</sup>**
 
-Call of Duty 4 library of scripts for servers.
+Call of Duty 4 server scripts.
+
+### Features:
+
+- [] Geolocation based Welcome
+- [] Player in-game Menu
+    - [] Unlock Weapons
+    - [] Visual Tweaks
+- [] Admin in-game Menu
+    - [] Switch Gamemodes
+    - [] Admin controls
+- [] HighXP Mode
+- [] Killcard
+- [] Additional Hardpoints
+- [] Hardpoints Shop
+- And more…
 
 ### Requirements:
 `CoD4X 1.7a`
@@ -8,10 +23,6 @@ Call of Duty 4 library of scripts for servers.
 ### Installation:
 * Place both `novo` and `maps` folders into your `/main_shared/` folder
 * Start the server
-
-## Features:
-
-* Geolocation based Welcome
 
 ### Credits:
 [CoD4:NE](https://github.com/leiizko/cod4_new_experience)
