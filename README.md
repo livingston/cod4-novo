@@ -4,18 +4,19 @@ Call of Duty 4 server scripts.
 
 ### Features:
 
-- [] Geolocation based Welcome
-- [] Player in-game Menu
-    - [] Unlock Weapons
-    - [] Visual Tweaks
-- [] Admin in-game Menu
-    - [] Switch Gamemodes
-    - [] Admin controls
-- [] HighXP Mode
-- [] Killcard
-- [] Additional Hardpoints
-- [] Hardpoints Shop
-- And more…
+- [ ] Geolocation based Welcome
+- [ ] Player in-game Menu
+    - [ ] Unlock Weapons
+    - [ ] Visual Tweaks
+- [ ] Admin in-game Menu
+    - [ ] Switch Gamemodes
+    - [ ] Admin controls
+- [ ] HighXP Mode
+- [ ] Killcard
+- [ ] Additional Hardpoints
+- [ ] Hardpoints Shop
+
+And more…
 
 ### Requirements:
 `CoD4X 1.7a`
