@@ -4,7 +4,7 @@ Call of Duty 4 server scripts.
 
 ### Features:
 
-- [ ] Geolocation based Welcome
+- [x] Geolocation based Welcome
 - [ ] Player in-game Menu
     - [ ] Unlock Weapons
     - [ ] Visual Tweaks

@@ -53,10 +53,10 @@ welcome()
 	country = self getGeoLocation( 2 );
 	if( !isSubStr( country, "N/" ) || !isDefined( country ) )
 	{
-        exec( "say Welcome^5 " + self.name + " ^7from ^5" + country );
+        exec( "say Welcome ^3" + self.name + " ^7from ^1" + country + "^7!");
 	}
 	else
 	{
-        exec( "say Welcome^5 " + self.name );
+        exec( "say Welcome^3 " + self.name );
 	}
 }
