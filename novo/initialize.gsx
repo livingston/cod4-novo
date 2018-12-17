@@ -6,6 +6,8 @@ GloballogicInit()
 
 startGameType()
 {
+    thread novo\player::init();
+
     thread setupServerDvars();
 }
 
