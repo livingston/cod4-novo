@@ -26,4 +26,4 @@ And more…
 * Start the server
 
 ### Credits:
-[CoD4:NE](https://github.com/leiizko/cod4_new_experience)
+[CoD4:NE](https://github.com/leiizko/cod4_new_experience), [openwarfare](https://github.com/cod4mw/openwarfare/)
