@@ -50,10 +50,10 @@ onConnect()
 
 welcome()
 {
-	// player_last_visit = self novo\common::getCvar( "last_visit" );
+	// Visit Count
 	playerVisitCount = self novo\common::getCvarInt( "visit_count" );
-
 	playerVisitCount = playerVisitCount + 1;
+
 	self novo\common::setCvar( "visit_count", playerVisitCount );
 
 	if( playerVisitCount == 1 )
@@ -62,12 +62,28 @@ welcome()
 		visitInfo = playerVisitCount + " ^2visits";
 
 
+	// Last Visit
+	playerLastVisit = self novo\common::getCvar( "last_visit" );
+	t = getRealTime();
+
+	self novo\common::setCvar( "last_visit", t );
+
+
+	// Geolocation
 	country = self getGeoLocation( 2 );
 	welcomeMessage = self.name;
+
 
 	if( !isSubStr( country, "N/" ) || !isDefined( country ) )
 		welcomeMessage = self.name + " ^7from ^1" + country;
 
 
 	exec( "say Welcome^3 "+ welcomeMessage +"^7! ^4( ^7"+ visitInfo +" ^4)");
+
+
+	if( playerLastVisit != "" )
+	{
+		formattedLastVisit = TimeToString( int( playerLastVisit ), 0, "%b %d %G ^1%r");
+		exec( "say Last visit:^2 "+ formattedLastVisit );
+	}
 }
