@@ -50,13 +50,24 @@ onConnect()
 
 welcome()
 {
-	country = self getGeoLocation( 2 );
-	if( !isSubStr( country, "N/" ) || !isDefined( country ) )
-	{
-        exec( "say Welcome ^3" + self.name + " ^7from ^1" + country + "^7!");
-	}
+	// player_last_visit = self novo\common::getCvar( "last_visit" );
+	playerVisitCount = self novo\common::getCvarInt( "visit_count" );
+
+	playerVisitCount = playerVisitCount + 1;
+	self novo\common::setCvar( "visit_count", playerVisitCount );
+
+	if( playerVisitCount == 1 )
+		visitInfo = "First Visit!";
 	else
-	{
-        exec( "say Welcome^3 " + self.name );
-	}
+		visitInfo = playerVisitCount + " ^2visits";
+
+
+	country = self getGeoLocation( 2 );
+	welcomeMessage = self.name;
+
+	if( !isSubStr( country, "N/" ) || !isDefined( country ) )
+		welcomeMessage = self.name + " ^7from ^1" + country;
+
+
+	exec( "say Welcome^3 "+ welcomeMessage +"^7! ^4( ^7"+ visitInfo +" ^4)");
 }
