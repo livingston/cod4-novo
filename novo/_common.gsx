@@ -129,3 +129,29 @@ setCvar( dvar, value )
 
     novo\_utils::writeFile( "players/" +guid+ ".db", playerDBContent, "write" );
 }
+
+getAllPlayers() {
+	return getEntArray( "player", "classname" );
+}
+
+getPlayerByNum( pNum ) {
+	players = getAllPlayers();
+
+	for( i = 0; i < players.size; i++ )
+		if ( players[i] getEntityNumber() == int( pNum ) )
+			return players[i];
+}
+
+useConfig() {
+	waittillframeend;
+
+	if(self.pers["forceLaser"])
+		self setClientDvar("cg_laserforceon",1);
+	else
+		self setClientDvar("cg_laserforceon",0);
+}
+
+hasPermission( permission )
+{
+	return false;
+}

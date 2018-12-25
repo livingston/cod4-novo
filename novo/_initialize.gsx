@@ -19,3 +19,8 @@ setupServerDvars()
     exec( "sets _mod CoD4:Novo" );
 	exec( "sets _modVer 1.0.0-alpha" );
 }
+
+load()
+{
+    level thread novo\_menu::init();
+}
