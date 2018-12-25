@@ -244,10 +244,9 @@ GetMenuStuct( menu )
 
     for( i = 0; i < level.menuoption[ "name" ][ menu ].size; i++ )
     {
-		// if( isDefined(level.lang["EN"][level.menuoption["name"][menu][i]]))
-	 	// 	itemlist = itemlist + self duffman\_common::getLangString(level.menuoption["name"][menu][i]) + "\n";
-	 	// else
-        itemlist = itemlist + level.menuoption[ "name" ][ menu ][ i ] + "\n";
+        menuItemLabel = level.menuoption[ "name" ][ menu ][ i ];
+
+        itemlist = itemlist + self novo\_common::translate( menuItemLabel ) + "\n";
 	}
 
 	return itemlist;

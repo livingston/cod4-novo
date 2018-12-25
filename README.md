@@ -6,6 +6,7 @@ Call of Duty 4 server scripts.
 
 - [x] Geolocation based Welcome
 - [ ] Player in-game Menu
+    - [x] Create/Edit Class
     - [ ] Unlock Weapons
     - [ ] Visual Tweaks
 - [ ] Admin in-game Menu

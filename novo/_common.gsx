@@ -155,3 +155,19 @@ hasPermission( permission )
 {
 	return false;
 }
+
+translate( alias )
+{
+    if( !isDefined( self.pers[ "country" ] ) )
+		self.pers[ "country" ] = "EN";
+
+	if( !isDefined( alias ) || !isDefined( self ))
+        return "";
+
+	if( isDefined( level.lang[ "EN" ][ alias ] ) )
+    {
+        return level.lang[ "EN" ][ alias ];
+    }
+
+    return alias;
+}

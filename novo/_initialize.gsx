@@ -2,6 +2,8 @@ GloballogicInit()
 {
     thread novo\_dvars::init();
 	thread novo\_events::init();
+
+    level thread novo\_languages::init();
 }
 
 startGameType()
