@@ -4,7 +4,7 @@
 
 init()
 {
-    thread novo\events::addConnectEvent( ::onConnect );
+    thread novo\_events::addConnectEvent( ::onConnect );
 }
 
 onConnect()
@@ -51,10 +51,10 @@ onConnect()
 welcome()
 {
 	// Visit Count
-	playerVisitCount = self novo\common::getCvarInt( "visit_count" );
+	playerVisitCount = self novo\_common::getCvarInt( "visit_count" );
 	playerVisitCount = playerVisitCount + 1;
 
-	self novo\common::setCvar( "visit_count", playerVisitCount );
+	self novo\_common::setCvar( "visit_count", playerVisitCount );
 
 	if( playerVisitCount == 1 )
 		visitInfo = "First Visit!";
@@ -63,10 +63,10 @@ welcome()
 
 
 	// Last Visit
-	playerLastVisit = self novo\common::getCvar( "last_visit" );
+	playerLastVisit = self novo\_common::getCvar( "last_visit" );
 	t = getRealTime();
 
-	self novo\common::setCvar( "last_visit", t );
+	self novo\_common::setCvar( "last_visit", t );
 
 
 	// Geolocation

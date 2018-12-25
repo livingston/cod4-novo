@@ -47,11 +47,11 @@ getCvar( dvar )
 	else if( self != level )
 		return "";
 
-	playerDB = novo\utils::readFile( "players/" +guid+ ".db" );
+	playerDB = novo\_utils::readFile( "players/" +guid+ ".db" );
 
 	if( playerDB == "undefined" )
     {
-		novo\utils::writeFile( "players/" +guid+ ".db", "", "write" );
+		novo\_utils::writeFile( "players/" +guid+ ".db", "", "write" );
 		return "";
 	}
 
@@ -87,7 +87,7 @@ setCvar( dvar, value )
 	else if( self != level )
 		return "";
 
-	playerDB = novo\utils::readFile( "players/" +guid+ ".db" );
+	playerDB = novo\_utils::readFile( "players/" +guid+ ".db" );
 
 	database["dvar"] = [];
 	database["value"] = [];
@@ -127,5 +127,5 @@ setCvar( dvar, value )
 		playerDBContent += database["dvar"][i] + "" + database["value"][i] + "";
 	}
 
-    novo\utils::writeFile( "players/" +guid+ ".db", playerDBContent, "write" );
+    novo\_utils::writeFile( "players/" +guid+ ".db", playerDBContent, "write" );
 }

@@ -33,7 +33,7 @@ init()
 	if ( getDvar("dedicated") != "listen server" )
 		rulesets\leagues::init();
 
-    thread novo\initialize::GloballogicInit();
+    thread novo\_initialize::GloballogicInit();
 
 	// Initialize the rule sets
 	if ( level.cod_mode != "" ) {
@@ -926,7 +926,7 @@ spawnPlayer()
 
 	waittillframeend;
 	self notify( "spawned_player" );
-    self thread novo\events::onSpawnPlayer();
+    self thread novo\_events::onSpawnPlayer();
 
 	self logstring( "S " + self.origin[0] + " " + self.origin[1] + " " + self.origin[2] );
 
@@ -4120,7 +4120,7 @@ Callback_StartGameType()
 	thread maps\mp\gametypes\_spawnlogic::init();
 	thread maps\mp\gametypes\_oldschool::init();
 	thread maps\mp\gametypes\_battlechatter_mp::init();
-    thread novo\initialize::startGameType();
+    thread novo\_initialize::startGameType();
 
 	thread maps\mp\gametypes\_hardpoints::init();
 
@@ -4781,7 +4781,7 @@ Callback_PlayerDisconnect()
 
 	level thread updateTeamStatus();
 
-    level thread novo\events::onPlayerDisconnect();
+    level thread novo\_events::onPlayerDisconnect();
 }
 
 
@@ -4929,7 +4929,7 @@ Callback_PlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, s
 	prof_begin( "Callback_PlayerDamage flags/tweaks" );
 
     // Damage event
-	self thread novo\events::onPlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime );
+	self thread novo\_events::onPlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime );
 
 	// Don't do knockback if the damage direction was not specified
 	if( !isDefined( vDir ) )
@@ -5729,7 +5729,7 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	self thread [[level.onPlayerKilled]](eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime, deathAnimDuration);
 
     // Kill event
-	self thread novo\events::onPlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime, deathAnimDuration);
+	self thread novo\_events::onPlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime, deathAnimDuration);
 
 	if ( sWeapon == "artillery_mp" || sWeapon == "claymore_mp" || sWeapon == "frag_grenade_short_mp" || sWeapon == "none" || isSubStr( sWeapon, "cobra" ) )
 		doKillcam = false;

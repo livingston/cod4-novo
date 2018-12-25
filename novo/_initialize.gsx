@@ -1,12 +1,12 @@
 GloballogicInit()
 {
-    thread novo\dvars::init();
-	thread novo\events::init();
+    thread novo\_dvars::init();
+	thread novo\_events::init();
 }
 
 startGameType()
 {
-    thread novo\player::init();
+    thread novo\_player::init();
 
     thread setupServerDvars();
 }

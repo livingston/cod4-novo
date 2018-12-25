@@ -19,11 +19,11 @@ Call of Duty 4 server scripts.
 And more…
 
 ### Requirements:
-`CoD4X 1.7a`
+`CoD4X 1.7a` and above
 
 ### Installation:
 * Place both `novo` and `maps` folders into your `/main_shared/` folder
 * Start the server
 
 ### Credits:
-[CoD4:NE](https://github.com/leiizko/cod4_new_experience), [openwarfare](https://github.com/cod4mw/openwarfare/)
+[CoD4:NE](https://github.com/leiizko/cod4_new_experience), [openwarfare](https://github.com/cod4mw/openwarfare/), [CoD4x Server](https://github.com/callofduty4x/CoD4x_Server), duffman, crazy
