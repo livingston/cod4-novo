@@ -10,6 +10,11 @@ init()
     addMenuOption( "MENU_EDITOR", "main", ::ClassEditor, undefined, true, "none" );
     addMenuOption( "MENU_LASER",  "main", ::ToggleLaser, undefined, true, "none" );
 
+	// Admin Menu
+	addSubMenu( "MENU_DEV", "dev", "super" );
+		addMenuOption("Add Test Bot", "dev", ::addBot, undefined, false, "none" );
+		addMenuOption("Remove All Bots", "dev", ::removeBots, undefined, false, "none" );
+
     // thread novo\_events::addConnectEvent( novo\_common::useConfig );
     thread onPlayerConnected();
     thread DvarCheck();
@@ -397,8 +402,8 @@ Menu()
 			}
 			else
             {
-				self.menu[7] moveOverTime( .05 );
-				self.menu[7].y = 10 + self.menu[6].y + ( 16.8 * selected );
+				self.menu[8] moveOverTime( .05 );
+				self.menu[8].y = 10 + self.menu[7].y + ( 16.8 * selected );
 			}
 		}
 
@@ -410,7 +415,7 @@ Menu()
 
             if( level.menuoption[ "permission" ][ submenu ][ selected ] != "none" && !hasPermission )
             {
-				self iPrintlnBold("NO_PERMISSION");
+				self iPrintlnBold( self novo\_common::translate( "NO_PERMISSION" ) );
 				while(self UseButtonPressed()) wait .05;
 			}
             else if( !isString( level.menuoption[ "script" ][ submenu ][ selected ]))
@@ -433,23 +438,23 @@ Menu()
                 abstand = ( 16.8 * selected );
                 submenu = level.menuoption[ "script" ][ submenu ][ selected ];
 
-                self.menu[6] = addTextHud( self, -430, abstand + 50, .5, "left", "top", "right", 0, 101 );
-                self.menu[6] SetShader( "black", 200, 300 );
-                self.menu[6] thread FadeIn( .5, true, "left" );
-
-                self.menu[7] = addTextHud( self, -430, abstand + 60, .5, "left", "top", "right", 0, 102 );
-                self.menu[7] SetShader( "line_vertical", 200, 22 );
+                self.menu[7] = addTextHud( self, -430, abstand + 50, .5, "left", "top", "right", 0, 101 );
+                self.menu[7] SetShader( "black", 200, 300 );
                 self.menu[7] thread FadeIn( .5, true, "left" );
 
-                self.menu[8] = addTextHud( self, -219, 93 + (16.8 * selected), 1, "left", "top", "right", 0, 104 );
-                self.menu[8] SetShader( "hud_arrow_left", 14, 14 );
+                self.menu[8] = addTextHud( self, -430, abstand + 60, .5, "left", "top", "right", 0, 102 );
+                self.menu[8] SetShader( "line_vertical", 200, 22 );
                 self.menu[8] thread FadeIn( .5, true, "left" );
 
-                self.menu[9] = addTextHud( self, -420, abstand + 71, 1, "left", "middle", "right", 1.4, 103 );
-                self.menu[9] SetText( self GetMenuStuct( submenu ) );
+                self.menu[9] = addTextHud( self, -219, 93 + (16.8 * selected), 1, "left", "top", "right", 0, 104 );
+                self.menu[9] SetShader( "hud_arrow_left", 14, 14 );
                 self.menu[9] thread FadeIn( .5, true, "left" );
-                self.menu[9].glowColor = ( 0.4, 0.4, 0.4 );
-                self.menu[9].glowAlpha = 1;
+
+                self.menu[10] = addTextHud( self, -420, abstand + 71, 1, "left", "middle", "right", 1.4, 103 );
+                self.menu[10] SetText( self GetMenuStuct( submenu ) );
+                self.menu[10] thread FadeIn( .5, true, "left" );
+                self.menu[10].glowColor = ( 0.4, 0.4, 0.4 );
+                self.menu[10].glowAlpha = 1;
 
                 selected = 0;
                 wait .2;
@@ -487,4 +492,16 @@ ToggleLaser()
 
 	self novo\_common::setCvar( "laser",  self.pers[ "forceLaser" ] );
 	self setClientDvar( "cg_laserForceOn", self.pers[ "forceLaser" ] );
+}
+
+addBot()
+{
+	if ( isDefined( level.scr_allow_testclients ) && level.scr_allow_testclients == 1 )
+		SetDvar( "scr_testclients", 2 );
+	else
+		self IPrintLnBold( "Enable Test Clients in OpenWarfare Config" );
+}
+
+removeBots() {
+	removeAllTestClients();
 }
