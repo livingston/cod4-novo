@@ -171,3 +171,26 @@ translate( alias )
 
     return alias;
 }
+
+FadeOut( time )
+{
+	if( !isDefined( self ) )
+		return;
+
+	self fadeOverTime( time );
+	self.alpha = 0;
+	wait time;
+
+	if( !isDefined( self ) )
+		return;
+
+	self destroy();
+}
+
+FadeIn( time ) {
+	alpha = self.alpha;
+
+	self.alpha = 0;
+	self fadeOverTime( time );
+	self.alpha = alpha;
+}
