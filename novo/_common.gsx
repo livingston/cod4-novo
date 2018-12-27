@@ -1,36 +1,31 @@
-isHex( value )
-{
-	if( isDefined( value ) && value.size == 1 )
-    {
-		return (
-            value == "a"
-            || value == "b"
-            || value == "c"
-            || value == "d"
-            || value == "e"
-            || value == "f"
-            || value == "0"
-            || value == "1"
-            || value == "2"
-            || value == "3"
-            || value == "4"
-            || value == "5"
-            || value == "6"
-            || value == "7"
-            || value == "8"
-            || value == "9"
-        );
-    }
-	else if( isDefined( value ) )
-    {
-		for( i = 0; i < value.size; i++ )
-        {
-			if( !isHex( value[i] ) )
-				return false;
-        }
-    }
+#include novo\_utils;
 
-	return true;
+log( logfile, log, mode )
+{
+	database = undefined;
+
+	if( !isDefined( mode ) || mode == "append" )
+		database = FS_FOpen( logfile, "append" );
+	else if( mode == "write" )
+		database = FS_FOpen( logfile, "write" );
+
+	FS_WriteLine( database, log );
+	FS_FClose( database );
+}
+
+devPrint( text )
+{
+	players = getAllPlayers();
+
+	for( i = 0; i < players.size; i++ )
+		if( players[ i ] hasPermission( "devprint" ) )
+			players[ i ] iPrintlnBold( text );
+}
+
+warning( error )
+{
+	log( "warnings.log", "WARNING: " + error + " (" +getDvar("time")+ ").", "append" );
+	devPrint( "^3WARNING: " + error );
 }
 
 getCvar( dvar )
@@ -130,11 +125,13 @@ setCvar( dvar, value )
     novo\_utils::writeFile( "players/" +guid+ ".db", playerDBContent, "write" );
 }
 
-getAllPlayers() {
+getAllPlayers()
+{
 	return getEntArray( "player", "classname" );
 }
 
-getPlayerByNum( pNum ) {
+getPlayerByNum( pNum )
+{
 	players = getAllPlayers();
 
 	for( i = 0; i < players.size; i++ )
@@ -142,7 +139,8 @@ getPlayerByNum( pNum ) {
 			return players[i];
 }
 
-useConfig() {
+useConfig()
+{
 	waittillframeend;
 
 	// forceLaser = self.pers[ "forceLaser" ];
@@ -188,7 +186,8 @@ FadeOut( time )
 	self destroy();
 }
 
-FadeIn( time ) {
+FadeIn( time )
+{
 	alpha = self.alpha;
 
 	self.alpha = 0;
