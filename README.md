@@ -5,6 +5,7 @@ Call of Duty 4 server scripts.
 ### Features:
 
 - [x] Geolocation based Welcome
+- [x] Kill-Death Ratio & Accuracy Stats
 - [ ] Player in-game Menu
     - [x] Create/Edit Class
     - [ ] Unlock Weapons
@@ -16,6 +17,7 @@ Call of Duty 4 server scripts.
 - [ ] Killcard
 - [ ] Additional Hardpoints
 - [ ] Hardpoints Shop
+- [ ] Custom commands
 
 And more…
 
