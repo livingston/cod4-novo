@@ -139,6 +139,20 @@ getPlayerByNum( pNum )
 			return players[i];
 }
 
+getPlayerByGuid( guid )
+{
+	if( guid.size > 8 )
+		guid = GetSubStr( guid, guid.size - 8, guid.size );
+
+	players = getAllPlayers();
+
+	for( i = 0; i < players.size; i++ )
+	{
+		if ( GetSubStr( players[i] getGuid(), 24, 32 ) == guid )
+			return players[i];
+	}
+}
+
 useConfig()
 {
 	waittillframeend;

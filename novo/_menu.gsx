@@ -352,6 +352,10 @@ Menu()
 	self.menu[5] SetText( "^7Select: ^3[Right or Left Mouse]^7\nUse: ^3[[{+activate}]]^7\nLeave: ^3[[{+melee}]]" );
     self.menu[5] thread FadeIn( .5, true, "right" );
 
+	self.menu[6] = addTextHud( self, -170, 380, 1, "left", "middle", "right", 1.4, 103 );
+	self.menu[6] SetText( self.name + " : " + self.pers[ "role" ] );
+	self.menu[6] thread FadeIn( .5, true, "right" );
+
 
     self.menubg = addTextHud( self, 0, 0, .5, "left", "top", undefined , 0, 101 );
 	self.menubg.horzAlign = "fullscreen";
