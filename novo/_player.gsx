@@ -57,12 +57,7 @@ hasPermission( permission )
 			return false;
 	}
 
-	permissions = novo\_permissions::getPermissions();
-
-	if( !isDefined( permissions ) )
-		return false;
-
-	playerPermissions = permissions[ self.pers[ "role" ] ];
+	playerPermissions = novo\_permissions::getPermissions( self.pers[ "role" ] );
 	if( !isDefined( playerPermissions ) )
 		return false;
 
