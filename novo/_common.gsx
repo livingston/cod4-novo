@@ -194,3 +194,11 @@ FadeIn( time )
 	self fadeOverTime( time );
 	self.alpha = alpha;
 }
+
+iPrintBig( string, srch0, rep0, srch1, rep1, srch2, rep2, srch3, rep3, srch4, rep4, srch5, rep5, srch6, rep6 )
+{
+	if( isDefined( level.callbackiPrintBig ) )
+		self thread [[ level.callbackiPrintBig ]]( string, srch0, rep0, srch1, rep1, srch2, rep2, srch3, rep3, srch4, rep4, srch5, rep5, srch6, rep6 );
+	else
+		warning( "'level.callbackiPrintBig' is not defined" );
+}
