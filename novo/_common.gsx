@@ -18,7 +18,7 @@ devPrint( text )
 	players = getAllPlayers();
 
 	for( i = 0; i < players.size; i++ )
-		if( players[ i ] hasPermission( "devprint" ) )
+		if( players[ i ] novo\_player::hasPermission( "debug" ) )
 			players[ i ] iPrintlnBold( text );
 }
 
@@ -162,11 +162,6 @@ useConfig()
 	// 	self setClientDvar( "cg_laserForceOn", 1 );
 	// else
 	// 	self setClientDvar( "cg_laserForceOn", 0 );
-}
-
-hasPermission( permission )
-{
-	return false;
 }
 
 translate( alias )

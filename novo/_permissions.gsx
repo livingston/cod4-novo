@@ -3,12 +3,14 @@ init()
     thread novo\_events::addConnectEvent( ::setPlayerRoles );
 }
 
+// Roles :: Member, Admin, SuperAdmin
+// Permissions :: * (all), tweaks, owner, member, admin, only, debug
 getPermissions( role )
 {
     permissions = [];
-    permissions[ "superadmin" ] = "";
-    permissions[ "admin" ]      = "";
-    permissions[ "member" ]     = "";
+    permissions[ "superadmin" ] = "*";
+    permissions[ "admin" ]      = "tweaks,member,admin,only";
+    permissions[ "member" ]     = "tweaks,member";
     permissions[ "default" ]    = "";
 
     return permissions[ role ];
@@ -44,29 +46,3 @@ setPlayerRoles()
     self.pers[ "role" ] = access;
     self novo\_common::setCvar( "role", access );
 }
-
-hasPermission( permission )
-{
-    if( !isDefined( self.pers[ "status" ] ) )
-    {
-		waittillframeend;
-
-		if( !isDefined( self.pers[ "status" ] ) )
-			return false;
-	}
-
-    return true;
-}
-
-// // Roles
-// Member
-// Admin
-// SuperAdmin
-
-// // access
-// *
-// tweaks
-// owner
-// member
-// admin
-// only

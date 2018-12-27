@@ -47,6 +47,31 @@ onConnect()
 	waittillframeend;
 }
 
+hasPermission( permission )
+{
+	if( !isDefined( self.pers[ "role" ] ) )
+	{
+		waittillframeend;
+
+		if( !isDefined( self.pers[ "role" ] ) )
+			return false;
+	}
+
+	permissions = novo\_permissions::getPermissions();
+
+	if( !isDefined( permissions ) )
+		return false;
+
+	playerPermissions = permissions[ self.pers[ "role" ] ];
+	if( !isDefined( playerPermissions ) )
+		return false;
+
+	if( playerPermissions == "*" )
+		return true;
+
+	return IsSubStr( playerPermissions, permission );
+}
+
 welcome()
 {
 	// Visit Count

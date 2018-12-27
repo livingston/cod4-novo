@@ -406,7 +406,7 @@ Menu()
 
         if( self useButtonPressed() )
         {
-            hasPermission = self novo\_common::hasPermission(level.menuoption[ "permission" ][ submenu ][ selected ]);
+            hasPermission = self novo\_player::hasPermission( level.menuoption[ "permission" ][ submenu ][ selected ] );
 
             if( level.menuoption[ "permission" ][ submenu ][ selected ] != "none" && !hasPermission )
             {
