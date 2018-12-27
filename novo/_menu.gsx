@@ -1,15 +1,16 @@
 #include maps\mp\_utility;
 #include maps\mp\gametypes\_hud_util;
 #include common_scripts\utility;
+#include novo\_utils;
 
 // Original Author: Duffy
 
 init()
 {
     addMenuOption( "MENU_EDITOR", "main", ::ClassEditor, undefined, true, "none" );
-    // addMenuOption( "MENU_LASER", "main", ::ToggleLaser, undefined, true, "none" );
+    addMenuOption( "MENU_LASER",  "main", ::ToggleLaser, undefined, true, "none" );
 
-    thread novo\_events::addConnectEvent( novo\_common::useConfig );
+    // thread novo\_events::addConnectEvent( novo\_common::useConfig );
     thread onPlayerConnected();
     thread DvarCheck();
 
@@ -25,9 +26,12 @@ onPlayerConnected()
     {
 		level waittill( "connected", player );
 
-		if( !isDefined(player.pers["forceLaser"]) )
+		if( !isDefined( player.pers[ "forceLaser" ] ) )
         {
-			player.pers["forceLaser"] = player novo\_common::getCvarInt("laser");
+			forceLaser = player novo\_common::getCvarInt( "laser" );
+			player.pers["forceLaser"] = forceLaser;
+
+			player setClientDvar( "cg_laserForceOn", forceLaser );
 		}
 
 		player thread ToggleMenu();
@@ -35,6 +39,20 @@ onPlayerConnected()
 		// player thread onPlayerSpawn();
 	}
 }
+
+// onPlayerSpawn() {
+// 	self endon( "disconnect" );
+
+// 	while(1) {
+// 		self common_scripts\utility::waittill_any( "disconnect", "spawned" );
+
+// 		wait .05;
+
+
+// 		forceLaser = self.pers[ "forceLaser" ];
+// 		self setClientDvar( "cg_laserForceOn",  forceLaser );
+// 	}
+// }
 
 DvarCheck()
 {
@@ -445,22 +463,24 @@ Menu()
 // Menu Actions
 
 ClassEditor() {
-	self openMenu(game["menu_eog_main"]);
+	self openMenu( game[ "menu_eog_main" ] );
 }
 
 ToggleLaser()
 {
+	self cleanScreen();
 
     if( !self.pers[ "forceLaser" ] )
     {
-        self novo\_common::setCvar( "reflex_laser", 1 );
         self IPrintLnBold( "Laser reflex On" );
         self.pers[ "forceLaser" ] = 1;
     }
     else
     {
-        self novo\_common::setCvar( "reflex_laser", 0 );
         self IPrintLnBold( "Laser reflex Off" );
         self.pers[ "forceLaser" ] = 0;
     }
+
+	self novo\_common::setCvar( "laser",  self.pers[ "forceLaser" ] );
+	self setClientDvar( "cg_laserForceOn", self.pers[ "forceLaser" ] );
 }

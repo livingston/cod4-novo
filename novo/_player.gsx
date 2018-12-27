@@ -11,7 +11,6 @@ onConnect()
 {
     self endon( "disconnect" );
 
-	self setClientDvar("cg_laserForceOn", 1);
     self setClientDvar("cg_drawCrosshair", 1);
 
     dvar = "firstTime_" + self getEntityNumber();

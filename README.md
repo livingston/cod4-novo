@@ -6,12 +6,15 @@ Call of Duty 4 server scripts.
 
 - [x] Geolocation based Welcome
 - [x] Kill-Death Ratio & Accuracy Stats
-- [ ] Player in-game Menu
+- [x] Player in-game Menu
     - [x] Create/Edit Class
     - [ ] Unlock Weapons
-    - [ ] Visual Tweaks
+    - [ ] Tweakables
+        - [x] Laser
+        - [ ] Full-bright (FPS)
+        - [ ] Field-of-View (FOV)
 - [ ] Admin in-game Menu
-    - [ ] Switch Gamemodes
+    - [ ] Game modes
     - [ ] Admin controls
 - [ ] HighXP Mode
 - [ ] Killcard

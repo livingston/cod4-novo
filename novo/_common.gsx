@@ -145,10 +145,11 @@ getPlayerByNum( pNum ) {
 useConfig() {
 	waittillframeend;
 
-	if(self.pers["forceLaser"])
-		self setClientDvar("cg_laserforceon",1);
-	else
-		self setClientDvar("cg_laserforceon",0);
+	// forceLaser = self.pers[ "forceLaser" ];
+	// if( forceLaser )
+	// 	self setClientDvar( "cg_laserForceOn", 1 );
+	// else
+	// 	self setClientDvar( "cg_laserForceOn", 0 );
 }
 
 hasPermission( permission )

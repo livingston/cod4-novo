@@ -36,3 +36,18 @@ writeFile( fileName, content, writeMode )
 
     FS_FClose( fileHandle );
 }
+
+cleanScreen()
+{
+	for( i = 0; i < 6; i++ )
+	{
+		if( isDefined( self ) && isPlayer( self ))
+		{
+			self iPrintlnBold( " " );
+			self iPrintln( " " );
+		} else {
+			iPrintlnBold( " " );
+			iPrintln( " " );
+		}
+	}
+}
