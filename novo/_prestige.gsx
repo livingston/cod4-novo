@@ -1,12 +1,12 @@
 init()
 {
     level.prestigeicons[1] = "rank_prestige2";
-	level.prestigeicons[2] = "rank_prestige3";
-	level.prestigeicons[3] = "rank_prestige4";
-	level.prestigeicons[4] = "rank_prestige5";
-	level.prestigeicons[5] = "rank_prestige8";
-	level.prestigeicons[6] = "rank_prestige9";
-	level.prestigeicons[7] = "rank_prestige10";
+	// level.prestigeicons[2] = "rank_prestige3";
+	// level.prestigeicons[3] = "rank_prestige4";
+	// level.prestigeicons[4] = "rank_prestige5";
+	// level.prestigeicons[5] = "rank_prestige8";
+	// level.prestigeicons[6] = "rank_prestige9";
+	// level.prestigeicons[6] = "rank_prestige10";
 
     for( i = 1; i < level.prestigeicons.size; i++ )
 		precacheStatusIcon( level.prestigeicons[ i ] );
