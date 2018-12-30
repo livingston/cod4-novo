@@ -8,7 +8,7 @@ Call of Duty 4 server scripts.
 - [x] Kill-Death Ratio & Accuracy Stats
 - [x] Player in-game Menu
     - [x] Create/Edit Class
-    - [ ] Unlock Weapons
+    - [ ] Unlock Weapons & Perks
     - [ ] Tweakables
         - [x] Laser
         - [ ] Full-bright (FPS)
@@ -16,7 +16,7 @@ Call of Duty 4 server scripts.
 - [x] Roles & Permissions
 - [ ] Admin in-game Menu
     - [ ] Game modes
-    - [ ] *Admin controls* **Work-in-Progress**
+    - [ ] Admin controls
 - [ ] HighXP Mode
 - [x] Killcard
 - [ ] Additional Hardpoints
