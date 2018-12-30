@@ -211,3 +211,11 @@ iPrintBig( string, srch0, rep0, srch1, rep1, srch2, rep2, srch3, rep3, srch4, re
 	else
 		warning( "'level.callbackiPrintBig' is not defined" );
 }
+
+hasPermission( permission )
+{
+	if( isDefined( level.callbackPermission ) )
+		return self [[ level.callbackPermission ]]( permission );
+
+	return false;
+}

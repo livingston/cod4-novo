@@ -8,6 +8,7 @@ GloballogicInit()
     level thread novo\_permissions::init();
 
     level thread novo\_kdratio::init();
+    level thread novo\_killcard::init();
 }
 
 startGameType()

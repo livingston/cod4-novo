@@ -4,6 +4,7 @@
 
 init()
 {
+	level.callbackPermission = ::hasPermission;
     thread novo\_events::addConnectEvent( ::onConnect );
 }
 

@@ -13,8 +13,14 @@ init()
 
 	shaders = strTok( "gradient_fadein;gradient;ui_sliderbutt_1;ui_slider2;line_vertical;nightvision_overlay_goggles;killiconmelee;killiconsuicide;death_car;death_helicopter;death_airstrike;white;hud_us_stungrenade;hud_us_grenade;hud_icon_c4;hud_icon_claymore;weapon_ak47;weapon_aks74u;weapon_barrett50cal;weapon_benelli_m4;weapon_c4;weapon_claymore;weapon_colt_45;weapon_colt_45_silencer;weapon_concgrenade;weapon_desert_eagle;weapon_desert_eagle_gold;weapon_dragunovsvd;weapon_flashbang;hud_us_grenade;weapon_g3;weapon_g36c;weapon_m14;weapon_m14_scoped;weapon_m16a4;weapon_m249saw;weapon_m40a3;weapon_m4carbine;weapon_m60e4;weapon_m9beretta;weapon_m9beretta_silencer;weapon_mini_uzi;weapon_mp44;weapon_mp5;weapon_p90;weapon_remington700;weapon_rpd;weapon_rpg7;weapon_skorpion;weapon_smokegrenade;weapon_usp_45;weapon_usp_45_silencer;weapon_winchester1200;hud_icon_benelli_m4", ";" );
 
-	text[0] = "LOVE <3 GAMING";
-	text[1] = "^1http:\\cod4.rocks\";
+	serverName = GetDvar( "sv_hostname" );
+	text[0] = "^3LOVE <3 GAMING";
+
+	if( isDefined( serverName ) || serverName != "" )
+		text[1] = serverName;
+	else
+		text[1] = "^2CoD^74^2:^3Novo";
+
  	level.defaultEmblemText = text[ RandomInt( text.size ) ];
 
 	for( i = 0; i < shaders.size; i++ )

@@ -16,9 +16,9 @@ Call of Duty 4 server scripts.
 - [x] Roles & Permissions
 - [ ] Admin in-game Menu
     - [ ] Game modes
-    - [ ] Admin controls
+    - [ ] *Admin controls* **Work-in-Progress**
 - [ ] HighXP Mode
-- [ ] Killcard
+- [x] Killcard
 - [ ] Additional Hardpoints
 - [ ] Hardpoints Shop
 - [ ] Custom commands

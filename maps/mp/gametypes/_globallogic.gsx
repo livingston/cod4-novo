@@ -5366,6 +5366,10 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	if( attacker.classname == "script_vehicle" && isDefined( attacker.owner ) )
 		attacker = attacker.owner;
 
+	if( isDefined( attacker ) && isPlayer( attacker ) && isDefined( self ) && isPlayer( self ) && isDefined( sMeansofDeath ) && isDefined( sWeapon ) && isDefined( sHitLoc ))
+		thread novo\_killcard::ShowKillCard( attacker, self, sMeansOfDeath, sWeapon, sHitLoc );
+
+
 	// Send player_killed event with all the data to the player
 	self notify( "player_killed", eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime, deathAnimDuration, fDistance );
 
