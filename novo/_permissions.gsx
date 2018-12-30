@@ -22,9 +22,9 @@ setPlayerRoles()
 
     access = "default";
 
-    if( isDefined( GetDvar( "nova_access" ) ) )
+    if( isDefined( GetDvar( "scr_novo_access" ) ) )
     {
-        novaPlayersWithAccess = StrTok( GetDvar( "nova_access" ), ";" );
+        novaPlayersWithAccess = StrTok( GetDvar( "scr_novo_access" ), ";" );
 
         for( i = 0; i < novaPlayersWithAccess.size; i++ )
         {
