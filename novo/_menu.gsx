@@ -20,8 +20,11 @@ init()
 		addMenuOption( "MENU_EMBLEM_ADMIN",   "emblem", novo\_killcard::setDesign, "admin",   false, "Admin");
 
 	// Admin Menu
-	addSubMenu( "MENU_DEV", "dev", "super" );
-		addMenuOption("Add Test Bot", "dev", ::addBot, undefined, false, "none" );
+	// addSubMenu( "MENU_ADMIN", "admin", "super" );
+
+	// Developer Menu
+	addSubMenu( "MENU_DEV", "dev", "dev" );
+		addMenuOption("Add Test Bot",    "dev", ::addBot,     undefined, false, "none" );
 		addMenuOption("Remove All Bots", "dev", ::removeBots, undefined, false, "none" );
 
     // thread novo\_events::addConnectEvent( novo\_common::useConfig );
@@ -481,6 +484,9 @@ Menu()
 // Menu Actions
 
 ClassEditor() {
+	self IPrintLnBold( "Class changes will reflect on next map!" );
+
+	wait 2;
 	self openMenu( game[ "menu_eog_main" ] );
 }
 
@@ -509,8 +515,12 @@ addBot()
 		SetDvar( "scr_testclients", 2 );
 	else
 		self IPrintLnBold( "Enable Test Clients in OpenWarfare Config" );
+
+	self thread endMenu();
 }
 
 removeBots() {
 	removeAllTestClients();
+
+	self thread endMenu();
 }
