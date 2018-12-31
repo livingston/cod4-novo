@@ -108,8 +108,8 @@ ShowKDRatio()
 	self.mc_headshot.alpha = 0;
 	self.mc_headshot.fontScale = 1.4;
 	self.mc_headshot.hidewheninmenu = true;
-	//self.mc_headshot.label = &"^2Accuracy:^7 &&1";
-	self.mc_headshot.label = self translate("ACCURACY"); //level.lang["DEU"]["ACCURACY"];
+	self.mc_headshot.label = &"^2Accuracy:^7 &&1";
+	// self.mc_headshot.label = self translate("ACCURACY"); //level.lang["DEU"]["ACCURACY"];
 	self.mc_headshot FadeOverTime( .5 );
 	self.mc_headshot.alpha = 1;
 	self.mc_headshot.glowcolor = ( 0.3, 0.3, 0.3 );
