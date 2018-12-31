@@ -10,6 +10,15 @@ init()
     addMenuOption( "MENU_EDITOR", "main", ::ClassEditor, undefined, true, "none" );
     addMenuOption( "MENU_LASER",  "main", ::ToggleLaser, undefined, true, "none" );
 
+	// Killcard Emblem
+	addSubMenu( "MENU_EMBLEM", "emblem", "Member" );
+		addMenuOption( "MENU_EMBLEM_DEFAULT", "emblem", novo\_killcard::setDesign, "default", false, "none" );
+		addMenuOption( "MENU_EMBLEM_BLUE",    "emblem", novo\_killcard::setDesign, "blue",    false, "none" );
+		addMenuOption( "MENU_EMBLEM_RED",     "emblem", novo\_killcard::setDesign, "red",     false, "none");
+		addMenuOption( "MENU_EMBLEM_GREEN",   "emblem", novo\_killcard::setDesign, "green",   false, "none");
+		addMenuOption( "MENU_EMBLEM_YELLOW",  "emblem", novo\_killcard::setDesign, "yellow",  false, "none");
+		addMenuOption( "MENU_EMBLEM_ADMIN",   "emblem", novo\_killcard::setDesign, "admin",   false, "Admin");
+
 	// Admin Menu
 	addSubMenu( "MENU_DEV", "dev", "super" );
 		addMenuOption("Add Test Bot", "dev", ::addBot, undefined, false, "none" );
