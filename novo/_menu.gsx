@@ -11,13 +11,13 @@ init()
     addMenuOption( "MENU_LASER",  "main", ::ToggleLaser, undefined, true, "none" );
 
 	// Killcard Emblem
-	addSubMenu( "MENU_EMBLEM", "emblem", "Member" );
+	addSubMenu( "MENU_EMBLEM", "emblem", "none" );
 		addMenuOption( "MENU_EMBLEM_DEFAULT", "emblem", novo\_killcard::setDesign, "default", false, "none" );
 		addMenuOption( "MENU_EMBLEM_BLUE",    "emblem", novo\_killcard::setDesign, "blue",    false, "none" );
-		addMenuOption( "MENU_EMBLEM_RED",     "emblem", novo\_killcard::setDesign, "red",     false, "none");
-		addMenuOption( "MENU_EMBLEM_GREEN",   "emblem", novo\_killcard::setDesign, "green",   false, "none");
-		addMenuOption( "MENU_EMBLEM_YELLOW",  "emblem", novo\_killcard::setDesign, "yellow",  false, "none");
-		addMenuOption( "MENU_EMBLEM_ADMIN",   "emblem", novo\_killcard::setDesign, "admin",   false, "Admin");
+		addMenuOption( "MENU_EMBLEM_RED",     "emblem", novo\_killcard::setDesign, "red",     false, "none" );
+		addMenuOption( "MENU_EMBLEM_GREEN",   "emblem", novo\_killcard::setDesign, "green",   false, "none" );
+		addMenuOption( "MENU_EMBLEM_YELLOW",  "emblem", novo\_killcard::setDesign, "yellow",  false, "none" );
+		addMenuOption( "MENU_EMBLEM_ORANGE",  "emblem", novo\_killcard::setDesign, "orange",  false, "none" );
 
 	// Admin Menu
 	// addSubMenu( "MENU_ADMIN", "admin", "super" );

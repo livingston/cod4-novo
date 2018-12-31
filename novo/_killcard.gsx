@@ -32,9 +32,9 @@ init()
 	addDesign( "yellow", 2, (1, 1, 0), 0.375, "white", 250, 30, "middle", 165 );
 
 	// -- DEV --
-	addDesign( "admin", 0, (0.8, 0.333333, 0), 1, "white", 252, 72, "middle", 185 );
-	addDesign( "admin", 1, (0.8, 0.333333, 0), 1, "nightvision_overlay_goggles", 250, 70, "middle", 185 );
-	addDesign( "admin", 2, (0.8, 0.333333, 0), 0.5, "white", 250, 30, "middle", 165 );
+	addDesign( "orange", 0, (0.8, 0.333333, 0), 1, "white", 252, 72, "middle", 185 );
+	addDesign( "orange", 1, (0.8, 0.333333, 0), 1, "nightvision_overlay_goggles", 250, 70, "middle", 185 );
+	addDesign( "orange", 2, (0.8, 0.333333, 0), 0.5, "white", 250, 30, "middle", 165 );
 
 	shaders = strTok( "gradient_fadein;gradient;ui_sliderbutt_1;ui_slider2;line_vertical;nightvision_overlay_goggles;killiconmelee;killiconsuicide;death_car;death_helicopter;death_airstrike;white;hud_us_stungrenade;hud_us_grenade;hud_icon_c4;hud_icon_claymore;weapon_ak47;weapon_aks74u;weapon_barrett50cal;weapon_benelli_m4;weapon_c4;weapon_claymore;weapon_colt_45;weapon_colt_45_silencer;weapon_concgrenade;weapon_desert_eagle;weapon_desert_eagle_gold;weapon_dragunovsvd;weapon_flashbang;hud_us_grenade;weapon_g3;weapon_g36c;weapon_m14;weapon_m14_scoped;weapon_m16a4;weapon_m249saw;weapon_m40a3;weapon_m4carbine;weapon_m60e4;weapon_m9beretta;weapon_m9beretta_silencer;weapon_mini_uzi;weapon_mp44;weapon_mp5;weapon_p90;weapon_remington700;weapon_rpd;weapon_rpg7;weapon_skorpion;weapon_smokegrenade;weapon_usp_45;weapon_usp_45_silencer;weapon_winchester1200;hud_icon_benelli_m4", ";" );
 

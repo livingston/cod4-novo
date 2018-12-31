@@ -14,5 +14,5 @@ LoadLanguages() {
 	Lang( "EN", "MENU_EMBLEM_RED",	   "Red Design" );
 	Lang( "EN", "MENU_EMBLEM_GREEN",   "Green Design" );
 	Lang( "EN", "MENU_EMBLEM_YELLOW",  "Yellow Design" );
-	Lang( "EN", "MENU_EMBLEM_ADMIN",   "Admin Design" );
+	Lang( "EN", "MENU_EMBLEM_ORANGE",  "Orange Design" );
 }
