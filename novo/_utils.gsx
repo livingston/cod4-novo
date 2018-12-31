@@ -155,3 +155,8 @@ removeColor( string )
 
 	return StrColorStrip( inputString );
 }
+
+isArray( v )
+{
+	return ( isDefined( v ) && v.size && !isString( v ) );
+}
