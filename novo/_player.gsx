@@ -87,6 +87,7 @@ welcome()
 	t = getRealTime();
 
 	self novo\_common::setCvar( "last_visit", t );
+	self novo\_common::setCvar( "name", self.name );
 
 
 	// Geolocation
