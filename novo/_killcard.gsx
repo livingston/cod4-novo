@@ -337,16 +337,10 @@ KillCard( from, weap, alternatewep )
 	shader[3].x = -98;
 	shader[3].y = 168;
 
-	if( from hasPermission( "Owner" ) )
-		shader[4].label = &"^1Owner\n            Lv: &&1";
-	else if( from hasPermission( "Leader" ) )
-		shader[4].label = &"^1Leader\n            Lv: &&1";
-	else if( from hasPermission( "Headadmin" ) )
-		shader[4].label = &"^1Head admin\n            Lv: &&1";
-	else if( from hasPermission( "FullAdmin" ) )
-		shader[4].label = &"^1Full Admin\n            Lv: &&1";
-	else if( from hasPermission( "Rookie" ) )
-		shader[4].label = &"^1Rookie\n            Lv: &&1";
+	if( from hasPermission( "SuperAdmin" ) )
+		shader[4].label = &"^1Super Admin\n            Lv: &&1";
+	else if( from hasPermission( "Admin" ) )
+		shader[4].label = &"^1Admin\n            Lv: &&1";
 	else if( from hasPermission( "Member" ) )
 		shader[4].label = &"^1Member\n            Lv: &&1";
 	else
