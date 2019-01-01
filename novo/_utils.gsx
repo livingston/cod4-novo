@@ -160,3 +160,52 @@ isArray( v )
 {
 	return ( isDefined( v ) && v.size && !isString( v ) );
 }
+
+
+// Note: getArrayKeys() returns the list of keys in reverse order, so looping in reverse
+
+forEach( array, func, arg )
+{
+	keys = getArrayKeys( array );
+	if( isDefined( arg ) )
+	{
+		for( i = keys.size - 1; i >= 0; i-- )
+		{
+			self [[ func ]]( array[ keys[i] ], arg, keys[i] );
+		}
+	}
+	else
+	{
+		for( i = keys.size - 1; i >= 0; i-- )
+		{
+			self [[ func ]]( array[ keys[i] ], keys[i] );
+		}
+	}
+}
+
+filter( array, evaluator )
+{
+	results = [];
+	keys = getArrayKeys( array );
+
+	for( i = keys.size - 1; i >= 0; i-- )
+	{
+		if([[ evaluator ]]( array[ keys[i] ], keys[i] ))
+			results[ results.size ] = results[ keys[i] ];
+	}
+
+	return results;
+}
+
+find( array, evaluator, arg )
+{
+	keys = getArrayKeys( array );
+
+	for( i = keys.size - 1; i >= 0; i-- )
+	{
+		if([[ evaluator ]]( array[ keys[i] ], arg, keys[i] ))
+			return array[ keys[i] ];
+	}
+
+	return undefined;
+}
