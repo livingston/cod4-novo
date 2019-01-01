@@ -147,7 +147,10 @@ ShowKDRatio()
 			self.mc_kdratio setValue( ratio );
 		}
 
-		acu = int( self.pers[ "hits" ] / self.pers[ "shoots" ] * 10000 ) / 100;
+		if( isDefined( self.pers["stats"] ) && isDefined( self.pers["stats"]["accuracy"] ) && self.pers["stats"]["accuracy"]["total_shots"] != 0 )
+			acu = int( self.pers["stats"]["accuracy"]["hits"] / self.pers["stats"]["accuracy"]["total_shots"] * 100 );
+		else
+			acu = 0;
 
 		self.mc_headshot FadeOverTime( .5 );
 		self.mc_headshot.color = ( 2 - ( acu * 4 ), acu * 3, 0 );
