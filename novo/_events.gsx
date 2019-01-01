@@ -2,11 +2,18 @@
 init()
 {
 	level.events = [];
+
+	// Level Based
+	level.events[ "PlayerConnecting" ] = [];
+
+	// Player Based
 	level.events[ "SpawnPlayer" ] = [];
 	level.events[ "PlayerDamage" ] = [];
 	level.events[ "PlayerKilled" ] = [];
 	level.events[ "PlayerConnect" ] = [];
 	level.events[ "PlayerDisconnect" ] = [];
+
+	level thread onPlayerConnecting();
 
 	thread onPlayerConnect();
 }
@@ -35,6 +42,11 @@ addConnectEvent( event )
 addDisconnectEvent( event )
 {
 	level.events[ "PlayerDisconnect" ][ level.events[ "PlayerDisconnect" ].size ] = event;
+}
+
+addLevelConnectEvent( event )
+{
+	level.events[ "PlayerConnecting" ][ level.events[ "PlayerConnecting" ].size ] = event;
 }
 
 // execute Events //
@@ -94,6 +106,22 @@ onPlayerConnect()
 		for( i = 0; i < level.events[ "PlayerConnect" ].size; i++ )
 		{
 			player thread [[level.events[ "PlayerConnect" ][ i ]]]();
+		}
+	}
+}
+
+onPlayerConnecting()
+{
+	for(;;)
+	{
+		level waittill( "connecting", player );
+
+		if( level.events[ "PlayerConnecting" ].size < 1 )
+			continue;
+
+		for ( event = 0; event < level.events[ "PlayerConnecting" ].size; event++ )
+		{
+			player thread [[ level.eventManager[ "PlayerConnecting" ][ event ] ]]();
 		}
 	}
 }
