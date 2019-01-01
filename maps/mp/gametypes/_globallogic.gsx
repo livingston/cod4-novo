@@ -82,7 +82,7 @@ init()
 	// setDvar( "_ModVer", "v4.180.2482", true );
 
 	// Make a health check of the server
-	level thread openwarfare\_servercheck::init();
+	// level thread openwarfare\_servercheck::init();
 
 	// hack to allow maps with no scripts to run correctly
 	if ( !isDefined( level.tweakablesInitialized ) )
