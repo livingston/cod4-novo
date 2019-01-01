@@ -3,7 +3,7 @@
 #include common_scripts\utility;
 #include novo\_utils;
 
-// Original Author: Duffy
+// Original Author: Duffman
 
 init()
 {
@@ -24,8 +24,8 @@ init()
 
 	// Developer Menu
 	addSubMenu( "MENU_DEV", "dev", "dev" );
-		addMenuOption("Add Test Bot",    "dev", ::addBot,     undefined, false, "none" );
-		addMenuOption("Remove All Bots", "dev", ::removeBots, undefined, false, "none" );
+		addMenuOption("Add Test Bot",    "dev", ::addBot,     undefined, true, "none" );
+		addMenuOption("Remove All Bots", "dev", ::removeBots, undefined, true, "none" );
 
     // thread novo\_events::addConnectEvent( novo\_common::useConfig );
     thread onPlayerConnected();
@@ -56,20 +56,6 @@ onPlayerConnected()
 		// player thread onPlayerSpawn();
 	}
 }
-
-// onPlayerSpawn() {
-// 	self endon( "disconnect" );
-
-// 	while(1) {
-// 		self common_scripts\utility::waittill_any( "disconnect", "spawned" );
-
-// 		wait .05;
-
-
-// 		forceLaser = self.pers[ "forceLaser" ];
-// 		self setClientDvar( "cg_laserForceOn",  forceLaser );
-// 	}
-// }
 
 DvarCheck()
 {
@@ -515,12 +501,9 @@ addBot()
 		SetDvar( "scr_testclients", 2 );
 	else
 		self IPrintLnBold( "Enable Test Clients in OpenWarfare Config" );
-
-	self thread endMenu();
 }
 
-removeBots() {
+removeBots()
+{
 	removeAllTestClients();
-
-	self thread endMenu();
 }
