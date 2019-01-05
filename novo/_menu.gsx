@@ -24,6 +24,7 @@ init()
 
 	// Developer Menu
 	addSubMenu( "MENU_DEV", "dev", "dev" );
+		addMenuOption("Test Mode",       "dev", ::TestMode,   undefined, false, "none" );
 		addMenuOption("Add Test Bot",    "dev", ::addBot,     undefined, true, "none" );
 		addMenuOption("Remove All Bots", "dev", ::removeBots, undefined, true, "none" );
 
@@ -506,4 +507,19 @@ addBot()
 removeBots()
 {
 	removeAllTestClients();
+}
+
+TestMode()
+{
+	IPrintLnBold( "Switching to Test Mode" );
+
+	self endMenu();
+
+	testMap = level.dvar[ "scr_novo_testmap" ];
+	nextRotation = getDvar( "sv_mapRotationCurrent" );
+
+	SetDvar( "sv_mapRotationCurrent", "gametype dm map " + testMap + " " + nextRotation );
+	SetDvar( "scr_testclients", 2 );
+
+	exitLevel( false );
 }

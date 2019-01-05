@@ -16,6 +16,8 @@ init()
     addDvar( "force_autoassign", "int", 1, 0, 1 ); // Force players to autoassign ( 1-enable ; 0-disable )
 
     addDvar( "gun_position", "int", 1, 0, 1 ); // More realistic gun positions on screen ( 1-yes ; 0-no )
+
+    addDvar( "scr_novo_testmap", "string", "mp_killhouse" );
 }
 
 // Function by OpenWarfare
