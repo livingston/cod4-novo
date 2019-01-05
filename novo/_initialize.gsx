@@ -9,6 +9,8 @@ GloballogicInit()
 
     level thread novo\_kdratio::init();
     level thread novo\_killcard::init();
+
+    level thread novo\_carepackage::setup();
 }
 
 startGameType()
@@ -24,7 +26,7 @@ setupServerDvars()
     exec( "seta sv_contellname ^2C^14^2N^7->PM  ^7" );
 
     exec( "sets _mod CoD4:Novo" );
-	exec( "sets _modVer 1.0.1-alpha" );
+	exec( "sets _modVer 1.0.2-alpha" );
 }
 
 load()

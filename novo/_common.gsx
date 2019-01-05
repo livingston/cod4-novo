@@ -219,3 +219,71 @@ hasPermission( permission )
 
 	return false;
 }
+
+isRealyAlive()
+{
+	return ( self.pers["team"] != "spectator" && self.health && self.sessionstate == "playing" );
+}
+
+NotifyMsg(text)
+{
+	notifyData = spawnStruct();
+	notifyData.notifyText = text;
+	self maps\mp\gametypes\_hud_message::notifyMessage( notifyData );
+}
+
+streakWarning( ownermsg, teammsg, enemymsg )
+{
+	players = getAllPlayers();
+
+	for( i = 0; i < players.size; i++ )
+	{
+		if( players[i] == self )
+			players[i] iPrintln( players[i] translate( ownermsg ) );
+		else if( players[i].pers["team"] == self.pers["team"] && level.teambased )
+			players[i] iPrintln( players[i] translate( teammsg ) );
+		else if( players[i].pers["team"] != "spectator" )
+			players[i] iPrintln( players[i] translate( enemymsg ) );
+	}
+}
+
+// Game FX
+SoundOnOrigin( alias, origin )
+{
+	soundPlayer = spawn( "script_origin", origin );
+	soundPlayer playsound( alias );
+
+	wait 10;
+
+	soundPlayer delete();
+}
+
+TriggerEarthquake( a, duration, origin, radius)
+{
+	if( !isDefined( level.earthquake ) )
+		level.earthquake = [];
+
+	index = level.earthquake.size;
+
+	level.earthquake[index] = spawnStruct();
+	level.earthquake[index].duration = duration;
+	level.earthquake[index].origin = origin;
+	level.earthquake[index].radius = radius;
+
+	Earthquake( a, duration, origin, radius );
+
+	level thread DeleteEarthquake( level.earthquake[index] );
+}
+
+
+DeleteEarthquake( trigger )
+{
+	wait trigger.duration;
+
+	array = [];
+	for( i = 0; i < level.earthquake.size; i++ )
+		if( level.earthquake[i] != trigger )
+			array[array.size] = level.earthquake[i];
+
+	level.earthquake = array;
+}

@@ -20,6 +20,8 @@ Call of Duty 4 server scripts.
 - [ ] HighXP Mode
 - [x] Killcard
 - [ ] Additional Hardpoints
+    - [x] Care package
+    - [ ] Predator
 - [ ] Hardpoints Shop
 - [ ] Custom commands
 
