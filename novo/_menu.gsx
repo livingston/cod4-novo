@@ -32,7 +32,7 @@ init()
     thread onPlayerConnected();
     thread DvarCheck();
 
-    level.shaders = StrTok( "ui_host;line_vertical;nightvision_overlay_goggles;hud_arrow_left",";" );
+    level.shaders = StrTok( "ui_host;line_vertical;nightvision_overlay_goggles;hud_arrow_left", ";" );
 
 	for( i = 0; i < level.shaders.size; i++ )
 		PreCacheShader( level.shaders[i] );
@@ -353,7 +353,7 @@ Menu()
 	self.menu[4].glowAlpha = 1;
 
 	self.menu[5] = addTextHud( self, -170, 400, 1, "left", "middle", "right" ,1.4, 103 );
-	self.menu[5] SetText( "^7Select: ^3[Right or Left Mouse]^7\nUse: ^3[[{+activate}]]^7\nLeave: ^3[[{+melee}]]" );
+	self.menu[5] SetText( self novo\_common::translate( "MENU_HINT" ) );
     self.menu[5] thread FadeIn( .5, true, "right" );
 
 	self.menu[6] = addTextHud( self, -170, 380, 1, "left", "middle", "right", 1.4, 103 );

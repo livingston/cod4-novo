@@ -76,7 +76,8 @@ ShowKDRatio()
 	self.mc_streak.alpha = 0;
 	self.mc_streak.fontScale = 1.4;
 	self.mc_streak.hidewheninmenu = true;
-	self.mc_streak.label = &"^2Killstreak:^1 &&1";
+	// self.mc_streak.label = &"^2Killstreak:^1 &&1";
+	self.mc_streak.label = self translate("KD_KILLSTREAK");
 	self.mc_streak FadeOverTime(.5);
 	self.mc_streak.alpha = 1;
 	self.mc_streak.glowcolor = (0.3, 0.3, 0.3);
@@ -92,7 +93,8 @@ ShowKDRatio()
 	self.mc_kdratio.alpha = 0;
 	self.mc_kdratio.fontScale = 1.4;
 	self.mc_kdratio.hidewheninmenu = true;
-	self.mc_kdratio.label = &"^2K/D Ratio:^1 &&1";
+	// self.mc_kdratio.label = &"^2K/D Ratio:^1 &&1";
+	self.mc_kdratio.label = self translate("KD_RATIO");
 	self.mc_kdratio FadeOverTime(.5);
 	self.mc_kdratio.alpha = 1;
 	self.mc_kdratio.glowcolor = (0.3, 0.3, 0.3);
@@ -108,8 +110,8 @@ ShowKDRatio()
 	self.mc_headshot.alpha = 0;
 	self.mc_headshot.fontScale = 1.4;
 	self.mc_headshot.hidewheninmenu = true;
-	self.mc_headshot.label = &"^2Accuracy:^7 &&1";
-	// self.mc_headshot.label = self translate("ACCURACY"); //level.lang["DEU"]["ACCURACY"];
+	// self.mc_headshot.label = &"^2Accuracy:^7 &&1";
+	self.mc_headshot.label = self translate("KD_ACCURACY");
 	self.mc_headshot FadeOverTime( .5 );
 	self.mc_headshot.alpha = 1;
 	self.mc_headshot.glowcolor = ( 0.3, 0.3, 0.3 );
@@ -144,7 +146,7 @@ ShowKDRatio()
 
 			self.mc_kdratio FadeOverTime( .5 );
 			self.mc_kdratio.color = color;
-			self.mc_kdratio setValue( ratio );
+			self.mc_kdratio SetValue( ratio );
 		}
 
 		if( isDefined( self.pers["stats"] ) && isDefined( self.pers["stats"]["accuracy"] ) && self.pers["stats"]["accuracy"]["total_shots"] != 0 )
@@ -158,12 +160,12 @@ ShowKDRatio()
 		if( isDefined( acu ) )
             self.mc_headshot SetValue( acu );
 		else
-            self.mc_headshot setValue( 0 );
+            self.mc_headshot SetValue( 0 );
 
 		if( isdefined( self.cur_kill_streak ) )
-            self.mc_streak setValue( self.cur_kill_streak );
+            self.mc_streak SetValue( self.cur_kill_streak );
 		else
-            self.mc_streak setValue( 0 );
+            self.mc_streak SetValue( 0 );
 
 		self common_scripts\utility::waittill_any( "disconnect", "death", "weapon_fired", "weapon_change", "player_killed" );
 	}

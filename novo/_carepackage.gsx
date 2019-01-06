@@ -317,7 +317,7 @@ TriggerMsg()
 			if( player isRealyAlive() && distance( player.origin, self.origin ) < triggerrange && !level.carepackage[num] )
             {
 				player.carepackagemsg = true;
-				player maps\mp\_utility::setLowerMessage( player translate( "PICKUP" ) );
+				player maps\mp\_utility::setLowerMessage( player translate( "PACKAGE_PICKUP" ) );
 			}
 			else if( isDefined( player.carepackagemsg ) && player.carepackagemsg && ( level.carepackage[num] || distance( player.origin, self.origin ) > triggerrange ) )
             {
