@@ -21,6 +21,9 @@ LoadLanguages() {
 	Lang( "EN", "MENU_EMBLEM_YELLOW",  "Yellow Design" );
 	Lang( "EN", "MENU_EMBLEM_ORANGE",  "Orange Design" );
 
+    Lang( "EN", "MENU_MANAGE",              "Manage" );
+    Lang( "EN", "MENU_MANAGE_TOGGLE_JUMP",  "Toggle High Jump" );
+
     Lang( "EN", "PACKAGE_POSITION",     "You cant call a Care Package at this position" );
     Lang( "EN", "PACKAGE_PICKUP",       "Press ^3[[{+activate}]] ^7to pickup Carepackage" );
     Lang( "EN", "PACKAGE_INCOMING",     "Care Package incoming" );

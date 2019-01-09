@@ -18,6 +18,7 @@ init()
     addDvar( "gun_position", "int", 1, 0, 1 ); // More realistic gun positions on screen ( 1-yes ; 0-no )
 
     addDvar( "scr_novo_testmap", "string", "mp_killhouse" );
+    addDvar( "scr_novo_highjump", "int", 0, 0, 1 );
 }
 
 // Function by OpenWarfare

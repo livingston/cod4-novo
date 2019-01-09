@@ -19,6 +19,9 @@ init()
 		addMenuOption( "MENU_EMBLEM_YELLOW",  "emblem", novo\_killcard::setDesign, "yellow",  false, "none" );
 		addMenuOption( "MENU_EMBLEM_ORANGE",  "emblem", novo\_killcard::setDesign, "orange",  false, "none" );
 
+	addSubMenu( "MENU_MANAGE", "manage", "admin" );
+		addMenuOption( "MENU_MANAGE_TOGGLE_JUMP", "manage", ::ToggleHighJump, undefined, true, "none" );
+
 	// Admin Menu
 	// addSubMenu( "MENU_ADMIN", "admin", "super" );
 
@@ -483,12 +486,12 @@ ToggleLaser()
 
     if( !self.pers[ "forceLaser" ] )
     {
-        self IPrintLnBold( "Laser reflex On" );
+        self IPrintLnBold( "Laser reflex ^2ON" );
         self.pers[ "forceLaser" ] = 1;
     }
     else
     {
-        self IPrintLnBold( "Laser reflex Off" );
+        self IPrintLnBold( "Laser reflex ^1OFF" );
         self.pers[ "forceLaser" ] = 0;
     }
 
@@ -522,4 +525,33 @@ TestMode()
 	SetDvar( "scr_testclients", 2 );
 
 	exitLevel( false );
+}
+
+// Manage Server
+ToggleHighJump()
+{
+	cleanScreen();
+
+	if( !getDvarInt( "scr_novo_highjump" ) )
+	{
+		IPrintLnBold( "High Jump ^2ON" );
+
+		SetDvar( "bg_falldamageminheight", 200 );
+		SetDvar( "bg_falldamagemaxheight", 350 );
+		SetDvar( "jump_height", 180 );
+		SetDvar( "jump_slowdownEnable", 0 );
+
+		SetDvar( "scr_novo_highjump", 1 );
+	}
+	else
+	{
+		IPrintLnBold( "High Jump ^1OFF" );
+
+		SetDvar( "bg_falldamageminheight", 128 );
+		SetDvar( "bg_falldamagemaxheight", 300 );
+		SetDvar( "jump_height", 39 );
+		SetDvar( "jump_slowdownEnable", 1 );
+
+		SetDvar( "scr_novo_highjump", 0 );
+	}
 }
