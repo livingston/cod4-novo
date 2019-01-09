@@ -225,6 +225,16 @@ isRealyAlive()
 	return ( self.pers["team"] != "spectator" && self.health && self.sessionstate == "playing" );
 }
 
+setHealth( health )
+{
+	self notify( "end_healthregen" );
+	self.maxhealth = health;
+	self.health = self.maxhealth;
+	self setnormalhealth( self.health );
+
+	self thread maps\mp\gametypes\_healthoverlay::playerHealthRegen();
+}
+
 NotifyMsg(text)
 {
 	notifyData = spawnStruct();
@@ -245,6 +255,37 @@ streakWarning( ownermsg, teammsg, enemymsg )
 		else if( players[i].pers["team"] != "spectator" )
 			players[i] iPrintln( players[i] translate( enemymsg ) );
 	}
+}
+
+isCustomMap()
+{
+    switch(level.script)
+	{
+		case "mp_backlot":
+		case "mp_bloc":
+		case "mp_bog":
+		case "mp_broadcast":
+		case "mp_carentan":
+		case "mp_cargoship":
+		case "mp_citystreets":
+		case "mp_convoy":
+		case "mp_countdown":
+		case "mp_crash":
+		case "mp_crash_snow":
+		case "mp_creek":
+		case "mp_crossfire":
+		case "mp_farm":
+		case "mp_killhouse":
+		case "mp_overgrown":
+		case "mp_pipeline":
+		case "mp_shipment":
+		case "mp_showdown":
+		case "mp_strike":
+		case "mp_vacant":
+			return false;
+	}
+
+	return true;
 }
 
 // Game FX

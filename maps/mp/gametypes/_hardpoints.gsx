@@ -1167,7 +1167,7 @@ triggerHardpoint( hardpointType )
 {
 	if ( hardpointType == "radar_mp" && self.pers["hardPointItem"] == "carepackage_mp" )
 	{
-		if( self novo\_carepackage::canCallPackage() )
+		if( self novo\hardpoints\_carepackage::canCallPackage() )
 			self novo\_common::streakWarning( "PACKAGE_INCOMING", "PACKAGE_FRIENDLY", "PACKAGE_ENEMY" );
 		else
 			return false;

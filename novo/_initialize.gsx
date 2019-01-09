@@ -10,7 +10,7 @@ GloballogicInit()
     level thread novo\_kdratio::init();
     level thread novo\_killcard::init();
 
-    level thread novo\_carepackage::setup();
+    level thread novo\hardpoints\_carepackage::setup();
 }
 
 startGameType()
