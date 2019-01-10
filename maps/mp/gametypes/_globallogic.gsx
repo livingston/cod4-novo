@@ -1421,7 +1421,7 @@ endGame( winner, endReasonText )
 
     // See if we need to perform a check for the game
     if ( level.scr_overtime_enable == 1 && !isDefined( game["_overtime"] ) ) {
-    	openwarfare\_overtime::checkGameState();
+       openwarfare\_overtime::checkGameState();
     }
 
     if ( (level.roundLimit > 1 || (!level.roundLimit && level.scoreLimit != 1)) && !level.forcedEnd )
@@ -1568,13 +1568,13 @@ endGame( winner, endReasonText )
 
     if ( !hitRoundLimit() && !hitScoreLimit() )
     {
-    	game["state"] = "playing";
+       game["state"] = "playing";
 			if ( level.teamBalance )
 			{
 				level notify ( "roundSwitching" );
 				wait 1;
 			}
-    	level notify ( "restarting" );
+       level notify ( "restarting" );
 
       map_restart( true );
       return;
@@ -4401,7 +4401,7 @@ Callback_PlayerConnect()
 	{
 		self setClientDvars( "cg_drawTalk", "ALL",
 							 "cg_drawCrosshair", 1,
-						 	 "cg_hudGrenadeIconMaxRangeFrag", 250 );
+						     "cg_hudGrenadeIconMaxRangeFrag", 250 );
 	}
 
 	self setClientDvars("cg_hudGrenadeIconHeight", "25",
@@ -4843,7 +4843,7 @@ Callback_PlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, s
 		if ( level.scr_spawn_protection_hiticon == 1 && isDefined( eAttacker.hud_damagefeedback ) ) {
 			eAttacker.hud_damagefeedback.x = 0;
 			eAttacker.hud_damagefeedback.y = 0;
-	 		eAttacker.hud_damagefeedback setShader("shield", 20, 20);
+	    	eAttacker.hud_damagefeedback setShader("shield", 20, 20);
 			eAttacker.hud_damagefeedback.alpha = 0.7;
 			eAttacker.hud_damagefeedback fadeOverTime(1);
 			eAttacker.hud_damagefeedback.alpha = 0;
@@ -4855,7 +4855,7 @@ Callback_PlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, s
 		if ( level.scr_spawn_protection_punishment_time > 0 ) {
 			eAttacker openwarfare\_spawnprotection::punishSpawnCamper();
 		}
-	 	return;
+	    return;
 	}
 
 	// explosive barrel/car detection
@@ -4869,7 +4869,7 @@ Callback_PlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, s
 	    sWeapon = "destructible_car";
 	    sMeansOfDeath = "MOD_IMPACT";
 
-		} else if ( isDefined( eInflictor.destructible_type ) && isSubStr( eInflictor.destructible_type, "vehicle_" ) ) 	{
+		} else if ( isDefined( eInflictor.destructible_type ) && isSubStr( eInflictor.destructible_type, "vehicle_" ) )    {
 			if ( level.scr_vehicle_damage_enable == 0 )
 				return;
 

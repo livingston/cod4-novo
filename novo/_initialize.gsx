@@ -1,7 +1,7 @@
 GloballogicInit()
 {
     thread novo\_dvars::init();
-	thread novo\_events::init();
+    thread novo\_events::init();
 
     level thread novo\_languages::init();
     level thread novo\_prestige::init();
@@ -26,7 +26,7 @@ setupServerDvars()
     exec( "seta sv_contellname ^2C^14^2N^7->PM  ^7" );
 
     exec( "sets _mod CoD4:Novo" );
-	exec( "sets _modVer 1.0.2-alpha" );
+    exec( "sets _modVer 1.0.2-alpha" );
 }
 
 load()

@@ -1,127 +1,127 @@
 // By CoD4:NE
 init()
 {
-	level.events = [];
+    level.events = [];
 
-	// Level Based
-	level.events[ "PlayerConnecting" ] = [];
+    // Level Based
+    level.events[ "PlayerConnecting" ] = [];
 
-	// Player Based
-	level.events[ "SpawnPlayer" ] = [];
-	level.events[ "PlayerDamage" ] = [];
-	level.events[ "PlayerKilled" ] = [];
-	level.events[ "PlayerConnect" ] = [];
-	level.events[ "PlayerDisconnect" ] = [];
+    // Player Based
+    level.events[ "SpawnPlayer" ] = [];
+    level.events[ "PlayerDamage" ] = [];
+    level.events[ "PlayerKilled" ] = [];
+    level.events[ "PlayerConnect" ] = [];
+    level.events[ "PlayerDisconnect" ] = [];
 
-	level thread onPlayerConnecting();
+    level thread onPlayerConnecting();
 
-	thread onPlayerConnect();
+    thread onPlayerConnect();
 }
 
 // add Events //
 addSpawnEvent( event )
 {
-	level.events[ "SpawnPlayer" ][ level.events[ "SpawnPlayer" ].size ] = event;
+    level.events[ "SpawnPlayer" ][ level.events[ "SpawnPlayer" ].size ] = event;
 }
 
 addDamageEvent( event )
 {
-	level.events[ "PlayerDamage" ][ level.events[ "PlayerDamage" ].size ] = event;
+    level.events[ "PlayerDamage" ][ level.events[ "PlayerDamage" ].size ] = event;
 }
 
 addDeathEvent( event )
 {
-	level.events[ "PlayerKilled" ][ level.events[ "PlayerKilled" ].size ] = event;
+    level.events[ "PlayerKilled" ][ level.events[ "PlayerKilled" ].size ] = event;
 }
 
 addConnectEvent( event )
 {
-	level.events[ "PlayerConnect" ][ level.events[ "PlayerConnect" ].size ] = event;
+    level.events[ "PlayerConnect" ][ level.events[ "PlayerConnect" ].size ] = event;
 }
 
 addDisconnectEvent( event )
 {
-	level.events[ "PlayerDisconnect" ][ level.events[ "PlayerDisconnect" ].size ] = event;
+    level.events[ "PlayerDisconnect" ][ level.events[ "PlayerDisconnect" ].size ] = event;
 }
 
 addLevelConnectEvent( event )
 {
-	level.events[ "PlayerConnecting" ][ level.events[ "PlayerConnecting" ].size ] = event;
+    level.events[ "PlayerConnecting" ][ level.events[ "PlayerConnecting" ].size ] = event;
 }
 
 // execute Events //
 onSpawnPlayer()
 {
-	if( level.events[ "SpawnPlayer" ].size < 1 )
-		return;
+    if( level.events[ "SpawnPlayer" ].size < 1 )
+        return;
 
-	for( i = 0; i < level.events[ "SpawnPlayer" ].size; i++ )
-	{
-		self thread [[level.events[ "SpawnPlayer" ][ i ]]]();
-	}
+    for( i = 0; i < level.events[ "SpawnPlayer" ].size; i++ )
+    {
+        self thread [[level.events[ "SpawnPlayer" ][ i ]]]();
+    }
 }
 
 onPlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime )
 {
-	if( level.events[ "PlayerDamage" ].size < 1 )
-		return;
+    if( level.events[ "PlayerDamage" ].size < 1 )
+        return;
 
-	for( i = 0; i < level.events[ "PlayerDamage" ].size; i++ )
-	{
-		self thread [[level.events[ "PlayerDamage" ][ i ]]]( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime );
-	}
+    for( i = 0; i < level.events[ "PlayerDamage" ].size; i++ )
+    {
+        self thread [[level.events[ "PlayerDamage" ][ i ]]]( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime );
+    }
 }
 
 onPlayerKilled( eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime, deathAnimDuration )
 {
-	if( level.events[ "PlayerKilled" ].size < 1 )
-		return;
+    if( level.events[ "PlayerKilled" ].size < 1 )
+        return;
 
-	for( i = 0; i < level.events[ "PlayerKilled" ].size; i++ )
-	{
-		self thread [[level.events[ "PlayerKilled" ][ i ]]]( eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime, deathAnimDuration );
-	}
+    for( i = 0; i < level.events[ "PlayerKilled" ].size; i++ )
+    {
+        self thread [[level.events[ "PlayerKilled" ][ i ]]]( eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime, deathAnimDuration );
+    }
 }
 
 onPlayerDisconnect()
 {
-	if( level.events[ "PlayerDisconnect" ].size < 1 )
-		return;
+    if( level.events[ "PlayerDisconnect" ].size < 1 )
+        return;
 
-	for( i = 0; i < level.events[ "PlayerDisconnect" ].size; i++ )
-	{
-		level thread [[level.events[ "PlayerDisconnect" ][ i ]]]();
-	}
+    for( i = 0; i < level.events[ "PlayerDisconnect" ].size; i++ )
+    {
+        level thread [[level.events[ "PlayerDisconnect" ][ i ]]]();
+    }
 }
 
 onPlayerConnect()
 {
-	for(;;)
-	{
-		level waittill( "connected", player );
+    for(;;)
+    {
+        level waittill( "connected", player );
 
-		if( level.events[ "PlayerConnect" ].size < 1 )
-			continue;
+        if( level.events[ "PlayerConnect" ].size < 1 )
+            continue;
 
-		for( i = 0; i < level.events[ "PlayerConnect" ].size; i++ )
-		{
-			player thread [[level.events[ "PlayerConnect" ][ i ]]]();
-		}
-	}
+        for( i = 0; i < level.events[ "PlayerConnect" ].size; i++ )
+        {
+            player thread [[level.events[ "PlayerConnect" ][ i ]]]();
+        }
+    }
 }
 
 onPlayerConnecting()
 {
-	for(;;)
-	{
-		level waittill( "connecting", player );
+    for(;;)
+    {
+        level waittill( "connecting", player );
 
-		if( level.events[ "PlayerConnecting" ].size < 1 )
-			continue;
+        if( level.events[ "PlayerConnecting" ].size < 1 )
+            continue;
 
-		for ( event = 0; event < level.events[ "PlayerConnecting" ].size; event++ )
-		{
-			player thread [[ level.eventManager[ "PlayerConnecting" ][ event ] ]]();
-		}
-	}
+        for ( event = 0; event < level.events[ "PlayerConnecting" ].size; event++ )
+        {
+            player thread [[ level.eventManager[ "PlayerConnecting" ][ event ] ]]();
+        }
+    }
 }

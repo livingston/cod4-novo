@@ -6,8 +6,8 @@ init()
 addPlayer()
 {
     i = 0;
-	while ( isDefined( level.napPlayers[i] ) )
-		i++;
+    while ( isDefined( level.napPlayers[i] ) )
+        i++;
 
-	level.napPlayers[i] = self;
+    level.napPlayers[i] = self;
 }

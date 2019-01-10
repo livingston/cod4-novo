@@ -575,9 +575,9 @@ callStrike_bombEffect( plane, launchTime, owner, requiredDeathCount )
 	wait ( 0.15 );
 
 	newBomb = spawn( "script_model", bomb.origin );
- 	newBomb setModel( "tag_origin" );
-  	newBomb.origin = bomb.origin;
-  	newBomb.angles = bomb.angles;
+    newBomb setModel( "tag_origin" );
+     newBomb.origin = bomb.origin;
+     newBomb.angles = bomb.angles;
 
 	bomb setModel( "tag_origin" );
 	//plane moveTo( endPoint + ( (randomint( 300 ) - 150 ), (randomint( 300 ) - 150 ), 0 ), flyTime, 0, 0 );

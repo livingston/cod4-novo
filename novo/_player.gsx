@@ -4,7 +4,7 @@
 
 init()
 {
-	level.callbackPermission = ::hasPermission;
+    level.callbackPermission = ::hasPermission;
     thread novo\_events::addConnectEvent( ::onConnect );
 }
 
@@ -15,96 +15,96 @@ onConnect()
     self setClientDvar("cg_drawCrosshair", 1);
 
     dvar = "firstTime_" + self getEntityNumber();
-	if( getDvar( dvar ) != self getGuid() )
-	{
-		self.pers[ "firstTime" ] = true;
-		setDvar( dvar, self getGuid() );
-	}
+    if( getDvar( dvar ) != self getGuid() )
+    {
+        self.pers[ "firstTime" ] = true;
+        setDvar( dvar, self getGuid() );
+    }
 
     self waittill( "spawned_player" );
 
     if( !isDefined( self.pers[ "firstSpawnTime" ] ) )
-		self.pers[ "firstSpawnTime" ] = getTime();
+        self.pers[ "firstSpawnTime" ] = getTime();
 
-	if( !isDefined( game[ "firstPlayerSpawnTime" ] ) )
-	{
-		game[ "firstPlayerSpawnTime" ] = true;
-		game[ "firstSpawnTime" ] = self.pers[ "firstSpawnTime" ];
-	}
+    if( !isDefined( game[ "firstPlayerSpawnTime" ] ) )
+    {
+        game[ "firstPlayerSpawnTime" ] = true;
+        game[ "firstSpawnTime" ] = self.pers[ "firstSpawnTime" ];
+    }
 
     if( isDefined( self.pers[ "firstTime" ] ) )
-		self thread welcome();
+        self thread welcome();
 
     waittillframeend;
 
-	if( level.dvar[ "gun_position" ] ) {
-		self setClientDvars( "cg_gun_move_u", "1.5",
-							 "cg_gun_move_f", "-1",
-							 "cg_gun_ofs_u", "1",
-							 "cg_gun_ofs_r", "-1",
-							 "cg_gun_ofs_f", "-2" );
+    if( level.dvar[ "gun_position" ] ) {
+        self setClientDvars( "cg_gun_move_u", "1.5",
+                             "cg_gun_move_f", "-1",
+                             "cg_gun_ofs_u", "1",
+                             "cg_gun_ofs_r", "-1",
+                             "cg_gun_ofs_f", "-2" );
     }
 
-	waittillframeend;
+    waittillframeend;
 }
 
 hasPermission( permission )
 {
-	if( !isDefined( self.pers[ "role" ] ) )
-	{
-		waittillframeend;
+    if( !isDefined( self.pers[ "role" ] ) )
+    {
+        waittillframeend;
 
-		if( !isDefined( self.pers[ "role" ] ) )
-			return false;
-	}
+        if( !isDefined( self.pers[ "role" ] ) )
+            return false;
+    }
 
-	playerPermissions = novo\_permissions::getPermissions( self.pers[ "role" ] );
-	if( !isDefined( playerPermissions ) )
-		return false;
+    playerPermissions = novo\_permissions::getPermissions( self.pers[ "role" ] );
+    if( !isDefined( playerPermissions ) )
+        return false;
 
-	if( playerPermissions == "*" )
-		return true;
+    if( playerPermissions == "*" )
+        return true;
 
-	return IsSubStr( playerPermissions, permission );
+    return IsSubStr( playerPermissions, permission );
 }
 
 welcome()
 {
-	// Visit Count
-	playerVisitCount = self novo\_common::getCvarInt( "visit_count" );
-	playerVisitCount = playerVisitCount + 1;
+    // Visit Count
+    playerVisitCount = self novo\_common::getCvarInt( "visit_count" );
+    playerVisitCount = playerVisitCount + 1;
 
-	self novo\_common::setCvar( "visit_count", playerVisitCount );
+    self novo\_common::setCvar( "visit_count", playerVisitCount );
 
-	if( playerVisitCount == 1 )
-		visitInfo = "First Visit!";
-	else
-		visitInfo = playerVisitCount + " ^2visits";
-
-
-	// Last Visit
-	playerLastVisit = self novo\_common::getCvar( "last_visit" );
-	t = getRealTime();
-
-	self novo\_common::setCvar( "last_visit", t );
-	self novo\_common::setCvar( "name", self.name );
+    if( playerVisitCount == 1 )
+        visitInfo = "First Visit!";
+    else
+        visitInfo = playerVisitCount + " ^2visits";
 
 
-	// Geolocation
-	country = self getGeoLocation( 2 );
-	welcomeMessage = self.name;
+    // Last Visit
+    playerLastVisit = self novo\_common::getCvar( "last_visit" );
+    t = getRealTime();
+
+    self novo\_common::setCvar( "last_visit", t );
+    self novo\_common::setCvar( "name", self.name );
 
 
-	if( !isSubStr( country, "N/" ) || !isDefined( country ) )
-		welcomeMessage = self.name + " ^7from ^1" + country;
+    // Geolocation
+    country = self getGeoLocation( 2 );
+    welcomeMessage = self.name;
 
 
-	exec( "say Welcome^3 "+ welcomeMessage +"^7! ^4( ^7"+ visitInfo +" ^4)");
+    if( !isSubStr( country, "N/" ) || !isDefined( country ) )
+        welcomeMessage = self.name + " ^7from ^1" + country;
 
 
-	if( playerLastVisit != "" )
-	{
-		formattedLastVisit = TimeToString( int( playerLastVisit ), 0, "%b %d %G ^1%r");
-		exec( "say Last visit:^2 "+ formattedLastVisit );
-	}
+    exec( "say Welcome^3 "+ welcomeMessage +"^7! ^4( ^7"+ visitInfo +" ^4)");
+
+
+    if( playerLastVisit != "" )
+    {
+        formattedLastVisit = TimeToString( int( playerLastVisit ), 0, "%b %d %G ^1%r");
+        exec( "say Last visit:^2 "+ formattedLastVisit );
+    }
 }
