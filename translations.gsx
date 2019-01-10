@@ -8,10 +8,13 @@ LoadLanguages() {
     Lang( "EN", "KD_ACCURACY",        &"^2Accuracy:^7 &&1" );
 
     Lang( "EN", "MENU_EDITOR",        "Create/Edit a Class" );
-    Lang( "EN", "MENU_LASER",         "Toggle Laser" );
     Lang( "EN", "MENU_ADMIN",         "Admin Controls" );
     Lang( "EN", "MENU_DEV",           "Developer" );
     Lang( "EN", "MENU_HINT",          "^7Select: ^3[Right or Left Mouse]^7\nUse: ^3[[{+activate}]]^7\nLeave: ^3[[{+melee}]]" );
+
+    Lang( "EN", "MENU_TWEAKS",        "Tweaks" );
+    Lang( "EN", "MENU_TWEAKS_LASER",  "Toggle Laser" );
+    Lang( "EN", "MENU_TWEAKS_FPS",    "Toggle FPS" );
 
     Lang( "EN", "MENU_EMBLEM",		   "Change Emblem" );
 	Lang( "EN", "MENU_EMBLEM_DEFAULT", "Default Design" );

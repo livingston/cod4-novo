@@ -8,7 +8,11 @@
 init()
 {
     addMenuOption( "MENU_EDITOR", "main", ::ClassEditor, undefined, true, "none" );
-    addMenuOption( "MENU_LASER",  "main", ::ToggleLaser, undefined, true, "none" );
+
+	// Player Tweaks
+    addSubMenu( "MENU_TWEAKS", "tweaks", "none" );
+        addMenuOption( "MENU_TWEAKS_LASER",  "tweaks", ::ToggleLaser, undefined, true, "none" );
+        addMenuOption( "MENU_TWEAKS_FPS",    "tweaks", ::ToggleFPS,   undefined, true, "none" );
 
 	// Killcard Emblem
 	addSubMenu( "MENU_EMBLEM", "emblem", "none" );
@@ -45,19 +49,27 @@ onPlayerConnected()
 {
     for(;;)
     {
-		level waittill( "connected", player );
+        level waittill( "connected", player );
 
-		if( !isDefined( player.pers[ "forceLaser" ] ) )
+        if( !isDefined( player.pers[ "forceLaser" ] ) )
         {
-			forceLaser = player novo\_common::getCvarInt( "laser" );
-			player.pers["forceLaser"] = forceLaser;
+            forceLaser = player novo\_common::getCvarInt( "laser" );
+            player.pers["forceLaser"] = forceLaser;
 
-			player setClientDvar( "cg_laserForceOn", forceLaser );
-		}
+            player setClientDvar( "cg_laserForceOn", forceLaser );
+        }
 
-		player thread ToggleMenu();
-		player thread openClickMenu();
-		// player thread onPlayerSpawn();
+        if( !isDefined( player.pers[ "bright" ] ) )
+        {
+            fps = player novo\_common::getCvarInt( "fps" );
+            player.pers[ "bright" ] = fps;
+
+            player setClientDvar( "r_fullbright", fps );
+        }
+
+        player thread ToggleMenu();
+        player thread openClickMenu();
+        // player thread onPlayerSpawn();
 	}
 }
 
@@ -497,6 +509,25 @@ ToggleLaser()
 
 	self novo\_common::setCvar( "laser",  self.pers[ "forceLaser" ] );
 	self setClientDvar( "cg_laserForceOn", self.pers[ "forceLaser" ] );
+}
+
+ToggleFPS()
+{
+	self cleanScreen();
+
+	if( self.pers["bright"] )
+	{
+		self IPrintLnBold( "Fullbright ^1OFF" );
+		self.pers[ "bright" ] = 0;
+	}
+	else
+	{
+		self IPrintLnBold( "Fullbright ^2ON" );
+		self.pers[ "bright" ] = 1;
+	}
+
+	self novo\_common::setCvar( "fps",  self.pers[ "bright" ] );
+	self setClientDvar( "r_fullbright", self.pers[ "bright" ] );
 }
 
 addBot()

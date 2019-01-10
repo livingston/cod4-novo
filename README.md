@@ -11,10 +11,11 @@ Call of Duty 4 server scripts.
     - [ ] Unlock Weapons & Perks
     - [ ] Tweakables
         - [x] Laser
-        - [ ] Full-bright (FPS)
+        - [x] Full-bright (FPS)
         - [ ] Field-of-View (FOV)
 - [x] Roles & Permissions
 - [ ] Admin in-game Menu
+    - [x] High Jump
     - [ ] Game modes
     - [ ] Admin controls
 - [ ] HighXP Mode
