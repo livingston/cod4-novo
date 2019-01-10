@@ -11,8 +11,8 @@ init()
 
 	// Player Tweaks
     addSubMenu( "MENU_TWEAKS", "tweaks", "none" );
-        addMenuOption( "MENU_TWEAKS_LASER",  "tweaks", ::ToggleLaser, undefined, true, "none" );
-        addMenuOption( "MENU_TWEAKS_FPS",    "tweaks", ::ToggleFPS,   undefined, true, "none" );
+        addMenuOption( "MENU_TWEAKS_LASER",  "tweaks", ::ToggleLaser, undefined, false, "none" );
+        addMenuOption( "MENU_TWEAKS_FPS",    "tweaks", ::ToggleFPS,   undefined, false, "none" );
 
 	// Killcard Emblem
 	addSubMenu( "MENU_EMBLEM", "emblem", "none" );
