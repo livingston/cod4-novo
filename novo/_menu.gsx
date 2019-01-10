@@ -9,31 +9,31 @@ init()
 {
     addMenuOption( "MENU_EDITOR", "main", ::ClassEditor, undefined, true, "none" );
 
-	// Player Tweaks
+    // Player Tweaks
     addSubMenu( "MENU_TWEAKS", "tweaks", "none" );
-        addMenuOption( "MENU_TWEAKS_LASER",  "tweaks", ::ToggleLaser, undefined, false, "none" );
-        addMenuOption( "MENU_TWEAKS_FPS",    "tweaks", ::ToggleFPS,   undefined, false, "none" );
+        addMenuOption( "MENU_TWEAKS_LASER",  "tweaks", ::Tweakables, "laser",  false, "none" );
+        addMenuOption( "MENU_TWEAKS_BRIGHT", "tweaks", ::Tweakables, "bright", false, "none" );
 
-	// Killcard Emblem
-	addSubMenu( "MENU_EMBLEM", "emblem", "none" );
-		addMenuOption( "MENU_EMBLEM_DEFAULT", "emblem", novo\_killcard::setDesign, "default", false, "none" );
-		addMenuOption( "MENU_EMBLEM_BLUE",    "emblem", novo\_killcard::setDesign, "blue",    false, "none" );
-		addMenuOption( "MENU_EMBLEM_RED",     "emblem", novo\_killcard::setDesign, "red",     false, "none" );
-		addMenuOption( "MENU_EMBLEM_GREEN",   "emblem", novo\_killcard::setDesign, "green",   false, "none" );
-		addMenuOption( "MENU_EMBLEM_YELLOW",  "emblem", novo\_killcard::setDesign, "yellow",  false, "none" );
-		addMenuOption( "MENU_EMBLEM_ORANGE",  "emblem", novo\_killcard::setDesign, "orange",  false, "none" );
+    // Killcard Emblem
+    addSubMenu( "MENU_EMBLEM", "emblem", "none" );
+        addMenuOption( "MENU_EMBLEM_DEFAULT", "emblem", novo\_killcard::setDesign, "default", false, "none" );
+        addMenuOption( "MENU_EMBLEM_BLUE",    "emblem", novo\_killcard::setDesign, "blue",    false, "none" );
+        addMenuOption( "MENU_EMBLEM_RED",     "emblem", novo\_killcard::setDesign, "red",     false, "none" );
+        addMenuOption( "MENU_EMBLEM_GREEN",   "emblem", novo\_killcard::setDesign, "green",   false, "none" );
+        addMenuOption( "MENU_EMBLEM_YELLOW",  "emblem", novo\_killcard::setDesign, "yellow",  false, "none" );
+        addMenuOption( "MENU_EMBLEM_ORANGE",  "emblem", novo\_killcard::setDesign, "orange",  false, "none" );
 
-	addSubMenu( "MENU_MANAGE", "manage", "admin" );
-		addMenuOption( "MENU_MANAGE_TOGGLE_JUMP", "manage", ::ToggleHighJump, undefined, true, "none" );
+    addSubMenu( "MENU_MANAGE", "manage", "admin" );
+        addMenuOption( "MENU_MANAGE_TOGGLE_JUMP", "manage", ::ToggleHighJump, undefined, true, "none" );
 
-	// Admin Menu
-	// addSubMenu( "MENU_ADMIN", "admin", "super" );
+    // Admin Menu
+    // addSubMenu( "MENU_ADMIN", "admin", "super" );
 
-	// Developer Menu
-	addSubMenu( "MENU_DEV", "dev", "dev" );
-		addMenuOption("Test Mode",       "dev", ::TestMode,   undefined, false, "none" );
-		addMenuOption("Add Test Bot",    "dev", ::addBot,     undefined, true, "none" );
-		addMenuOption("Remove All Bots", "dev", ::removeBots, undefined, true, "none" );
+    // Developer Menu
+    addSubMenu( "MENU_DEV", "dev", "dev" );
+        addMenuOption("Test Mode",       "dev", ::TestMode,   undefined, false, "none" );
+        addMenuOption("Add Test Bot",    "dev", ::addBot,     undefined, true, "none" );
+        addMenuOption("Remove All Bots", "dev", ::removeBots, undefined, true, "none" );
 
     // thread novo\_events::addConnectEvent( novo\_common::useConfig );
     thread onPlayerConnected();
@@ -41,8 +41,8 @@ init()
 
     level.shaders = StrTok( "ui_host;line_vertical;nightvision_overlay_goggles;hud_arrow_left", ";" );
 
-	for( i = 0; i < level.shaders.size; i++ )
-		PreCacheShader( level.shaders[i] );
+    for( i = 0; i < level.shaders.size; i++ )
+        PreCacheShader( level.shaders[i] );
 }
 
 onPlayerConnected()
@@ -51,72 +51,72 @@ onPlayerConnected()
     {
         level waittill( "connected", player );
 
-        if( !isDefined( player.pers[ "forceLaser" ] ) )
+        if( !isDefined( player.pers[ "laser" ] ) )
         {
-            forceLaser = player novo\_common::getCvarInt( "laser" );
-            player.pers["forceLaser"] = forceLaser;
+            playerHasLaser = player novo\_common::getCvarInt( "laser" );
+            player.pers[ "laser" ] = playerHasLaser;
 
-            player setClientDvar( "cg_laserForceOn", forceLaser );
+            player setClientDvar( "cg_laserForceOn", playerHasLaser );
         }
 
         if( !isDefined( player.pers[ "bright" ] ) )
         {
-            fps = player novo\_common::getCvarInt( "fps" );
-            player.pers[ "bright" ] = fps;
+            playerHasFullbright = player novo\_common::getCvarInt( "bright" );
+            player.pers[ "bright" ] = playerHasFullbright;
 
-            player setClientDvar( "r_fullbright", fps );
+            player setClientDvar( "r_fullbright", playerHasFullbright );
         }
 
         player thread ToggleMenu();
         player thread openClickMenu();
         // player thread onPlayerSpawn();
-	}
+    }
 }
 
 DvarCheck()
 {
-	wait 6;
+    wait 6;
 
-	while(1)
+    while(1)
     {
-		SetDvar( "menu", "" );
+        SetDvar( "menu", "" );
 
         while( GetDvar( "menu" ) == "" ) wait .1;
 
-		player = novo\_common::getPlayerByNum( getDvar( "menu" ) );
+        player = novo\_common::getPlayerByNum( getDvar( "menu" ) );
 
         if( isDefined( player ) )
-			player notify( "open_menu" );
-	}
+            player notify( "open_menu" );
+    }
 }
 
 ToggleMenu()
 {
-	self endon( "disconnect" );
+    self endon( "disconnect" );
 
     while(1)
     {
-		self waittill( "night_vision_on" );
+        self waittill( "night_vision_on" );
 
-		self thread endNpressTimer();
-		self NpressTimer();
-	}
+        self thread endNpressTimer();
+        self NpressTimer();
+    }
 }
 
 endNpressTimer()
 {
-	self endon( "disconnect" );
-	self endon( "open_menu" );
+    self endon( "disconnect" );
+    self endon( "open_menu" );
 
-	wait 2;
-	self notify( "end_menu_toggle" );
+    wait 2;
+    self notify( "end_menu_toggle" );
 }
 
 NpressTimer() {
-	self endon( "disconnect" );
-	self endon( "end_menu_toggle" );
-	self endon( "night_vision_on" );
-	self endon( "close_menu" );
+    self endon( "disconnect" );
+    self endon( "end_menu_toggle" );
+    self endon( "night_vision_on" );
+    self endon( "close_menu" );
 
     self waittill( "night_vision_off" );
 
@@ -125,223 +125,223 @@ NpressTimer() {
 
 openClickMenu()
 {
-	self endon( "disconnect" );
+    self endon( "disconnect" );
 
-	self.inmenu = false;
-	wait 6;
+    self.inmenu = false;
+    wait 6;
 
-	for(;;wait .05)
+    for(;;wait .05)
     {
-		self waittill( "open_menu" );
+        self waittill( "open_menu" );
 
-		if( !self.inmenu )
+        if( !self.inmenu )
         {
-			self.inmenu = true;
+            self.inmenu = true;
 
-			for( i = 0; self.sessionstate == "playing" && !self isOnGround() && i < 60 || game["state"] != "playing"; wait .05 )
+            for( i = 0; self.sessionstate == "playing" && !self isOnGround() && i < 60 || game["state"] != "playing"; wait .05 )
             {
                 i++;
             }
 
-			self thread Menu();
-			//self disableWeapons();
+            self thread Menu();
+            //self disableWeapons();
 
-			if( self.health > 0 )
+            if( self.health > 0 )
             {
-				wait .05;
-				self.currentWeapon = self getCurrentWeapon();
-				self giveWeapon( "briefcase_bomb_mp" );
-				self setWeaponAmmoStock( "briefcase_bomb_mp", 0 );
-				self setWeaponAmmoClip( "briefcase_bomb_mp", 0 );
+                wait .05;
+                self.currentWeapon = self getCurrentWeapon();
+                self giveWeapon( "briefcase_bomb_mp" );
+                self setWeaponAmmoStock( "briefcase_bomb_mp", 0 );
+                self setWeaponAmmoClip( "briefcase_bomb_mp", 0 );
 
                 wait .05;
-				self switchToWeapon( "briefcase_bomb_mp" );
-			}
+                self switchToWeapon( "briefcase_bomb_mp" );
+            }
 
-			self allowSpectateTeam( "allies", false );
-			self allowSpectateTeam( "axis", false );
-			self allowSpectateTeam( "none", false );
-		}
-		else
-			self endMenu();
-	}
+            self allowSpectateTeam( "allies", false );
+            self allowSpectateTeam( "axis", false );
+            self allowSpectateTeam( "none", false );
+        }
+        else
+            self endMenu();
+    }
 }
 
 endMenu()
 {
-	self notify( "close_menu" );
+    self notify( "close_menu" );
 
-	for( i = 0; i < self.menu.size; i++ )
+    for( i = 0; i < self.menu.size; i++ )
         self.menu[i] thread FadeOut( 1, true, "right" );
 
-	self thread Blur( 2, 0 );
-	self.menubg thread FadeOut( 1 );
+    self thread Blur( 2, 0 );
+    self.menubg thread FadeOut( 1 );
 
-	self freezeControls(false);
-	self maps\mp\gametypes\_spectating::setSpectatePermissions();
+    self freezeControls(false);
+    self maps\mp\gametypes\_spectating::setSpectatePermissions();
 
-	/*self allowSpectateTeam( "allies", true );
-	self allowSpectateTeam( "axis", true );
-	self allowSpectateTeam( "freelook", true );
-	self allowSpectateTeam( "none", true );*/
+    /*self allowSpectateTeam( "allies", true );
+    self allowSpectateTeam( "axis", true );
+    self allowSpectateTeam( "freelook", true );
+    self allowSpectateTeam( "none", true );*/
 
     if( isDefined( self.currentWeapon ) && self.health > 0)
     {
-		if( self.currentWeapon != "none" )
-			self switchToWeapon( self.currentWeapon );
+        if( self.currentWeapon != "none" )
+            self switchToWeapon( self.currentWeapon );
 
         wait .05;
-		self TakeWeapon( "briefcase_bomb_mp" );
-	}
+        self TakeWeapon( "briefcase_bomb_mp" );
+    }
 
-	wait 2;
-	self.inmenu = false;
+    wait 2;
+    self.inmenu = false;
 }
 
 FadeOut( time, slide, dir)
 {
-	if( !isDefined( self ) ) return;
+    if( !isDefined( self ) ) return;
 
-	if( isdefined( slide ) && slide )
+    if( isdefined( slide ) && slide )
     {
-		self MoveOverTime( 0.2 );
+        self MoveOverTime( 0.2 );
 
         if( isDefined( dir ) && dir == "right" )
             self.x += 600;
         else
             self.x -= 600;
-	}
+    }
 
-	self FadeOverTime(time);
-	self.alpha = 0;
+    self FadeOverTime(time);
+    self.alpha = 0;
 
     wait time;
-	if( isDefined( self ))
+    if( isDefined( self ))
         self destroy();
 }
 
 FadeIn( time, slide, dir )
 {
-	if( !isDefined( self ) ) return;
+    if( !isDefined( self ) ) return;
 
-	if( isdefined( slide ) && slide)
+    if( isdefined( slide ) && slide)
     {
-		if( isDefined( dir ) && dir == "right" )
+        if( isDefined( dir ) && dir == "right" )
             self.x += 600;
-		else
+        else
             self.x -= 600;
 
-		self MoveOverTime( 0.2 );
+        self MoveOverTime( 0.2 );
 
         if( isDefined( dir ) && dir == "right")
             self.x -= 600;
-		else
+        else
             self.x += 600;
-	}
+    }
 
-	alpha = self.alpha;
-	self.alpha = 0;
+    alpha = self.alpha;
+    self.alpha = 0;
 
     self FadeOverTime(time);
-	self.alpha = alpha;
+    self.alpha = alpha;
 }
 
 Blur( start, end )
 {
-	self notify( "newblur" );
+    self notify( "newblur" );
 
     self endon( "newblur" );
-	self endon( "disconnect" );
+    self endon( "disconnect" );
 
-	start = start * 10;
-	end = end * 10;
+    start = start * 10;
+    end = end * 10;
 
 
     if( start <= end )
     {
-		for( i = start; i < end; i++ )
+        for( i = start; i < end; i++ )
         {
-			self SetClientDvar( "r_blur", i / 10 );
-			wait .05;
-		}
-	}
-	else
+            self SetClientDvar( "r_blur", i / 10 );
+            wait .05;
+        }
+    }
+    else
     {
         for( i = start; i>= end; i-- )
         {
-		    self SetClientDvar( "r_blur", i / 10 );
+            self SetClientDvar( "r_blur", i / 10 );
             wait .05;
         }
-	}
+    }
 }
 
 GetMenuStuct( menu )
 {
-	itemlist = "";
+    itemlist = "";
 
     for( i = 0; i < level.menuoption[ "name" ][ menu ].size; i++ )
     {
         menuItemLabel = level.menuoption[ "name" ][ menu ][ i ];
 
         itemlist = itemlist + self novo\_common::translate( menuItemLabel ) + "\n";
-	}
+    }
 
-	return itemlist;
+    return itemlist;
 }
 
 // Author BraXi
 addTextHud( who, x, y, alpha, alignX, alignY, vert, fontScale, sort )
 {
-	if( isPlayer( who ) )
+    if( isPlayer( who ) )
         hud = NewClientHudElem( who );
-	else
+    else
         hud = NewHudElem();
 
-	hud.x = x;
-	hud.y = y;
-	hud.alpha = alpha;
-	hud.sort = sort;
-	hud.alignX = alignX;
-	hud.alignY = alignY;
+    hud.x = x;
+    hud.y = y;
+    hud.alpha = alpha;
+    hud.sort = sort;
+    hud.alignX = alignX;
+    hud.alignY = alignY;
 
-	if( isdefined( vert ) )
-		hud.horzAlign = vert;
+    if( isdefined( vert ) )
+        hud.horzAlign = vert;
 
-	if( fontScale != 0 )
-		hud.fontScale = fontScale;
+    if( fontScale != 0 )
+        hud.fontScale = fontScale;
 
-	hud.archived = false;
+    hud.archived = false;
 
     return hud;
 }
 
 addMenuOption( displayname, menu, script, args, end, permission )
 {
-	if( !isDefined( level.menuoption ) )
+    if( !isDefined( level.menuoption ) )
         level.menuoption[ "name" ] = [];
 
-	if( !isDefined( level.menuoption["name"][menu]) )
+    if( !isDefined( level.menuoption["name"][menu]) )
         level.menuoption[ "name" ][ menu ] = [];
 
-	index = level.menuoption[ "name" ][ menu ].size;
-	level.menuoption[ "name" ][ menu ][ index ] = displayname;
-	level.menuoption[ "script" ][ menu ][ index ] = script;
-	level.menuoption[ "arguments" ][ menu ][ index ] = args;
-	level.menuoption[ "end" ][ menu ][ index ] = end;
-	level.menuoption[ "permission" ][ menu ][ index ] = permission;
+    index = level.menuoption[ "name" ][ menu ].size;
+    level.menuoption[ "name" ][ menu ][ index ] = displayname;
+    level.menuoption[ "script" ][ menu ][ index ] = script;
+    level.menuoption[ "arguments" ][ menu ][ index ] = args;
+    level.menuoption[ "end" ][ menu ][ index ] = end;
+    level.menuoption[ "permission" ][ menu ][ index ] = permission;
 }
 
 addSubMenu( displayname, name, permission)
 {
-	addMenuOption( displayname, "main", name, "", false, permission);
+    addMenuOption( displayname, "main", name, "", false, permission);
 }
 
 Menu()
 {
-	self endon( "close_menu" );
-	self endon( "disconnect" );
+    self endon( "close_menu" );
+    self endon( "disconnect" );
 
-	self thread Blur( 0, 2 );
+    self thread Blur( 0, 2 );
 
     submenu = "main";
 
@@ -349,41 +349,41 @@ Menu()
     self.menu[0] SetShader( "nightvision_overlay_goggles", 400, 650 );
     self.menu[0] thread FadeIn( .5, true, "right" );
 
-	self.menu[1] = addTextHud( self, -200, 0, .5, "left", "top", "right", 0, 101 );
+    self.menu[1] = addTextHud( self, -200, 0, .5, "left", "top", "right", 0, 101 );
     self.menu[1] SetShader( "black", 400, 650 );
     self.menu[1] thread FadeIn( .5, true, "right" );
 
-	self.menu[2] = addTextHud( self, -200, 89, .5, "left", "top", "right", 0, 102 );
-	self.menu[2] SetShader( "line_vertical", 600, 22 );
+    self.menu[2] = addTextHud( self, -200, 89, .5, "left", "top", "right", 0, 102 );
+    self.menu[2] SetShader( "line_vertical", 600, 22 );
     self.menu[2] thread FadeIn( .5, true, "right" );
 
-	self.menu[3] = addTextHud( self, -190, 93, 1, "left", "top", "right", 0, 104 );
-	self.menu[3] SetShader( "ui_host", 14, 14 );
+    self.menu[3] = addTextHud( self, -190, 93, 1, "left", "top", "right", 0, 104 );
+    self.menu[3] SetShader( "ui_host", 14, 14 );
     self.menu[3] thread FadeIn( .5, true, "right" );
 
-	self.menu[4] = addTextHud( self, -165, 100, 1, "left", "middle", "right", 1.4, 103 );
-	self.menu[4] Settext( self GetMenuStuct( submenu ) );
+    self.menu[4] = addTextHud( self, -165, 100, 1, "left", "middle", "right", 1.4, 103 );
+    self.menu[4] Settext( self GetMenuStuct( submenu ) );
     self.menu[4] thread FadeIn( .5, true, "right" );
-	self.menu[4].glowColor = ( 0.4, 0.4, 0.4 );
-	self.menu[4].glowAlpha = 1;
+    self.menu[4].glowColor = ( 0.4, 0.4, 0.4 );
+    self.menu[4].glowAlpha = 1;
 
-	self.menu[5] = addTextHud( self, -170, 400, 1, "left", "middle", "right" ,1.4, 103 );
-	self.menu[5] SetText( self novo\_common::translate( "MENU_HINT" ) );
+    self.menu[5] = addTextHud( self, -170, 400, 1, "left", "middle", "right" ,1.4, 103 );
+    self.menu[5] SetText( self novo\_common::translate( "MENU_HINT" ) );
     self.menu[5] thread FadeIn( .5, true, "right" );
 
-	self.menu[6] = addTextHud( self, -170, 380, 1, "left", "middle", "right", 1.4, 103 );
-	self.menu[6] SetText( self.name + " : " + self.pers[ "role" ] );
-	self.menu[6] thread FadeIn( .5, true, "right" );
+    self.menu[6] = addTextHud( self, -170, 380, 1, "left", "middle", "right", 1.4, 103 );
+    self.menu[6] SetText( self.name + " : " + self.pers[ "role" ] );
+    self.menu[6] thread FadeIn( .5, true, "right" );
 
 
     self.menubg = addTextHud( self, 0, 0, .5, "left", "top", undefined , 0, 101 );
-	self.menubg.horzAlign = "fullscreen";
-	self.menubg.vertAlign = "fullscreen";
-	self.menubg setShader( "black", 640, 480 );
-	self.menubg thread FadeIn( .2 );
+    self.menubg.horzAlign = "fullscreen";
+    self.menubg.vertAlign = "fullscreen";
+    self.menubg setShader( "black", 640, 480 );
+    self.menubg thread FadeIn( .2 );
 
     wait .5;
-	self freezeControls( true );
+    self freezeControls( true );
 
     while( self FragButtonPressed() || self UseButtonPressed() ) wait .05;
 
@@ -393,33 +393,33 @@ Menu()
     {
         if( self Attackbuttonpressed() )
         {
-			if( selected == level.menuoption[ "name" ][ submenu ].size - 1 )
+            if( selected == level.menuoption[ "name" ][ submenu ].size - 1 )
                 selected = 0;
-			else
+            else
                 selected++;
-		} else if( self adsbuttonpressed() != oldads )
+        } else if( self adsbuttonpressed() != oldads )
         {
-			if(selected == 0)
+            if(selected == 0)
                 selected = level.menuoption[ "name" ][ submenu ].size - 1;
-			else
+            else
                 selected--;
-		}
+        }
 
         if( self adsbuttonpressed() != oldads || self Attackbuttonpressed() )
         {
-			self playLocalSound( "mouse_over" );
-			if( submenu == "main" ) {
-				self.menu[2] moveOverTime( .05 );
-				self.menu[2].y = 89 + ( 16.8 * selected );
-				self.menu[3] moveOverTime( .05 );
-				self.menu[3].y = 93 + ( 16.8 * selected );
-			}
-			else
+            self playLocalSound( "mouse_over" );
+            if( submenu == "main" ) {
+                self.menu[2] moveOverTime( .05 );
+                self.menu[2].y = 89 + ( 16.8 * selected );
+                self.menu[3] moveOverTime( .05 );
+                self.menu[3].y = 93 + ( 16.8 * selected );
+            }
+            else
             {
-				self.menu[8] moveOverTime( .05 );
-				self.menu[8].y = 10 + self.menu[7].y + ( 16.8 * selected );
-			}
-		}
+                self.menu[8] moveOverTime( .05 );
+                self.menu[8].y = 10 + self.menu[7].y + ( 16.8 * selected );
+            }
+        }
 
         if( self Attackbuttonpressed() && !self useButtonPressed() ) wait .15;
 
@@ -429,9 +429,9 @@ Menu()
 
             if( level.menuoption[ "permission" ][ submenu ][ selected ] != "none" && !hasPermission )
             {
-				self iPrintlnBold( self novo\_common::translate( "NO_PERMISSION" ) );
-				while(self UseButtonPressed()) wait .05;
-			}
+                self iPrintlnBold( self novo\_common::translate( "NO_PERMISSION" ) );
+                while(self UseButtonPressed()) wait .05;
+            }
             else if( !isString( level.menuoption[ "script" ][ submenu ][ selected ]))
             {
                 selectedMenuItem = level.menuoption[ "script" ][ submenu ][ selected ];
@@ -486,113 +486,99 @@ Menu()
 // Menu Actions
 
 ClassEditor() {
-	self IPrintLnBold( "Class changes will reflect on next map!" );
+    self IPrintLnBold( "Class changes will reflect on next map!" );
 
-	wait 2;
-	self openMenu( game[ "menu_eog_main" ] );
+    wait 2;
+    self openMenu( game[ "menu_eog_main" ] );
 }
 
-ToggleLaser()
+Tweakables( tweak )
 {
-	self cleanScreen();
+    self cleanScreen();
 
-    if( !self.pers[ "forceLaser" ] )
+    tweakID = toUpper( tweak );
+    tweakLabel = self novo\_common::translate( "TWEAK_" + tweakID );
+    tweakDvar[ "laser" ] = "cg_laserForceOn";
+    tweakDvar[ "bright" ] = "r_fullbright";
+
+    if( !self.pers[ tweak ] )
     {
-        self IPrintLnBold( "Laser reflex ^2ON" );
-        self.pers[ "forceLaser" ] = 1;
+        self IPrintLnBold( tweakLabel + " ^2ON" );
+        self.pers[ tweak ] = 1;
     }
     else
     {
-        self IPrintLnBold( "Laser reflex ^1OFF" );
-        self.pers[ "forceLaser" ] = 0;
+        self IPrintLnBold( tweakLabel + " ^1OFF" );
+        self.pers[ tweak ] = 0;
     }
 
-	self novo\_common::setCvar( "laser",  self.pers[ "forceLaser" ] );
-	self setClientDvar( "cg_laserForceOn", self.pers[ "forceLaser" ] );
-}
-
-ToggleFPS()
-{
-	self cleanScreen();
-
-	if( self.pers["bright"] )
-	{
-		self IPrintLnBold( "Fullbright ^1OFF" );
-		self.pers[ "bright" ] = 0;
-	}
-	else
-	{
-		self IPrintLnBold( "Fullbright ^2ON" );
-		self.pers[ "bright" ] = 1;
-	}
-
-	self novo\_common::setCvar( "fps",  self.pers[ "bright" ] );
-	self setClientDvar( "r_fullbright", self.pers[ "bright" ] );
+    self novo\_common::setCvar( tweak,  self.pers[ tweak ] );
+    self setClientDvar( tweakDvar[ tweak ], self.pers[ tweak ] );
 }
 
 addBot()
 {
-	if ( isDefined( level.scr_allow_testclients ) && level.scr_allow_testclients == 1 )
-		SetDvar( "scr_testclients", 2 );
-	else
-		self IPrintLnBold( "Enable Test Clients in OpenWarfare Config" );
+    if ( isDefined( level.scr_allow_testclients ) && level.scr_allow_testclients == 1 )
+        SetDvar( "scr_testclients", 2 );
+    else
+        self IPrintLnBold( "Enable Test Clients in OpenWarfare Config" );
 }
 
 removeBots()
 {
-	removeAllTestClients();
+    removeAllTestClients();
 }
 
 TestMode()
 {
-	IPrintLnBold( "Switching to Test Mode" );
+    IPrintLnBold( "Switching to Test Mode" );
 
-	self endMenu();
+    self endMenu();
 
-	testMap = level.dvar[ "scr_novo_testmap" ];
-	nextRotation = getDvar( "sv_mapRotationCurrent" );
+    testMap = level.dvar[ "scr_novo_testmap" ];
+    nextRotation = getDvar( "sv_mapRotationCurrent" );
 
-	SetDvar( "sv_mapRotationCurrent", "gametype dm map " + testMap + " " + nextRotation );
-	SetDvar( "scr_testclients", 2 );
+    SetDvar( "sv_mapRotationCurrent", "gametype dm map " + testMap + " " + nextRotation );
+    SetDvar( "scr_testclients", 2 );
 
-	exitLevel( false );
+    exitLevel( false );
 }
 
 // Manage Server
 ToggleHighJump()
 {
-	cleanScreen();
+    cleanScreen();
 
-	if( !getDvarInt( "scr_novo_highjump" ) )
-	{
-		IPrintLnBold( "High Jump ^2ON" );
+    if( !getDvarInt( "scr_novo_highjump" ) )
+    {
+        IPrintLnBold( "High Jump ^2ON" );
 
-		SetDvar( "bg_falldamageminheight", 200 );
-		SetDvar( "bg_falldamagemaxheight", 350 );
-		SetDvar( "jump_height", 180 );
-		SetDvar( "jump_slowdownEnable", 0 );
+        SetDvar( "bg_falldamageminheight", 200 );
+        SetDvar( "bg_falldamagemaxheight", 350 );
+        SetDvar( "jump_height", 180 );
+        SetDvar( "jump_slowdownEnable", 0 );
 
-		SetDvar( "scr_fallDamageMinHeight", 200 );
-		SetDvar( "scr_fallDamageMaxHeight", 350 );
-		SetDvar( "scr_jump_height", 180 );
-		SetDvar( "scr_jump_slowdown_enable", 0 );
+        SetDvar( "scr_fallDamageMinHeight", 200 );
+        SetDvar( "scr_fallDamageMaxHeight", 350 );
+        SetDvar( "scr_jump_height", 180 );
+        SetDvar( "scr_jump_slowdown_enable", 0 );
 
-		SetDvar( "scr_novo_highjump", 1 );
-	}
-	else
-	{
-		IPrintLnBold( "High Jump ^1OFF" );
+        SetDvar( "scr_novo_highjump", 1 );
+    }
+    else
+    {
+        IPrintLnBold( "High Jump ^1OFF" );
 
-		SetDvar( "bg_falldamageminheight", 128 );
-		SetDvar( "bg_falldamagemaxheight", 300 );
-		SetDvar( "jump_height", 39 );
-		SetDvar( "jump_slowdownEnable", 1 );
+        SetDvar( "bg_falldamageminheight", 128 );
+        SetDvar( "bg_falldamagemaxheight", 300 );
+        SetDvar( "jump_height", 39 );
+        SetDvar( "jump_slowdownEnable", 1 );
 
-		SetDvar( "scr_fallDamageMinHeight", 128 );
-		SetDvar( "scr_fallDamageMaxHeight", 300 );
-		SetDvar( "scr_jump_height", 39 );
-		SetDvar( "scr_jump_slowdown_enable", 1 );
+        SetDvar( "scr_fallDamageMinHeight", 128 );
+        SetDvar( "scr_fallDamageMaxHeight", 300 );
+        SetDvar( "scr_jump_height", 39 );
+        SetDvar( "scr_jump_slowdown_enable", 1 );
 
-		SetDvar( "scr_novo_highjump", 0 );
-	}
+        SetDvar( "scr_novo_highjump", 0 );
+    }
 }

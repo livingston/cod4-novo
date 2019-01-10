@@ -14,15 +14,17 @@ LoadLanguages() {
 
     Lang( "EN", "MENU_TWEAKS",        "Tweaks" );
     Lang( "EN", "MENU_TWEAKS_LASER",  "Toggle Laser" );
-    Lang( "EN", "MENU_TWEAKS_FPS",    "Toggle FPS" );
+    Lang( "EN", "MENU_TWEAKS_BRIGHT", "Toggle Fullbright" );
+    Lang( "EN", "TWEAK_LASER",        "Laser reflex" );
+    Lang( "EN", "TWEAK_BRIGHT",       "Fullbright" );
 
-    Lang( "EN", "MENU_EMBLEM",		   "Change Emblem" );
-	Lang( "EN", "MENU_EMBLEM_DEFAULT", "Default Design" );
-	Lang( "EN", "MENU_EMBLEM_BLUE",	   "Blue Design" );
-	Lang( "EN", "MENU_EMBLEM_RED",	   "Red Design" );
-	Lang( "EN", "MENU_EMBLEM_GREEN",   "Green Design" );
-	Lang( "EN", "MENU_EMBLEM_YELLOW",  "Yellow Design" );
-	Lang( "EN", "MENU_EMBLEM_ORANGE",  "Orange Design" );
+    Lang( "EN", "MENU_EMBLEM",         "Change Emblem" );
+    Lang( "EN", "MENU_EMBLEM_DEFAULT", "Default Design" );
+    Lang( "EN", "MENU_EMBLEM_BLUE",    "Blue Design" );
+    Lang( "EN", "MENU_EMBLEM_RED",     "Red Design" );
+    Lang( "EN", "MENU_EMBLEM_GREEN",   "Green Design" );
+    Lang( "EN", "MENU_EMBLEM_YELLOW",  "Yellow Design" );
+    Lang( "EN", "MENU_EMBLEM_ORANGE",  "Orange Design" );
 
     Lang( "EN", "MENU_MANAGE",              "Manage" );
     Lang( "EN", "MENU_MANAGE_TOGGLE_JUMP",  "Toggle High Jump" );
