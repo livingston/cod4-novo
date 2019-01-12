@@ -35,6 +35,10 @@ And more…
 ### Installation:
 * Place both `novo` and `maps` folders into your `/main_shared/` folder
 * Place `novo.cfg` into your `/main/` folder
+* Add the following statement at the end of your server config file,
+
+```exec novo_settings.cfg```
+
 * Customise settings in config file and exec it from your main config file
 * Start the server
 

@@ -328,3 +328,57 @@ DeleteEarthquake( trigger )
 
     level.earthquake = array;
 }
+
+getConfig( property, value )
+{
+    novo_server_config["highJump"][0] = "scr_novo_highjump=0;scr_fallDamageMinHeight=128;scr_fallDamageMaxHeight=300;scr_jump_height=39;scr_jump_slowdown_enable=1";
+    novo_server_config["highJump"][1] = "scr_novo_highjump=1;scr_fallDamageMinHeight=200;scr_fallDamageMaxHeight=350;scr_jump_height=180;scr_jump_slowdown_enable=0";
+
+    if( isDefined( novo_server_config[ property ] ) && isDefined( novo_server_config[ property ][ value ] ))
+        return novo_server_config[ property ][ value ];
+
+    return "";
+}
+
+setServerConfig( property, value )
+{
+    if( IsPlayer( self ) && !(self novo\_player::hasPermission( "admin" )) )
+    {
+        self IPrintLnBold( "YOU DO NOT HAVE PERMISSION" );
+        return "";
+    }
+
+    serverSettingData = novo\_utils::readFile( "novo_settings.cfg" );
+
+    settings = [];
+
+    if( serverSettingData != "undefined" && serverSettingData != "" )
+    {
+        serverSettings = strTok( serverSettingData, "\n" );
+
+        for( i = 0; i < serverSettings.size; i++ )
+        {
+            serverSetting = strTok( serverSettings[i], " " );
+            settings[ serverSetting[1] ]  = serverSetting[2];
+        }
+    }
+
+    configs = getConfig( property, value );
+    configs = strTok( configs, ";" );
+
+    for( i = 0; i < configs.size; i++ ) {
+        config = strTok( configs[i], "=" );
+
+        settings[ config[0] ] = config[1];
+    }
+
+    serverSettingData = "";
+    updatedSettings = GetArrayKeys( settings );
+
+    for( i = 0; i < updatedSettings.size; i++ )
+    {
+        serverSettingData += "set " + updatedSettings[i] + " " + settings[ updatedSettings[i] ] + "\n";
+    }
+
+    novo\_utils::writeFile( "novo_settings.cfg", serverSettingData, "write" );
+}

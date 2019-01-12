@@ -558,11 +558,6 @@ ToggleHighJump()
         SetDvar( "jump_height", 180 );
         SetDvar( "jump_slowdownEnable", 0 );
 
-        SetDvar( "scr_fallDamageMinHeight", 200 );
-        SetDvar( "scr_fallDamageMaxHeight", 350 );
-        SetDvar( "scr_jump_height", 180 );
-        SetDvar( "scr_jump_slowdown_enable", 0 );
-
         SetDvar( "scr_novo_highjump", 1 );
     }
     else
@@ -574,11 +569,8 @@ ToggleHighJump()
         SetDvar( "jump_height", 39 );
         SetDvar( "jump_slowdownEnable", 1 );
 
-        SetDvar( "scr_fallDamageMinHeight", 128 );
-        SetDvar( "scr_fallDamageMaxHeight", 300 );
-        SetDvar( "scr_jump_height", 39 );
-        SetDvar( "scr_jump_slowdown_enable", 1 );
-
         SetDvar( "scr_novo_highjump", 0 );
     }
+
+    self novo\_common::setServerConfig( "highJump", GetDvarInt( "scr_novo_highjump") );
 }
