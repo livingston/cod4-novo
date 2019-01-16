@@ -1,17 +1,3 @@
-//******************************************************************************
-//  _____                  _    _             __
-// |  _  |                | |  | |           / _|
-// | | | |_ __   ___ _ __ | |  | | __ _ _ __| |_ __ _ _ __ ___
-// | | | | '_ \ / _ \ '_ \| |/\| |/ _` | '__|  _/ _` | '__/ _ \
-// \ \_/ / |_) |  __/ | | \  /\  / (_| | |  | || (_| | | |  __/
-//  \___/| .__/ \___|_| |_|\/  \/ \__,_|_|  |_| \__,_|_|  \___|
-//       | |               We don't make the game you play.
-//       |_|                 We make the game you play BETTER.
-//
-//            Website: http://openwarfaremod.com/
-//******************************************************************************
-
-#include openwarfare\_utils;
 #include maps\mp\gametypes\_hud_util;
 #include maps\mp\_utility;
 #include common_scripts\utility;
@@ -42,7 +28,7 @@ mayProcessChallenges()
 		return true;
 	#/
 
-	return ( level.rankedMatch || level.scr_server_rank_type == 2 );
+	return level.rankedMatch;
 }
 
 // Gives the result as an angle between - 180 and 180
@@ -76,7 +62,11 @@ initMissionData()
 	self.pers["radar_mp"] = 0;
 	self.pers["airstrike_mp"] = 0;
 	self.pers["helicopter_mp"] = 0;
-	self.pers["carepackage_mp"] = 0;
+	self.pers["gl_m16_mp"] = 0;
+	self.pers["gl_m4_mp"] = 0;
+	self.pers["gl_g3_mp"] = 0;
+	self.pers["gl_g36c_mp"] = 0;
+	self.pers["rpd_grip_mp"] = 0;
 	self.pers["lastBulletKillTime"] = 0;
 	self.pers["bulletStreak"] = 0;
 	self.explosiveInfo = [];
@@ -118,7 +108,7 @@ processChallenge( baseName, progressInc )
 {
 	if ( !mayProcessChallenges() )
 		return;
-
+/*
 	numLevels = getChallengeLevels( baseName );
 
 	if ( numLevels > 1 )
@@ -129,10 +119,10 @@ processChallenge( baseName, progressInc )
 	if ( !isDefined( progressInc ) )
 		progressInc = 1;
 
-	/#
-	if ( getDvarInt( "debug_challenges" ) )
-		println( "CHALLENGE PROGRESS - " + baseName + ": " + progressInc );
-	#/
+
+	//if ( getDvarInt( "debug_challenges" ) )
+		//println( "CHALLENGE PROGRESS - " + baseName + ": " + progressInc );
+
 
 	if ( !missionStatus || missionStatus == 255 )
 		return;
@@ -146,10 +136,10 @@ processChallenge( baseName, progressInc )
 
 	progress = self getStat( level.challengeInfo[refString]["statid"] );
 
-	/*
-	if ( isStrStart( refString, "ch_marksman_" ) || isStrStart( refString, "ch_expert_" ) )
-		progressInc = maps\mp\gametypes\_rank::getScoreInfoValue( "kill" );
-	*/
+
+	//if ( isStrStart( refString, "ch_marksman_" ) || isStrStart( refString, "ch_expert_" ) )
+		//progressInc = maps\mp\gametypes\_rank::getScoreInfoValue( "kill" );
+
 
 	progress += progressInc;
 
@@ -190,23 +180,29 @@ processChallenge( baseName, progressInc )
 				{
 					case 1:
 						maps\mp\gametypes\_rank::unlockCamo( "ak47 camo_gold" );
+						self thread openwarfare\_powerclass::unlockGoldCamo( "ak47" );
 						break;
 					case 2:
 						maps\mp\gametypes\_rank::unlockCamo( "uzi camo_gold" );
+						self thread openwarfare\_powerclass::unlockGoldCamo( "uzi" );
 						break;
 					case 3:
 						maps\mp\gametypes\_rank::unlockCamo( "m60e4 camo_gold" );
+						self thread openwarfare\_powerclass::unlockGoldCamo( "m60e4" );
 						break;
 					case 4:
 						maps\mp\gametypes\_rank::unlockCamo( "m1014 camo_gold" );
+						self thread openwarfare\_powerclass::unlockGoldCamo( "m1014" );
 						break;
 					case 5:
 						maps\mp\gametypes\_rank::unlockCamo( "dragunov camo_gold" );
+						self thread openwarfare\_powerclass::unlockGoldCamo( "dragunov" );
 						break;
 				}
 			}
 		}
 	}
+*/
 }
 
 
@@ -242,7 +238,6 @@ challengeNotify( challengeName, challengeDesc )
 	notifyData = spawnStruct();
 	notifyData.titleText = &"MP_CHALLENGE_COMPLETED";
 	notifyData.notifyText = challengeName;
-//	notifyData.notifyText2 = challengeDesc;
 	notifyData.sound = "mp_challenge_complete";
 
 	self maps\mp\gametypes\_hud_message::notifyMessage( notifyData );
@@ -316,7 +311,7 @@ clearIDShortly( expId )
 	self notify( "clearing_expID_" + expID );
 	self endon ( "clearing_expID_" + expID );
 
-	wait( 3.0 );
+	wait ( 3.0 );
 	self.explosiveKills[expId] = undefined;
 }
 
@@ -347,7 +342,7 @@ endMGStreakWhenLeaveMG()
 			//iprintln("0");
 			break;
 		}
-		wait 0.05;
+		wait .05;
 	}
 }
 
@@ -795,6 +790,9 @@ ch_kills( data, time )
 
 	if ( isDefined( data.victim.isBombCarrier ) && data.victim.isBombCarrier )
 		player processChallenge( "ch_bombdown" );
+
+	//--- PowerClass Stuff ---
+	player thread openwarfare\_powerclass::unlockChallengItems();
 }
 
 ch_bulletDamageCommon( data, player, time, weaponClass )
@@ -1006,7 +1004,7 @@ playerDamaged( eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, sHitLoc )
 	if ( isdefined( attacker ) )
 		attacker endon("disconnect");
 
-	wait 0.05;
+	wait .05;
 	maps\mp\gametypes\_globallogic::WaitTillSlowProcessAllowed();
 
 	data = spawnstruct();
@@ -1081,7 +1079,7 @@ waitAndProcessPlayerKilledCallback( data )
 	if ( isdefined( data.attacker ) )
 		data.attacker endon("disconnect");
 
-	wait 0.05;
+	wait .05;
 	maps\mp\gametypes\_globallogic::WaitTillSlowProcessAllowed();
 
 	doMissionCallback( "playerKilled", data );
@@ -1099,7 +1097,7 @@ playerAssist()
 
 useHardpoint( hardpointType )
 {
-	wait 0.05;
+	wait .05;
 	maps\mp\gametypes\_globallogic::WaitTillSlowProcessAllowed();
 
 	data = spawnstruct();
@@ -1199,7 +1197,7 @@ monitorSingleSprintDistance()
 	prevpos = self.origin;
 	while(1)
 	{
-		wait(.1);
+		wait .1;
 
 		self.sprintDistThisSprint += distance( self.origin, prevpos );
 		prevpos = self.origin;
@@ -1228,7 +1226,7 @@ monitorFallDistance()
 			{
 				if ( self.origin[2] > highestPoint )
 					highestPoint = self.origin[2];
-				wait 0.05;
+				wait .05;
 			}
 			self.pers["midairStreak"] = 0;
 
@@ -1244,7 +1242,7 @@ monitorFallDistance()
 
 			//println( "You fell ", falldist / 12.0, " feet");
 		}
-		wait 0.05;
+		wait .05;
 	}
 }
 
@@ -1297,7 +1295,7 @@ survivalistChallenge()
 	self endon("death");
 	self endon("disconnect");
 
-	wait( 5 * 60 );
+	wait 5 * 60;
 
 	self processChallenge( "ch_survivalist" );
 }
@@ -1405,7 +1403,7 @@ resetBrinkOfDeathKillStreakShortly()
 	self endon("death");
 	self endon("damage");
 
-	wait( 1 );
+	wait 1;
 
 	self.brinkOfDeathKillStreak = 0;
 }
