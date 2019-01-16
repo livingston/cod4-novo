@@ -1,4 +1,3 @@
-/**/
 //******************************************************************************
 //  _____                  _    _             __
 // |  _  |                | |  | |           / _|
@@ -17,27 +16,24 @@
 #include common_scripts\utility;
 #include openwarfare\_utils;
 
+
 init()
 {
-
-	sdh\_sammy_utils::init();
-
 	// Initialize server load variables (do not thread)
 	openwarfare\_serverload::init();
-
-	thread maps\mp\_thermal::init();
 
 	// Check if we need to load a rule
 	level.cod_mode = getdvarx( "cod_mode", "string", "" );
 	level.script = toLower( getDvar( "mapname" ) );
 	level.gametype = toLower( getDvar( "g_gametype" ) );
 
+
 	// Load the rulesets
 	rulesets\openwarfare\rulesets::init();
 	if ( getDvar("dedicated") != "listen server" )
 		rulesets\leagues::init();
 
-	thread novo\_initialize::GloballogicInit();
+    thread novo\_initialize::GloballogicInit();
 
 	// Initialize the rule sets
 	if ( level.cod_mode != "" ) {
@@ -58,7 +54,6 @@ init()
 			}
 		}
 	}
-
 	level.scr_league_ruleset = getdvarx( "scr_league_ruleset", "string", "" );
 
 	level.scr_tactical = getdvarx( "scr_tactical_enable", "int", 0, 0, 1 );
@@ -93,16 +88,15 @@ init()
 	if ( !isDefined( level.tweakablesInitialized ) )
 		maps\mp\gametypes\_tweakables::init();
 
-	//================ Tally ============================
+	// We do this for compatibility with previous variable
+	level.scr_server_rank_type = getdvarx( "scr_server_rank_type", "int", getdvarx( "scr_forceunrankedmatch", "int", 0, 0, 1 ), 0, 2 );
 
-	level.onlineGame = true;
-	level.rankedMatch = ( level.onlineGame && getDvarInt( "sv_pure" ) );
-	/#
-	if ( getdvarint( "scr_forcerankedmatch" ) == 1 )
+	// Make the game unranked in case is being forced by the new dvar
+	if ( level.scr_server_rank_type != 0 ) {
+		level.rankedMatch = false;
+	} else {
 		level.rankedMatch = true;
-	#/
-
-	//====================================================
+	}
 
 	// Initialize variables used by OpenWarfare
 	openwarfare\_registerdvars::init();
@@ -112,6 +106,12 @@ init()
 	level.ps3 = false;
 
 	level.console = false;
+
+	// If the server is not running in the standard directory then we declare an unranked match
+	/*if ( !isSubStr( toLower(getDvar("sv_referencedFFNames")), "mods/openwarfare/mod" ) ) {
+		level.scr_server_rank_type = 1;
+		level.rankedMatch = false;
+	}*/
 
 	precacheMenu("popup_addfavorite");
 
@@ -134,8 +134,7 @@ init()
 	precacheString( &"MP_INTERMISSION" );
 	precacheString( &"MP_SWITCHING_SIDES" );
 	precacheString( &"MP_FRIENDLY_FIRE_WILL_NOT" );
-
-	precacheString( &"MP_HOST_ENDED_GAME" );
+    precacheString( &"MP_HOST_ENDED_GAME" );
 
 	level.halftimeType = "halftime";
 	level.halftimeSubCaption = &"MP_SWITCHING_SIDES";
@@ -157,8 +156,7 @@ init()
 	level.players = [];
 
 	registerDvars();
-
-	maps\mp\gametypes\_class::initPerkDvars();
+    maps\mp\gametypes\_class::initPerkDvars();
 
 	if ( level.oldschool )
 	{
@@ -173,6 +171,11 @@ init()
 	precacheModel( "vehicle_mig29_desert" );
 	precacheModel( "projectile_cbu97_clusterbomb" );
 	precacheModel( "tag_origin" );
+
+    precacheShader( "faction_128_usmc" );
+	precacheShader( "faction_128_arab" );
+	precacheShader( "faction_128_ussr" );
+	precacheShader( "faction_128_sas" );
 
 	level.fx_airstrike_afterburner = loadfx ("fire/jet_afterburner");
 	level.fx_airstrike_contrail = loadfx ("smoke/jet_contrail");
@@ -526,7 +529,7 @@ default_onScoreLimit()
 
 updateGameEvents()
 {
-	if ( ( level.rankedMatch ) && !level.inGracePeriod )
+	if ( ( level.rankedMatch || level.scr_server_rank_type == 2 ) && !level.inGracePeriod )
 	{
 		if ( level.teamBased && level.gametype != "bel" )
 		{
@@ -726,8 +729,6 @@ spawnPlayer()
 
 	self setSpawnVariables();
 
-	self maps\mp\_thermal::thermalOff();
-
 	if ( level.teamBased )
 		self.sessionteam = self.team;
 	else
@@ -778,18 +779,27 @@ spawnPlayer()
 
 	prof_begin( "spawnPlayer_postUTS" );
 
-	if ( byPassClassSelection() )
+	if ( level.oldschool )
 	{
 		assert( !isDefined( self.class ) );
-		self [[level.onLoadoutGiven]]();
-		self maps\mp\gametypes\_class::setClass( level.defaultClass );
+		self maps\mp\gametypes\_oldschool::giveLoadout();
+		if ( !level.rankedMatch ) {
+			self maps\mp\gametypes\_class_unranked::setClass( level.defaultClass );
+		} else {
+			self maps\mp\gametypes\_class::setClass( level.defaultClass );
+		}
 	}
 	else
 	{
 		if ( level.gametype != "hns" || self.pers["team"] == game["attackers"] ) {
 			assert( self isValidClass( self.class ) );
-			self maps\mp\gametypes\_class::setClass( self.class );
-			self maps\mp\gametypes\_class::giveLoadout( self.team, self.class );
+			if ( !level.rankedMatch ) {
+				self maps\mp\gametypes\_class_unranked::setClass( self.class );
+				self maps\mp\gametypes\_class_unranked::giveLoadout( self.team, self.class );
+			} else {
+				self maps\mp\gametypes\_class::setClass( self.class );
+				self maps\mp\gametypes\_class::giveLoadout( self.team, self.class );
+			}
 		}
 	}
 
@@ -916,7 +926,7 @@ spawnPlayer()
 
 	waittillframeend;
 	self notify( "spawned_player" );
-	self thread novo\_events::onSpawnPlayer();
+    self thread novo\_events::onSpawnPlayer();
 
 	self logstring( "S " + self.origin[0] + " " + self.origin[1] + " " + self.origin[2] );
 
@@ -1361,7 +1371,7 @@ endGame( winner, endReasonText )
 
 	setGameEndTime( 0 ); // stop/hide the timers
 
-	if ( level.rankedMatch )
+	if ( level.rankedMatch || level.scr_server_rank_type == 2 )
 	{
 		setXenonRanks();
 
@@ -1397,7 +1407,7 @@ endGame( winner, endReasonText )
 			"cg_drawhealth", 0
 		);
 
-		if( level.rankedMatch )
+		if( level.rankedMatch || level.scr_server_rank_type == 2 )
 		{
 			if ( isDefined( player.setPromotion ) )
 				player setClientDvar( "ui_lobbypopup", "promotion" );
@@ -1411,7 +1421,7 @@ endGame( winner, endReasonText )
 
     // See if we need to perform a check for the game
     if ( level.scr_overtime_enable == 1 && !isDefined( game["_overtime"] ) ) {
-    	openwarfare\_overtime::checkGameState();
+       openwarfare\_overtime::checkGameState();
     }
 
     if ( (level.roundLimit > 1 || (!level.roundLimit && level.scoreLimit != 1)) && !level.forcedEnd )
@@ -1558,13 +1568,13 @@ endGame( winner, endReasonText )
 
     if ( !hitRoundLimit() && !hitScoreLimit() )
     {
-    	game["state"] = "playing";
+       game["state"] = "playing";
 			if ( level.teamBalance )
 			{
 				level notify ( "roundSwitching" );
 				wait 1;
 			}
-    	level notify ( "restarting" );
+       level notify ( "restarting" );
 
       map_restart( true );
       return;
@@ -1679,7 +1689,7 @@ endGame( winner, endReasonText )
 		return;
 	}
 
-	if ( level.rankedMatch || level.scr_endofgame_stats_enable == 1 ) {
+	if ( ( level.rankedMatch || level.scr_server_rank_type == 2 ) || level.scr_endofgame_stats_enable == 1 ) {
 		if ( level.scr_endofgame_stats_enable == 1 ) {
 			wait (1.0);
 		}
@@ -1795,7 +1805,7 @@ updateMatchBonusScores( winner )
 	if ( !game["timepassed"] )
 		return;
 
-	if ( !level.rankedMatch )
+	if ( !level.rankedMatch && level.scr_server_rank_type != 2 )
 		return;
 
 	if ( !level.timeLimit || level.forcedEnd )
@@ -2374,7 +2384,7 @@ beginClassChoice( forceNewChoice )
 
 	team = self.pers["team"];
 
-	if( byPassClassSelection() )
+	if ( level.oldschool )
 	{
 		// skip class choice and just spawn.
 
@@ -2572,12 +2582,6 @@ menuSpectator()
 
 menuClass( response )
 {
-	if( openwarfare\_testbots::IsBot( self ) )
-	{
-		self openwarfare\_testbots::menuClass( response );
-		return;
-	}
-
 	self closeMenus();
 
 	// clears new status of unlocked classes
@@ -2599,8 +2603,13 @@ menuClass( response )
 	if(!isDefined(self.pers["team"]) || (self.pers["team"] != "allies" && self.pers["team"] != "axis"))
 		return;
 
-	class = self maps\mp\gametypes\_class::getClassChoice( response );
-	primary = self maps\mp\gametypes\_class::getWeaponChoice( response );
+	if ( !level.rankedMatch ) {
+		class = self maps\mp\gametypes\_class_unranked::getClassChoice( response );
+		primary = self maps\mp\gametypes\_class_unranked::getWeaponChoice( response );
+	} else {
+		class = self maps\mp\gametypes\_class::getClassChoice( response );
+		primary = self maps\mp\gametypes\_class::getWeaponChoice( response );
+	}
 
 	if ( class == "restricted" )
 	{
@@ -2626,10 +2635,17 @@ menuClass( response )
 		{
 			self thread deleteExplosives();
 
-			self maps\mp\gametypes\_class::setClass( self.pers["class"] );
-			self.tag_stowed_back = undefined;
-			self.tag_stowed_hip = undefined;
-			self maps\mp\gametypes\_class::giveLoadout( self.pers["team"], self.pers["class"] );
+			if ( !level.rankedMatch ) {
+				self maps\mp\gametypes\_class_unranked::setClass( self.pers["class"] );
+				self.tag_stowed_back = undefined;
+				self.tag_stowed_hip = undefined;
+				self maps\mp\gametypes\_class_unranked::giveLoadout( self.pers["team"], self.pers["class"] );
+			} else {
+				self maps\mp\gametypes\_class::setClass( self.pers["class"] );
+				self.tag_stowed_back = undefined;
+				self.tag_stowed_hip = undefined;
+				self maps\mp\gametypes\_class::giveLoadout( self.pers["team"], self.pers["class"] );
+			}
 		}
 		else if ( !level.splitScreen )
 		{
@@ -3058,7 +3074,7 @@ updateTeamStatus()
 
 isValidClass( class )
 {
-	if ( byPassClassSelection() )
+	if ( level.oldschool )
 	{
 		assert( !isdefined( class ) );
 		return true;
@@ -4080,7 +4096,15 @@ Callback_StartGameType()
 		level waittill( "eternity" );
 
 	thread maps\mp\gametypes\_persistence::init();
-	thread maps\mp\gametypes\_menus::init();
+
+	if ( !level.rankedMatch ) {
+		thread maps\mp\gametypes\_modwarfare::init();
+		thread maps\mp\gametypes\_menus_unranked::init();
+	} else {
+
+		thread maps\mp\gametypes\_menus::init();
+	}
+
 	thread maps\mp\gametypes\_hud::init();
 	thread maps\mp\gametypes\_serversettings::init();
 	thread maps\mp\gametypes\_clientids::init();
@@ -4096,8 +4120,7 @@ Callback_StartGameType()
 	thread maps\mp\gametypes\_spawnlogic::init();
 	thread maps\mp\gametypes\_oldschool::init();
 	thread maps\mp\gametypes\_battlechatter_mp::init();
-
-	thread novo\_initialize::startGameType();
+    thread novo\_initialize::startGameType();
 
 	thread maps\mp\gametypes\_hardpoints::init();
 
@@ -4290,6 +4313,10 @@ checkRoundSwitch()
 
 			level.ignoreUpdateClassLimit = false;
 
+			// If we are running unranked then update the class limits
+			if ( !level.rankedMatch ) {
+				level thread maps\mp\gametypes\_modwarfare::updateClassLimits();
+			}
 
 		} else {
 			[[level.onRoundSwitch]]();
@@ -4343,8 +4370,6 @@ Callback_PlayerConnect()
 
 	level notify( "connected", self );
 
-	self.pers["thermalSetting"] = 0;
-
 	if ( level.console && self getEntityNumber() == 0 )
 		self thread listenForGameEnd();
 
@@ -4376,7 +4401,7 @@ Callback_PlayerConnect()
 	{
 		self setClientDvars( "cg_drawTalk", "ALL",
 							 "cg_drawCrosshair", 1,
-						 	 "cg_hudGrenadeIconMaxRangeFrag", 250 );
+						     "cg_hudGrenadeIconMaxRangeFrag", 250 );
 	}
 
 	self setClientDvars("cg_hudGrenadeIconHeight", "25",
@@ -4501,7 +4526,7 @@ Callback_PlayerConnect()
 
 	level endon( "game_ended" );
 
-	if( byPassClassSelection() )
+	if ( level.oldschool )
 	{
 		self.pers["class"] = undefined;
 		self.class = self.pers["class"];
@@ -4525,7 +4550,7 @@ Callback_PlayerConnect()
 
 		[[level.spawnSpectator]]();
 
-		if ( level.rankedMatch && level.console )
+		if ( ( level.rankedMatch || level.scr_server_rank_type == 2 ) && level.console )
 		{
 			[[level.autoassign]]();
 
@@ -4601,6 +4626,19 @@ Callback_PlayerConnect()
 		self hideHUD();
 	} else {
 		self showHUD();
+	}
+
+	if ( isDefined( self.pers["isBot"] ) )
+		return;
+
+	// <font size="8"><strong>TO DO: DELETE THIS WHEN CODE HAS CHECKSUM SUPPORT!</strong></font> :: Check for stat integrity
+	for( i=0; i<5; i++ )
+	{
+		if( self getstat( 205+(i*10) ) == 0 )
+		{
+			kick( self getentitynumber() );
+			return;
+		}
 	}
 }
 
@@ -4743,7 +4781,7 @@ Callback_PlayerDisconnect()
 
 	level thread updateTeamStatus();
 
-	level thread novo\_events::onPlayerDisconnect();
+    level thread novo\_events::onPlayerDisconnect();
 }
 
 
@@ -4805,7 +4843,7 @@ Callback_PlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, s
 		if ( level.scr_spawn_protection_hiticon == 1 && isDefined( eAttacker.hud_damagefeedback ) ) {
 			eAttacker.hud_damagefeedback.x = 0;
 			eAttacker.hud_damagefeedback.y = 0;
-	 		eAttacker.hud_damagefeedback setShader("shield", 20, 20);
+	    	eAttacker.hud_damagefeedback setShader("shield", 20, 20);
 			eAttacker.hud_damagefeedback.alpha = 0.7;
 			eAttacker.hud_damagefeedback fadeOverTime(1);
 			eAttacker.hud_damagefeedback.alpha = 0;
@@ -4817,7 +4855,7 @@ Callback_PlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, s
 		if ( level.scr_spawn_protection_punishment_time > 0 ) {
 			eAttacker openwarfare\_spawnprotection::punishSpawnCamper();
 		}
-	 	return;
+	    return;
 	}
 
 	// explosive barrel/car detection
@@ -4831,7 +4869,7 @@ Callback_PlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, s
 	    sWeapon = "destructible_car";
 	    sMeansOfDeath = "MOD_IMPACT";
 
-		} else if ( isDefined( eInflictor.destructible_type ) && isSubStr( eInflictor.destructible_type, "vehicle_" ) ) 	{
+		} else if ( isDefined( eInflictor.destructible_type ) && isSubStr( eInflictor.destructible_type, "vehicle_" ) )    {
 			if ( level.scr_vehicle_damage_enable == 0 )
 				return;
 
@@ -4871,9 +4909,12 @@ Callback_PlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, s
 	}
 
 	// create a class specialty checks; CAC:bulletdamage, CAC:armorvest
-	if ( sWeapon != "concussion_grenade_mp" )
-	{
-		iDamage = maps\mp\gametypes\_class::cac_modified_damage( self, eAttacker, iDamage, sMeansOfDeath );
+	if ( sWeapon != "concussion_grenade_mp" ) {
+		if ( !level.rankedMatch ) {
+			iDamage = maps\mp\gametypes\_class_unranked::cac_modified_damage( self, eAttacker, iDamage, sMeansOfDeath );
+		} else {
+			iDamage = maps\mp\gametypes\_class::cac_modified_damage( self, eAttacker, iDamage, sMeansOfDeath );
+		}
 	}
 
 	// If iDamage has been reduced to zero we don't do anything else
@@ -4887,8 +4928,8 @@ Callback_PlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, s
 
 	prof_begin( "Callback_PlayerDamage flags/tweaks" );
 
-	// Damage event
-    self thread novo\_events::onPlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime );
+    // Damage event
+	self thread novo\_events::onPlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime );
 
 	// Don't do knockback if the damage direction was not specified
 	if( !isDefined( vDir ) )
@@ -5326,7 +5367,8 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 		attacker = attacker.owner;
 
 	if( isDefined( attacker ) && isPlayer( attacker ) && isDefined( self ) && isPlayer( self ) && isDefined( sMeansofDeath ) && isDefined( sWeapon ) && isDefined( sHitLoc ))
-        thread novo\_killcard::ShowKillCard( attacker, self, sMeansOfDeath, sWeapon, sHitLoc );
+		thread novo\_killcard::ShowKillCard( attacker, self, sMeansOfDeath, sWeapon, sHitLoc );
+
 
 	// Send player_killed event with all the data to the player
 	self notify( "player_killed", eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime, deathAnimDuration, fDistance );
@@ -5532,37 +5574,6 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 									streakGiven = true;
 								}
 								break;
-
-							case "gl_m4_mp":
-								if ( level.scr_paladin_kills_toward_streak == 1 ) {
-									attacker.cur_kill_streak++;
-									streakGiven = true;
-								}
-								break;
-
-							case "gl_m16_mp":
-							case "gl_ak47_mp":
-								if ( level.scr_straferun_kills_toward_streak == 1 ) {
-									attacker.cur_kill_streak++;
-									streakGiven = true;
-								}
-								break;
-
-							case "gl_g3_mp":
-							case "gl_m14_mp":
-								if ( level.scr_reaper_kills_toward_streak == 1 ) {
-									attacker.cur_kill_streak++;
-									streakGiven = true;
-								}
-								break;
-
-							case "gl_g36c_mp":
-								if ( level.scr_sentrygun_kills_toward_streak == 1 ) {
-									attacker.cur_kill_streak++;
-									streakGiven = true;
-								}
-								break;
-
 							default:
 								attacker.cur_kill_streak++;
 								streakGiven = true;
@@ -5721,7 +5732,7 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 
 	self thread [[level.onPlayerKilled]](eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime, deathAnimDuration);
 
-	// Kill event
+    // Kill event
 	self thread novo\_events::onPlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime, deathAnimDuration);
 
 	if ( sWeapon == "artillery_mp" || sWeapon == "claymore_mp" || sWeapon == "frag_grenade_short_mp" || sWeapon == "none" || isSubStr( sWeapon, "cobra" ) )
@@ -5885,7 +5896,6 @@ reduceTeamKillsOverTime()
 
 getPerks( player )
 {
-
 	perks[0] = "specialty_null";
 	perks[1] = "specialty_null";
 	perks[2] = "specialty_null";
@@ -5893,18 +5903,41 @@ getPerks( player )
 	if ( level.gametype == "hns" && player.pers["team"] == game["defenders"] )
 		return perks;
 
-	if( isPlayer( player ) )
-	{
-		if( !level.oldschool )
+	if ( !level.rankedMatch || level.gametype == "gg" || level.gametype == "ss" || level.gametype == "oitc" ) {
+		if ( isPlayer( player ) )
 		{
-			if( isDefined( player.specialty[0] ) )
+			if ( isDefined( player.specialty[0] ) )
 				perks[0] = player.specialty[0];
-
 			if ( isDefined( player.specialty[1] ) )
 				perks[1] = player.specialty[1];
-
 			if ( isDefined( player.specialty[2] ) )
 				perks[2] = player.specialty[2];
+		}
+	} else {
+		if ( isPlayer( player ) && !level.oldschool )
+		{
+			// if public game, if is not bot, if class selection is custom, if is currently using a custom class instead of pending class change
+			if ( !isdefined( player.pers["isBot"] ) && isSubstr( player.curClass, "CLASS_CUSTOM" ) && isdefined(player.custom_class) )
+			{
+				//assertex( isdefined(player.custom_class), "Player: " + player.name + "'s Custom Class: " + player.pers["class"] + " is corrupted." );
+
+				class_num = player.class_num;
+				if ( isDefined( player.custom_class[class_num]["specialty1"] ) )
+					perks[0] = player.custom_class[class_num]["specialty1"];
+				if ( isDefined( player.custom_class[class_num]["specialty2"] ) )
+					perks[1] = player.custom_class[class_num]["specialty2"];
+				if ( isDefined( player.custom_class[class_num]["specialty3"] ) )
+					perks[2] = player.custom_class[class_num]["specialty3"];
+			}
+			else
+			{
+				if ( isDefined( level.default_perk[player.curClass][0] ) )
+					perks[0] = level.default_perk[player.curClass][0];
+				if ( isDefined( level.default_perk[player.curClass][1] ) )
+					perks[1] = level.default_perk[player.curClass][1];
+				if ( isDefined( level.default_perk[player.curClass][2] ) )
+					perks[2] = level.default_perk[player.curClass][2];
+			}
 		}
 	}
 
@@ -5969,10 +6002,10 @@ Callback_PlayerLastStand( eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon,
 	}
 
 	mayDoLastStand = mayDoLastStand( sWeapon, sMeansOfDeath, sHitLoc );
-
-	//mits Hardline.
-	mayDoLastStand = false;
-
+	/#
+	if ( getdvar("scr_forcelaststand" ) == "1" )
+		mayDoLastStand = true;
+	#/
 	if ( !mayDoLastStand )
 	{
 		self.useLastStandParams = true;
