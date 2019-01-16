@@ -16,7 +16,6 @@
 #include common_scripts\utility;
 #include openwarfare\_utils;
 
-
 init()
 {
 	// Get module's dvars
@@ -39,12 +38,6 @@ init()
 	level.scr_uav_view_time = getdvarx( "scr_uav_view_time", "float", 15, 1, 120 );
 	level.scr_announce_enemy_uav_online = getdvarx( "scr_announce_enemy_uav_online", "int", 1, 0, 1 );
 
-	// mits portable radar
-
-	level.scr_portable_radar_view_time = getdvarx( "scr_portable_radar_view_time", "float", 15, 1, 120 );
-
-	// mits portable radar
-
 	// Airstrike related dvars
 	level.scr_hardpoint_allow_airstrike = getdvarx( "scr_hardpoint_allow_airstrike", "int", 1, 0, 1 );
 	level.scr_hardpoint_airstrike_streak = getdvarx( "scr_hardpoint_airstrike_streak", "int", 5, 1, 50 );
@@ -61,70 +54,12 @@ init()
 	level.scr_helicopter_kills_toward_streak = getdvarx( "scr_helicopter_kills_toward_streak", "int", 1, 0, 1 );
 	level.scr_helicopter_delay = getdvarx( "scr_helicopter_delay", "int", 0, 0, 30 );
 
-	// Strafe Run related dvars
-	level.scr_hardpoint_allow_straferun 		= getdvarx( "scr_hardpoint_allow_straferun", "int", 1, 0, 1 );
-	level.scr_announce_enemy_straferun_inbound 	= getdvarx( "scr_announce_enemy_straferun_inbound", "int", 1, 0, 1 );
-	level.scr_hardpoint_straferun_streak 		= getdvarx( "scr_hardpoint_straferun_streak", "int", 8, 1, 50 );
-	level.scr_straferun_kills_toward_streak 	= getdvarx( "scr_straferun_kills_toward_streak", "int", 1, 0, 1 );
-	level.scr_straferun_hardpoint_interval 		= getdvarx( "scr_straferun_hardpoint_interval", "float", 0, 0, 600 );
-
-		// *** Paladin/Artillery Strike related dvars ***
-	level.scr_hardpoint_paladin_streak 			= getdvarx( "scr_hardpoint_paladin_streak", "int", 9, 1, 50 );
-	level.scr_hardpoint_allow_paladin 			= getdvarx( "scr_hardpoint_allow_paladin", "int", 1, 0, 1 );
-	level.scr_announce_enemy_paladin_inbound 	= getdvarx( "scr_announce_enemy_paladin_inbound", "int", 1, 0, 1 );
-	level.scr_paladin_hardpoint_interval 		= getdvarx( "scr_paladin_hardpoint_interval", "float", 0, 0, 600 );
-	level.uavSmartbombHeight 					= getdvarx( "scr_smartbomb_uavheight", "int", 1000, 0, 5000 );
-	level.scr_paladin_kills_toward_streak 		= getdvarx( "scr_paladin_kills_toward_streak", "int", 1, 0, 1 );
-	level.scr_announce_enemy_artillery_inbound	= getdvarx( "scr_announce_enemy_artillery_inbound", "int", 1, 0, 1 );
-
-	// REAPER related dvars
-	level.scr_hardpoint_allow_reaper = getdvarx( "scr_hardpoint_allow_reaper", "int", 1, 0, 1 );
-	level.scr_hardpoint_reaper_streak = getdvarx( "scr_hardpoint_reaper_streak", "int", 10, 0, 999 );
-	level.scr_reaper_kills_toward_streak = getdvarx( "scr_reaper_kills_toward_streak", "int", 1, 0, 1 );
-	level.scr_announce_enemy_reaper_inbound = getdvarx( "scr_announce_enemy_reaper_inbound", "int", 1, 0, 1 );
-	level.scr_hardpoint_reaper_timer = getdvarx( "scr_hardpoint_reaper_timer", "float", 60, 10, 90 );
-	level.scr_hardpoint_reaper_grain_overlay = getdvarx("scr_hardpoint_reaper_grain_overlay", "int", 1, 0, 1 );
-	level.scr_hardpoint_reaper_rotationSpeed = getdvarx( "scr_hardpoint_reaper_rotationSpeed", "int", 40, 10, 50 );
-	level.scr_hardpoint_reaper_height = getdvarx( "scr_hardpoint_reaper_height", "int", 350, -3000, 5000 );
-        level.scr_hardpoint_reaper_kill_targets = getdvarx( "scr_hardpoint_reaper_kill_targets", "int", 1, 0, 1 );
-        level.scr_hardpoint_reaper_target_limit = getdvarx( "scr_hardpoint_reaper_target_limit", "int", 0, 0, 50 );
-        level.scr_hardpoint_reaper_destroyed_points = getdvarx( "scr_hardpoint_reaper_destroyed_points", "int", 100, 0, 1000 );
-
-	// Sentrygun related dvars
-	level.scr_hardpoint_allow_sentrygun = getdvarx( "scr_hardpoint_allow_sentrygun", "int", 1, 0, 1 );
-	level.scr_hardpoint_sentrygun_streak = getdvarx( "scr_hardpoint_sentrygun_streak", "int", 9, 1, 50 );
-	level.scr_sentrygun_hardpoint_interval = getdvarx( "scr_sentrygun_hardpoint_interval", "float", 0, 0, 600 );
-	level.scr_announce_enemy_sentrygun_inbound = getdvarx( "scr_announce_enemy_sentrygun_inbound", "int", 1, 0, 1 );
-	level.scr_sentrygun_kills_toward_streak = getdvarx( "scr_sentrygun_kills_toward_streak", "int", 0, 0, 1 );
-	level.scr_sentrygun_delay = getdvarx( "scr_sentrygun_delay", "int", 0, 0, 30 );
-	//level.scr_hardpoint_sentrygun_timer = getdvarx( "scr_hardpoint_sentrygun_timer", "int", 60, 5, 120 );
-	level.scr_hardpoint_sentrygun_clip = getdvarx( "scr_hardpoint_sentrygun_clip", "int", 50, 10, 100 );
-	level.scr_hardpoint_sentrygun_maxammo = getdvarx( "scr_hardpoint_sentrygun_maxammo", "int", 200, 100, 1000 );
-	level.scr_hardpoint_sentrygun_health = getdvarx( "scr_hardpoint_sentrygun_health", "int", 100, 0, 9999 );
-	level.scr_hardpoint_sentrygun_timer = getdvarx( "scr_hardpoint_sentrygun_timer", "int", 2, 0, 2 );
-    level.scr_hardpoint_sentrygun_timer_color = getdvarx( "scr_hardpoint_sentrygun_timer_color", "int", 1, 0, 1 );
-    level.scr_hardpoint_sentrygun_timer_set = getdvarx( "scr_hardpoint_sentrygun_timer_set", "int", 30, 1, 180 );
-
-	// Carepackage related dvars
-	level.scr_hardpoint_allow_carepackage 			= getdvarx( "scr_hardpoint_allow_carepackage", "int", 1, 0, 1 );
-	level.scr_hardpoint_carepackage_streak 		= getdvarx( "scr_hardpoint_carepackage_streak", "int", 1, 0, 50 );
-	level.scr_announce_enemy_carepackage_inbound 		= getdvarx( "scr_announce_enemy_carepackage_inbound", "int", 1, 0, 1 );
-	level.scr_carepackage_ammo_cookoff		= getdvarx( "ammo_cookoff", "int", 1, 0, 1 );
-	level.scr_carepackage_ammo_drops_timer 		= getdvarx( "scr_carepackage_ammo_drops_timer", "int", 1, 0, 25 );
-	level.scr_hardpoint_carepackage_streak = getdvarx( "scr_carepackage_streak", "int", 1, 0, 50 );
-
+	level.scr_hardpoint_carepackage_streak = getdvarx( "scr_hardpoint_carepackage_streak", "int", 10, 1, 50 );
 
 	precacheItem( "radar_mp" );
 	precacheItem( "airstrike_mp" );
 	precacheItem( "helicopter_mp" );
 	precacheItem( "artillery_mp" );
-	precacheItem( "gl_m16_mp" ); 			// precacheItem( "straferun_mp" );
-	precacheItem( "gl_ak47_mp" );			// precacheItem( "starfe_20mm_mp" );
-	precacheItem( "gl_m4_mp" );				// precacheItem( "paladin_mp" );
-	precacheItem( "gl_g3_mp" );				// precacheItem( "reaper_mp" );
-	precacheItem( "gl_m14_mp" );				// precacheItem( "ac130_40mm_mp" ); is reaper missile
-	precacheItem( "gl_g36c_mp" );				// precacheItem( "sentrygun_mp" );
-	precacheItem( "rpd_grip_mp" );				// precacheItem( "carepackage_mp" );
 
 	makeDvarServerInfo( "ui_uav_allies", 0 );
 	makeDvarServerInfo( "ui_uav_axis", 0 );
@@ -140,76 +75,34 @@ init()
 	priority++;
 	level.hardpointItems["helicopter_mp"] = priority;
 	priority++;
-	level.hardpointItems["gl_m16_mp"] = priority;
-	priority++;
-	level.hardpointItems["gl_m4_mp"] = priority;
-	priority++;
-	level.hardpointItems["gl_g3_mp"] = priority;
-	priority++;
-	level.hardpointItems["gl_g36c_mp"] = priority;
-	priority++;
-	level.hardpointItems["rpd_grip_mp"] = priority;
+	level.hardpointItems["carepackage_mp"] = priority;
 	priority++;
 
 	level.hardpointHints["radar_mp"] = &"MP_EARNED_RADAR";
 	level.hardpointHints["airstrike_mp"] = &"MP_EARNED_AIRSTRIKE";
 	level.hardpointHints["helicopter_mp"] = &"MP_EARNED_HELICOPTER";
-	level.hardpointHints["gl_m4_mp"] = &"ARTILLERY_EARNED_ARTILLERY";
-	level.hardpointHints["gl_g3_mp"] = &"REAPER_EARNED_REAPER";
-	level.hardpointHints["gl_g36c_mp"] = &"SENTRYGUN_EARNED_SENTRYGUN";
+	level.hardpointHints["carepackage_mp"] = "Press [{+actionslot 4}] for CARE PACKAGE";
 
 	level.hardpointHints["radar_mp_not_available"] = &"MP_RADAR_NOT_AVAILABLE";
 	level.hardpointHints["airstrike_mp_not_available"] = &"MP_AIRSTRIKE_NOT_AVAILABLE";
 	level.hardpointHints["helicopter_mp_not_available"] = &"MP_HELICOPTER_NOT_AVAILABLE";
-	level.hardpointHints["gl_m4_mp_not_available"] = &"ARTILLERY_ARTILLERY_NOT_AVAILABLE";
-	level.hardpointHints["gl_g3_mp_not_available"] = &"REAPER_REAPER_NOT_AVAILABLE";
-	level.hardpointHints["gl_g36c_mp_not_available"] = &"SENTRYGUN_SENTRYGUN_NOT_AVAILABLE";
+	level.hardpointHints["carepackage_mp_not_available"] = "CARE PACKAGE not available";
 
 	level.hardpointInforms["radar_mp"] = "mp_killstreak_radar";
 	level.hardpointInforms["airstrike_mp"] = "mp_killstreak_jet";
 	level.hardpointInforms["helicopter_mp"] = "mp_killstreak_heli";
-	level.hardpointInforms["gl_m4_mp"] 	= "mp_killstreak_jet";
-	level.hardpointInforms["gl_g3_mp"] = "mp_killstreak_reaper";
-	level.hardpointInforms["gl_g36c_mp"] = "mp_killstreak_sentrygun";
+	level.hardpointInforms["carepackage_mp"] = "mp_killstreak_heli";
 
-	precacheString( level.hardpointHints["gl_g3_mp"] );
-	precacheString( level.hardpointHints["gl_g3_mp_not_available"] );
 	precacheString( level.hardpointHints["radar_mp"] );
 	precacheString( level.hardpointHints["airstrike_mp"] );
 	precacheString( level.hardpointHints["helicopter_mp"] );
 	precacheString( level.hardpointHints["radar_mp_not_available"] );
 	precacheString( level.hardpointHints["airstrike_mp_not_available"] );
 	precacheString( level.hardpointHints["helicopter_mp_not_available"] );
-	precacheString( level.hardpointHints["gl_m4_mp_not_available"] );
-	precacheString( level.hardpointHints["gl_g36c_mp"] );
-	precacheString( level.hardpointHints["gl_g36c_mp_not_available"] );
-
-	level.hardpointHints["gl_m16_mp"] = &"STRAFERUN_EARNED_STRAFERUN";
-	level.hardpointHints["gl_m16_mp_not_available"] = &"STRAFERUN_STRAFERUN_NOT_AVAILABLE";
-	precacheString( level.hardpointHints["gl_m16_mp"] );
-	precacheString( level.hardpointHints["gl_m16_mp_not_available"] );
-	level.hardpointInforms["gl_m16_mp"] = "mp_killstreak_heli";
-
-	level.hardpointHints["rpd_grip_mp"] = &"CAREPACKAGE_EARNED_CAREPACKAGE";
-	level.hardpointHints["rpd_grip_mp_not_available"] = &"CAREPACKAGE_CAREPACKAGE_NOT_AVAILABLE";
-	level.hardpointInforms["rpd_grip_mp"] = "mp_killstreak_carepackage";
-	precacheString( level.hardpointHints["rpd_grip_mp"] );
-	precacheString( level.hardpointHints["rpd_grip_mp_not_available"] );
 
 	precacheString( &"MP_KILLSTREAK_N" );
 
 	precacheLocationSelector( "map_artillery_selector" );
-
-	precacheShader( "killstreak_award_airstrike_mp" );
-	precacheShader( "killstreak_award_helicopter_mp" );
-	precacheShader( "killstreak_award_radar_mp" );
-
-	precacheShader( "killstreak_award_gl_g3_mp" );
-	precacheShader( "killstreak_award_gl_g36c_mp" );
-	precacheShader( "killstreak_award_gl_m4_mp" );
-	precacheShader( "killstreak_award_gl_m16_mp" );
-	precacheShader( "killstreak_award_rpd_grip_mp" );
-
 
 	level.airstrikefx = loadfx ("explosions/clusterbomb");
 	level.mortareffect = loadfx ("explosions/artilleryExp_dirt_brown");
@@ -230,26 +123,9 @@ init()
 	game["dialog"]["helicopter_inbound"] = "friendlyheli";
 	game["dialog"]["enemy_helicopter_inbound"] = "enemyheli";
 
-	game["dialog"]["paladin_inbound"] 		= "friendlyair";
-	game["dialog"]["enemy_paladin_inbound"] 	= "enemyair";
-
 	game["dialog"]["radar_mp"] = "uavrecon";
 	game["dialog"]["airstrike_mp"] = "airstrike";
 	game["dialog"]["helicopter_mp"] = "helisupport";
-	game["dialog"]["gl_m4_mp"] 			= "airstrike";
-
-	game["dialog"]["straferun_inbound"] = "friendlystraferun";
-	game["dialog"]["enemy_straferun_inbound"] = "enemystraferun";
-	game["dialog"]["gl_m16_mp"] = "straferun";
-
-	game["dialog"]["reaper_friendly"] = "reaper_friendly";
-	game["dialog"]["reaper_enemy"] = "reaper_enemy";
-	game["dialog"]["gl_g3_mp"] = "reaper_ready";
-
-	game["dialog"]["sentrygun_friendly"] = "sentrygun_friendly";
-	game["dialog"]["sentrygun_enemy"] = "sentrygun_enemy";
-	game["dialog"]["sentrygun_friendly"] = "sentry_friendly";
-	game["dialog"]["gl_g36c_mp"] = "sentrygun_ready";
 
 	// airstrike danger area is the circle of radius artilleryDangerMaxRadius
 	// stretched by a factor of artilleryDangerOvalScale in the direction of the incoming airstrike,
@@ -271,14 +147,7 @@ init()
 
 	level.numHardpointReservedObjectives = 0;
 
-	level.portableRadarViewTime = level.scr_portable_radar_view_time;
-
 	maps\mp\_helicopter::init();
-	maps\mp\_strafe_run::init_strafe();
-	sdh\_sammy_artillery::init();
-	maps\mp\_reaper::init();
-	maps\mp\_sentrygun::init();
-	maps\mp\_carepackage::main();
 }
 
 
@@ -706,9 +575,9 @@ callStrike_bombEffect( plane, launchTime, owner, requiredDeathCount )
 	wait ( 0.15 );
 
 	newBomb = spawn( "script_model", bomb.origin );
- 	newBomb setModel( "tag_origin" );
-  	newBomb.origin = bomb.origin;
-  	newBomb.angles = bomb.angles;
+    newBomb setModel( "tag_origin" );
+     newBomb.origin = bomb.origin;
+     newBomb.angles = bomb.angles;
 
 	bomb setModel( "tag_origin" );
 	//plane moveTo( endPoint + ( (randomint( 300 ) - 150 ), (randomint( 300 ) - 150 ), 0 ), flyTime, 0, 0 );
@@ -1037,10 +906,6 @@ giveHardpointItemForStreak()
 		actualstreak = self.kills;
 	}
 
-	//mits hardline
-	if( self hasPerk( "specialty_explosivedamage" ) )
-		streak = (self.cur_kill_streak+1);
-
 	// If hardpoints are disabled then just show the kill streak messages
 	if ( level.scr_game_hardpoints != 1 ) {
 		if ( streak && (streak % 5) == 0 )
@@ -1062,20 +927,8 @@ giveHardpointItemForStreak()
 		if ( level.scr_hardpoint_allow_helicopter == 1 && level.scr_hardpoint_helicopter_streak > cyclestreak )
 			cyclestreak = level.scr_hardpoint_helicopter_streak;
 
-		if ( level.scr_hardpoint_allow_carepackage == 1 && level.scr_hardpoint_carepackage_streak > cyclestreak )
+		if ( level.scr_hardpoint_carepackage_streak > cyclestreak )
 			cyclestreak = level.scr_hardpoint_carepackage_streak;
-
-		if ( level.scr_hardpoint_allow_sentrygun == 1 && level.scr_hardpoint_sentrygun_streak > cyclestreak )
-			cyclestreak = level.scr_hardpoint_sentrygun_streak;
-
-		if ( level.scr_hardpoint_allow_reaper == 1 && level.scr_hardpoint_reaper_streak > cyclestreak )
-			cyclestreak = level.scr_hardpoint_reaper_streak;
-
-		if ( level.scr_hardpoint_allow_paladin == 1 && level.scr_hardpoint_paladin_streak > cyclestreak )
-			cyclestreak = level.scr_hardpoint_paladin_streak;
-
-		if ( level.scr_hardpoint_allow_straferun == 1 && level.scr_hardpoint_straferun_streak > cyclestreak )
-			cyclestreak = level.scr_hardpoint_straferun_streak;
 
 		// If the kill streak is bigger than the the turning point to start all over again calculate the number of streaks past the turning point
 		if ( cyclestreak && actualstreak > cyclestreak ) {
@@ -1095,29 +948,12 @@ giveHardpointItemForStreak()
 	else if ( level.scr_hardpoint_allow_airstrike == 1 && streak == level.scr_hardpoint_airstrike_streak )
 		self giveHardpoint( "airstrike_mp", actualstreak );
 
-	// Check if straferun is active and if we have reached the kill streak for it
-	else if ( level.scr_hardpoint_allow_straferun == 1 && streak == level.scr_hardpoint_straferun_streak )
-		self giveHardpoint( "gl_m16_mp", actualstreak );
-
-	// Check if reaper is active and if we have reached the kill streak for it
-	else if ( level.scr_hardpoint_allow_reaper == 1 && streak == level.scr_hardpoint_reaper_streak )
-		self giveHardpoint( "gl_g3_mp", actualstreak );
-
-	// Check if Paladin is active and if we have reached the kill streak for it
-	else if ( level.scr_hardpoint_allow_paladin == 1 && streak == level.scr_hardpoint_paladin_streak )
-		self giveHardpoint( "gl_m4_mp", actualstreak );
-
-	// Check if carepackage is active and if we have reached the kill streak for it
-	else if ( level.scr_hardpoint_allow_carepackage == 1 && streak == level.scr_hardpoint_carepackage_streak )
-		self giveHardpoint( "rpd_grip_mp", actualstreak );
-
 	// Check if Helicopter is active and if we have reached the kill streak for it
 	else if ( level.scr_hardpoint_allow_helicopter == 1 && streak == level.scr_hardpoint_helicopter_streak )
 		self giveHardpoint( "helicopter_mp", actualstreak );
 
-	// Check if Sentrygun is active and if we have reached the kill streak for it
-	else if ( level.scr_hardpoint_allow_sentrygun == 1 && streak == level.scr_hardpoint_sentrygun_streak )
-		self giveHardpoint( "gl_g36c_mp", actualstreak );
+	else if ( streak == level.scr_hardpoint_carepackage_streak )
+		self giveHardpoint( "carepackage_mp", actualstreak );
 
 	// Just notify about the kill streak every 5 kills
 	else if ( actualstreak && (actualstreak % 5) == 0 )
@@ -1152,7 +988,10 @@ streakNotify( streakVal )
 
 giveHardpoint( hardpointType, streak )
 {
-	self maps\mp\gametypes\_hardpoints::giveHardpointItem( hardpointType, streak );
+	if ( self maps\mp\gametypes\_hardpoints::giveHardpointItem( hardpointType ) )
+	{
+		self thread hardpointNotify( hardpointType, streak );
+	}
 }
 
 
@@ -1175,7 +1014,6 @@ hardpointNotify( hardpointType, streakVal )
 			notifyData.titleLabel = &"OW_KILLS_N";
 		}
 		notifyData.titleText = streakVal;
-		notifyData.iconName = getImage( hardpointType );
 		notifyData.leaderSound = hardpointType;
 		notifyData.sound = level.hardpointInforms[hardpointType];
 	} else {
@@ -1207,7 +1045,15 @@ giveHardpointItem( hardpointType, streak )
 			return false;
 	}
 
-	self thread giveActionSlot4AfterDelay( hardpointType, streak );
+	// self thread giveActionSlot4AfterDelay( hardpointType, streak );
+	self.pers["hardPointItem"] = hardpointType;
+
+	if( hardpointType == "carepackage_mp" )
+		hardpointType = "radar_mp";
+
+	self giveWeapon( hardpointType );
+	self giveMaxAmmo( hardpointType );
+	self setActionSlot( 4, "weapon", hardpointType );
 
 	return true;
 }
@@ -1271,8 +1117,8 @@ hardpointItemWaiter()
 {
 	self endon ( "death" );
 	self endon ( "disconnect" );
-	lastWeapon = self getCurrentWeapon();
 
+	lastWeapon = self getCurrentWeapon();
 	self giveOwnedHardpointItem();
 
 	for ( ;; )
@@ -1281,31 +1127,22 @@ hardpointItemWaiter()
 
 		currentWeapon = self getCurrentWeapon();
 
-		wait 1;
-
 		switch( currentWeapon )
 		{
 			case "radar_mp":
 			case "airstrike_mp":
 			case "helicopter_mp":
-			case "gl_m4_mp":
-			case "gl_m16_mp":
-			case "gl_g3_mp":
-			case "gl_g36c_mp":
-			case "rpd_grip_mp":
 				if ( self triggerHardpoint( currentWeapon ) )
 				{
 					self notify( "hardpoint_called", currentWeapon );
-
-//*******************************************************************************
-                                        self.hpWeapon = currentWeapon;
-//*******************************************************************************
 
 					logString( "hardpoint: " + currentWeapon );
 					// without this we will get XP only (was missing in orginal iw code :)
 					maps\mp\gametypes\_globallogic::givePlayerScore( "hardpoint", self );
 
-					self thread maps\mp\gametypes\_missions::useHardpoint( self.pers["hardPointItem"] );
+					if( self.pers["hardPointItem"] != "carepackage_mp")
+						self thread maps\mp\gametypes\_missions::useHardpoint( self.pers["hardPointItem"] );
+
 					self thread [[level.onXPEvent]]( "hardpoint" );
 
 					self takeWeapon( currentWeapon );
@@ -1328,283 +1165,17 @@ hardpointItemWaiter()
 
 triggerHardpoint( hardpointType )
 {
-	if ( hardpointType == "radar_mp" )
+	if ( hardpointType == "radar_mp" && self.pers["hardPointItem"] == "carepackage_mp" )
+	{
+		if( self novo\hardpoints\_carepackage::canCallPackage() )
+			self novo\_common::streakWarning( "PACKAGE_INCOMING", "PACKAGE_FRIENDLY", "PACKAGE_ENEMY" );
+		else
+			return false;
+	}
+	else if ( hardpointType == "radar_mp" )
 	{
 		self thread useRadarItem();
 	}
-
-	else if ( hardpointType == "rpd_grip_mp" )
-	{
-	if( isDefined( level.emp ) || isDefined( level.airstrikeInProgress ) || isDefined(level.chopper1) || isDefined(level.chopper2))
-		{
-			self iPrintLnBold( level.hardpointHints[hardpointType+"_not_available"] );
-			return false;
-		}
-		else
-		{
-			team = self.pers["team"];
-			otherTeam = level.otherTeam[team];
-/*
-			if ( level.teambased )
-			{
-				maps\mp\gametypes\_globallogic::leaderDialog( "carepackage_friendly", team );
-				maps\mp\gametypes\_globallogic::leaderDialog( "carepackage_enemy", level.otherTeam[team] );
-				for ( i = 0; i < level.players.size; i++ )
-				{
-					player = level.players[i];
-					if( player == self )
-					{
-					continue;
-					}
-				}
-			}
-*/
-// mits carepackage sound
-			if ( level.teambased )
-		{
-			maps\mp\gametypes\_globallogic::leaderDialog( "carepackage_friendly", team );
-
-			// [0.0.1] Check if we should announce the Helicopter to the enemy
-			if ( level.scr_announce_enemy_heli_inbound == 1 ) {
-				maps\mp\gametypes\_globallogic::leaderDialog( "carepackage_enemy", otherTeam );
-			}
-			// [0.0.1]
-
-			for ( i = 0; i < level.players.size; i++ )
-			{
-				player = level.players[i];
-				playerteam = player.pers["team"];
-				if ( isdefined( playerteam ) )
-				{
-					if ( playerteam == team )
-						player iprintln( &"MP_HELICOPTER_INBOUND", self );
-				}
-			}
-		}
-		else
-		{
-			self maps\mp\gametypes\_globallogic::leaderDialogOnPlayer( "carepackage_friendly" );
-			selfarray = [];
-			selfarray[0] = self;
-
-			// [0.0.1] Check if we should announce the Helicopter to the enemy
-			if ( level.scr_announce_enemy_heli_inbound == 1 ) {
-				maps\mp\gametypes\_globallogic::leaderDialog( "carepackage_enemy", undefined, undefined, selfarray );
-			}
-			// [0.0.1]
-		}
-
-// mits carepackage sound end
-
-			//set drop point to Player origin for now as i cant get the grenade origins to work correctly
-			//trace = bullettrace( self.origin + (0,0,1000), self.origin, false, undefined );
-			//pos = (loc[0], loc[1], trace["position"][2] + 100);
-
-			level.chopperspawns =  self.origin; //pos;
-			// Call in the Chopper
-
-			self thread maps\mp\_carepackage::spawndrops_chopper( self );
-			return true;
-		}
-	}
-
-	else if ( hardpointType == "gl_g36c_mp" )
-	{
-		if ( isDefined( level.sentrygunPlayer ) )
-		{
-			self iPrintLnBold( level.hardpointHints[hardpointType+"_not_available"] );
-			return false;
-		}
-
-		team = self.pers["team"];
-		otherTeam = level.otherTeam[team];
-
-		maps\mp\gametypes\_globallogic::leaderDialog( "sentrygun_friendly", team );
-		maps\mp\gametypes\_globallogic::leaderDialog( "sentrygun_enemy", level.otherTeam[team] );
-
-		result = self thread maps\mp\_sentrygun::sentry_turret();
-   }
-
-	else if ( hardpointType == "gl_g3_mp" )
-	{
-
-		if ( isDefined( level.hpreaper ) )
-		{
-			self iPrintLnBold( level.hardpointHints[hardpointType+"_not_available"] );
-			return false;
-		}
-
-		if( level.gametype == "tdf" )
-		{
-                        if( isDefined( self.isFlagCarrier ) && self.isFlagCarrier == true ){
-                                 self iPrintLnBold( "REAPER not available while carrying the flag!" );
-		                 return false;
-                        }
-		}
-
-		team = self.pers["team"];
-		otherTeam = level.otherTeam[team];
-
-		if ( level.teambased )
-		{
-
-			maps\mp\gametypes\_globallogic::leaderDialog( "reaper_friendly", team );
-			if ( level.scr_announce_enemy_reaper_inbound == 1 ) maps\mp\gametypes\_globallogic::leaderDialog( "reaper_enemy", otherTeam );
-
-
-			for ( i = 0; i < level.players.size; i++ )
-			{
-				player = level.players[i];
-				playerteam = player.pers["team"];
-				if ( isdefined( playerteam ) )
-				{
-					if ( playerteam == team )
-						player iprintln( &"REAPER_REAPER_INBOUND", self );
-				}
-			}
-		} else{
-
-			self maps\mp\gametypes\_globallogic::leaderDialogOnPlayer( "reaper_friendly" );
-
-			selfarray = [];
-			selfarray[0] = self;
-
-			if ( level.scr_announce_enemy_reaper_inbound == 1 ) maps\mp\gametypes\_globallogic::leaderDialog( "reaper_enemy", undefined, undefined, selfarray );
-
-		}
-
-
-		result = self thread maps\mp\_reaper::do_reaper();
-
-	}
-
-	else if ( hardpointType == "gl_m4_mp" )
-	{
-	/*
-		if ( isDefined( level.artilleryInProgress ) || isDefined(level.airstrikeInProgress))
-		{
-			self iPrintLnBold( level.hardpointHints[hardpointItem+"_not_available"] );
-			return false;
-		}
-	*/
-		if ( level.scr_paladin_hardpoint_interval > 0 )
-		{
-			if ( level.teambased )
-			{
-				team = self.pers["team"];
-				last_artillery = 0;
-				if ( team == "allies" && isDefined( level.allies_last_artillery ))
-					last_artillery = level.allies_last_artillery;
-				else if ( isDefined( level.axis_last_artillery ) )
-					last_artillery = level.axis_last_artillery;
-			}
-
-			else
-			{
-				if ( isDefined( self.pers["last_artillery"] ) )
-				{
-					last_artillery = self.pers["last_artillery"];
-				}
-
-				else
-				{
-					last_artillery = 0;
-				}
-			}
-			currentTime = openwarfare\_timer::getTimePassed() / 1000;
-
-			if ( last_artillery > 0 && ( currentTime - last_artillery ) < level.scr_paladin_hardpoint_interval ) {
-				availableIn = int(level.scr_paladin_hardpoint_interval - ( currentTime - last_artillery ));
-				self iPrintLnBold( &"ARTILLERY_ARTILLERY_AVAILABLEIN", availableIn );
-				return false;
-			}
-		}
-
-		result = self sdh\_sammy_artillery::selectArtilleryLocation();
-		if ( !isDefined( result ) || !result )
-			return false;
-
-		if ( level.teambased )
-		{
-			team = self.pers["team"];
-			if ( team == "allies" )
-				level.allies_last_artillery = openwarfare\_timer::getTimePassed() / 1000;
-			else
-				level.axis_last_artillery = openwarfare\_timer::getTimePassed() / 1000;
-		}
-
-		else
-		{
-			self.pers["last_artillery"] = openwarfare\_timer::getTimePassed() / 1000;
-		}
-
-		return true;
-}
-
-	else if ( hardpointType == "gl_m16_mp" )
-
-	{
-		if ( isDefined( level.strafeInProgress ) )
-		{
-			self iPrintLnBold( level.hardpointHints[hardpointType+"_not_available"] );
-			return false;
-		}
-
-		// [0.0.1] Check if we need to wait for certain interval to use the straferun again
-		if ( level.scr_straferun_hardpoint_interval > 0 ) {
-			if ( level.teambased ) {
-				// Get the time of the last straferun for the team calling this straferun
-				team = self.pers["team"];
-				if ( team == "allies" ) {
-					if ( isDefined( level.allies_last_straferun ) ) {
-						last_straferun = level.allies_last_straferun;
-					} else {
-						last_straferun = 0;
-					}
-				} else {
-					if ( isDefined( level.axis_last_straferun ) ) {
-						last_straferun = level.axis_last_straferun;
-					} else {
-						last_straferun = 0;
-					}
-				}
-			} else {
-				// Get the time of the last straferun by this player
-				if ( isDefined( self.pers["last_straferun"] ) ) {
-					last_straferun = self.pers["last_straferun"];
-				} else {
-					last_straferun = 0;
-				}
-			}
-			// If we still need to wait because the interval time is not over yet then send a message to the player
-			currentTime = openwarfare\_timer::getTimePassed() / 1000;
-			if ( last_straferun > 0 && ( currentTime - last_straferun ) < level.scr_straferun_hardpoint_interval ) {
-				availableIn = int(level.scr_straferun_hardpoint_interval - ( currentTime - last_straferun ));
-				self iPrintLnBold( &"STRAFERUN_STRAFERUN_AVAILABLEIN", availableIn );
-				return false;
-			}
-		}
-		// [0.0.1]
-
-		//result = self selectAirstrikeLocation();
-		//result = thread maps\mp\_strafe_run::StrafeRun();
-
-		thread maps\mp\_strafe_run::StrafeRun();
-
-		//if ( !isDefined( result ) || !result )
-			//return false;
-
-		if ( level.teambased ) {
-			team = self.pers["team"];
-			if ( team == "allies" )
-				level.allies_last_straferun = openwarfare\_timer::getTimePassed() / 1000;
-			else
-				level.axis_last_straferun = openwarfare\_timer::getTimePassed() / 1000;
-		} else {
-			self.pers["last_straferun"] = openwarfare\_timer::getTimePassed() / 1000;
-		}
-	}
-
 	else if ( hardpointType == "airstrike_mp" )
 	{
 		if ( isDefined( level.airstrikeInProgress ) )
@@ -1761,6 +1332,7 @@ triggerHardpoint( hardpointType )
 		}
 		thread maps\mp\_helicopter::heli_think( self, startnode, self.pers["team"] );
 	}
+
 	return true;
 }
 
@@ -2002,174 +1574,3 @@ hardpointReminder( hardpointType )
 		self thread hardpointNotify( hardpointType );
 	}
 }
-
-getImage( hardpointType )
-{
-   image = undefined;
-   switch( hardpointType )
-   {
-       case "radar_mp":
-         image = "killstreak_award_radar_mp";
-      break;
-
-	  case "airstrike_mp":
-         image = "killstreak_award_airstrike_mp";
-      break;
-
-      case "helicopter_mp":
-         image = "killstreak_award_helicopter_mp";
-      break;
-
-      case "gl_m4_mp":
-         image = "killstreak_award_gl_m4_mp";  // paladin
-      break;
-
-      case "gl_m16_mp":
-         image = "killstreak_award_gl_m16_mp";   // strafe run
-      break;
-
-      case "gl_g3_mp":
-         image = "killstreak_award_gl_g3_mp";   // reaper
-      break;
-
-      case "gl_g36c_mp":
-         image = "killstreak_award_gl_g36c_mp";   // sentrygun
-      break;
-
-      case "rpd_grip_mp":
-         image = "killstreak_award_rpd_grip_mp";   // sentrygun
-      break;
-
-   }
-
-   return image;
-}
-
-// mits portable radar
-
-usePortableRadarItem()
-{
-	team = self.pers["team"];
-	otherteam = "axis";
-	if (team == "axis")
-		otherteam = "allies";
-
-	assert( isdefined( level.players ) );
-
-	if ( level.teambased )
-	{
-		PortableRadarAcquiredPrintAndSound( team, otherteam, self, level.portableRadarViewTime );
-
-		level notify( "radar_timer_kill_" + team );
-		self thread useTeamPortableRadar( team, otherteam );
-	}
-	else
-	{
-		self maps\mp\gametypes\_globallogic::leaderDialogOnPlayer( "uav_online" );
-		self iprintln( &"PORTABLE_WAR_PORTABLE_RADAR_ACQUIRED", self, level.portableRadarViewTime );
-
-		self notify("radar_timer_kill");
-		self thread usePlayerPortableRadar();
-	}
-}
-
-
-useTeamPortableRadar( team, otherteam )
-{
-	level endon("game_ended");
-	level endon("radar_timer_kill_" + team);
-
-	setTeamRadarWrapper( team, true );
-
-	finishWait = openwarfare\_timer::getTimePassed() + level.portableRadarViewTime * 1000;
-	while ( finishWait > openwarfare\_timer::getTimePassed() ) {
-		wait (0.05);
-		if ( level.inTimeoutPeriod ) {
-			setTeamRadarWrapper( team, false );
-			xWait( 0.1 );
-			setTeamRadarWrapper( team, true );
-		}
-	}
-
-	setTeamRadarWrapper( team, false );
-
-	printAndSoundOnEveryone( team, otherteam, &"PORTABLE_WAR_PORTABLE_RADAR_EXPIRED", &"PORTABLE_WAR_PORTABLE_RADAR_EXPIRED_ENEMY", undefined, undefined, "" );
-}
-
-
-usePlayerPortableRadar( team, otherteam )
-{
-	level endon("game_ended");
-	self endon("radar_timer_kill");
-	self endon("disconnect");
-
-	self.hasRadar = true;
-	self setClientDvar( "ui_uav_client", 1 );
-
-	finishWait = openwarfare\_timer::getTimePassed() + level.portableRadarViewTime * 1000;
-	while ( isAlive(self) && finishWait > openwarfare\_timer::getTimePassed() ) {
-		wait (0.05);
-	}
-
-	self.hasRadar = false;
-	self setClientDvar( "ui_uav_client", 0 );
-
-	self iprintln( &"PORTABLE_WAR_PORTABLE_RADAR_EXPIRED" );
-}
-
-
-PortableRadarAcquiredPrintAndSound( team, otherteam, callingPlayer, numseconds )
-{
-	soundFriendly = game["voice"][team]      + game["dialog"]["uav_online"];
-	soundEnemy    = game["voice"][otherteam] + game["dialog"]["enemy_uav_online"];
-
-	if ( level.splitscreen )
-	{
-		for ( i = 0; i < level.players.size; i++ )
-		{
-			player = level.players[i];
-			playerteam = player.pers["team"];
-			if ( isdefined( playerteam ) )
-			{
-				if ( playerteam == team )
-					player iprintln( &"PORTABLE_WAR_PORTABLE_RADAR_ACQUIRED", callingPlayer, numseconds );
-				else if ( playerteam == otherteam )
-					player iprintln( &"PORTABLE_WAR_PORTABLE_RADAR_ACQUIRED_ENEMY", numseconds  );
-			}
-		}
-		assert( level.splitscreen );
-
-		level.players[0] playLocalSound( soundFriendly );
-	}
-	else
-	{
-		maps\mp\gametypes\_globallogic::leaderDialog( "uav_online", team );
-
-		// [0.0.1] Check if we need to announce the UAV going online to the enemy
-		if ( level.scr_announce_enemy_uav_online == 1 ) {
-			maps\mp\gametypes\_globallogic::leaderDialog( "enemy_uav_online", otherTeam );
-		}
-		// [0.0.1]
-
-		for ( i = 0; i < level.players.size; i++ )
-		{
-			player = level.players[i];
-			playerteam = player.pers["team"];
-			if ( isdefined( playerteam ) )
-			{
-				if ( playerteam == team )
-					player iprintln( &"PORTABLE_WAR_PORTABLE_RADAR_ACQUIRED", callingPlayer, numseconds );
-				else if ( playerteam == otherteam ) {
-					// [0.0.1] Check if we need to announce the UAV going online to the enemy
-					if ( level.scr_announce_enemy_uav_online == 1 ) {
-						player iprintln( &"PORTABLE_WAR_PORTABLE_RADAR_ACQUIRED_ENEMY", numseconds  );
-					}
-					// [0.0.1]
-				}
-			}
-		}
-	}
-}
-
-
-// mits portable radar
