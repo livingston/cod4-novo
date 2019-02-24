@@ -21,8 +21,8 @@ init()
     addDvar( "scr_novo_highjump", "int", 0, 0, 1 );
 
     addDvar( "scr_novo_jump_height", "int", 180, 0, 999 );
-    addDvar( "scr_novo_falldamage_minheight", "int", 200, 0, 999 );
-    addDvar( "scr_novo_falldamage_maxheight", "int", 350, 0, 999 );
+    addDvar( "scr_novo_falldamage_minheight", "int", 200, 0, 9999 );
+    addDvar( "scr_novo_falldamage_maxheight", "int", 350, 0, 9999 );
 
     addDvar( "old_hardpoints", "int", 0, 0, 1 ); // Hardpoints based off killstreak ( 1-yes ; 0-no )
 

@@ -295,8 +295,12 @@ isCustomMap()
 
 getConfig( property, value )
 {
+    fallDamageMinHeight = level.dvar[ "scr_novo_falldamage_minheight" ];
+    fallDamageMaxHeight = level.dvar[ "scr_novo_falldamage_maxheight" ];
+    jumpHeight = level.dvar[ "scr_novo_jump_height" ];
+
     novo_server_config["highJump"][0] = "scr_novo_highjump=0;scr_fallDamageMinHeight=128;scr_fallDamageMaxHeight=300;scr_jump_height=39;scr_jump_slowdown_enable=1";
-    novo_server_config["highJump"][1] = "scr_novo_highjump=1;scr_fallDamageMinHeight=200;scr_fallDamageMaxHeight=350;scr_jump_height=180;scr_jump_slowdown_enable=0";
+    novo_server_config["highJump"][1] = "scr_novo_highjump=1;scr_fallDamageMinHeight="+ fallDamageMinHeight +";scr_fallDamageMaxHeight="+ fallDamageMaxHeight +";scr_jump_height="+ jumpHeight +";scr_jump_slowdown_enable=0";
 
     if( isDefined( novo_server_config[ property ] ) && isDefined( novo_server_config[ property ][ value ] ))
         return novo_server_config[ property ][ value ];
