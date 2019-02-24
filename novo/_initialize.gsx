@@ -32,4 +32,6 @@ setupServerDvars()
 load()
 {
     level thread novo\_menu::init();
+    level thread novo\_server::updateSettings();
 }
+

@@ -1,6 +1,13 @@
 updateSettings()
 {
-
+    if( !getDvarInt( "scr_novo_highjump" ) )
+    {
+        novo\_server::enableHighJump();
+    }
+    else
+    {
+        novo\_server::disableHighJump();
+    }
 }
 
 enableHighJump()
