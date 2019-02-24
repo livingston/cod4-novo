@@ -19,6 +19,24 @@ init()
 
     addDvar( "scr_novo_testmap", "string", "mp_killhouse" );
     addDvar( "scr_novo_highjump", "int", 0, 0, 1 );
+
+    addDvar( "scr_novo_jump_height", "int", 180, 0, 999 );
+    addDvar( "scr_novo_falldamage_minheight", "int", 200, 0, 999 );
+    addDvar( "scr_novo_falldamage_maxheight", "int", 350, 0, 999 );
+
+    addDvar( "old_hardpoints", "int", 0, 0, 1 ); // Hardpoints based off killstreak ( 1-yes ; 0-no )
+
+    // Hardpoints shop - required credits
+    addDvar( "shop_radar", "int", 20, 1 );
+    addDvar( "shop_airstrike", "int", 70, 1 );
+    addDvar( "shop_helicopter", "int", 180, 1 );
+    addDvar( "shop_artillery", "int", 70, 1 );
+    addDvar( "shop_asf", "int", 100, 1 );
+    addDvar( "shop_agm", "int", 100, 1 );
+    addDvar( "shop_predator", "int", 280, 1 );
+    addDvar( "shop_ac130", "int", 380, 1 );
+    addDvar( "shop_mannedheli", "int", 500, 1 );
+    addDvar( "shop_nuke", "int", 600, 1 );
 }
 
 // Function by OpenWarfare

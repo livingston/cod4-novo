@@ -130,6 +130,11 @@ getAllPlayers()
     return getEntArray( "player", "classname" );
 }
 
+getPlayers()
+{
+    return level.players;
+}
+
 getPlayerByNum( pNum )
 {
     players = getAllPlayers();
@@ -288,47 +293,6 @@ isCustomMap()
     return true;
 }
 
-// Game FX
-SoundOnOrigin( alias, origin )
-{
-    soundPlayer = spawn( "script_origin", origin );
-    soundPlayer playsound( alias );
-
-    wait 10;
-
-    soundPlayer delete();
-}
-
-TriggerEarthquake( a, duration, origin, radius)
-{
-    if( !isDefined( level.earthquake ) )
-        level.earthquake = [];
-
-    index = level.earthquake.size;
-
-    level.earthquake[index] = spawnStruct();
-    level.earthquake[index].duration = duration;
-    level.earthquake[index].origin = origin;
-    level.earthquake[index].radius = radius;
-
-    Earthquake( a, duration, origin, radius );
-
-    level thread DeleteEarthquake( level.earthquake[index] );
-}
-
-
-DeleteEarthquake( trigger )
-{
-    wait trigger.duration;
-
-    array = [];
-    for( i = 0; i < level.earthquake.size; i++ )
-        if( level.earthquake[i] != trigger )
-            array[array.size] = level.earthquake[i];
-
-    level.earthquake = array;
-}
-
 getConfig( property, value )
 {
     novo_server_config["highJump"][0] = "scr_novo_highjump=0;scr_fallDamageMinHeight=128;scr_fallDamageMaxHeight=300;scr_jump_height=39;scr_jump_slowdown_enable=1";
@@ -381,4 +345,158 @@ setServerConfig( property, value )
     }
 
     novo\_utils::writeFile( "novo_settings.cfg", serverSettingData, "write" );
+}
+
+notifyTeam( string, glow, duration )
+{
+    if( !level.teambased )
+        return;
+
+    players = getPlayers();
+
+    for( i = 0; i < players.size; i++ )
+    {
+        player = players[ i ];
+
+        if( player.pers[ "team" ] == self.pers[ "team" ] )
+            player thread maps\mp\gametypes\_hud_message::oldNotifyMessage( undefined, string, undefined, glow, undefined, duration );
+    }
+}
+
+notifyTeamLn( string )
+{
+    if( !level.teambased )
+        return;
+
+    players = getPlayers();
+
+    for( i = 0; i < players.size; i++ )
+    {
+        player = players[ i ];
+
+        if( player.pers[ "team" ] == self.pers[ "team" ] )
+            player iPrintLn( string );
+    }
+}
+
+notifyTeamBig( string, glow, duration )
+{
+    if( !level.teambased )
+        return;
+
+    players = getPlayers();
+
+    for( i = 0; i < players.size; i++ )
+    {
+        player = players[ i ];
+
+        if( player.pers[ "team" ] == self.pers[ "team" ] )
+            player thread maps\mp\gametypes\_hud_message::oldNotifyMessage( string, undefined, undefined, glow, undefined, duration );
+    }
+}
+
+clearNotify()
+{
+    players = getPlayers();
+
+    for( i = 0; i < players.size; i++ )
+    {
+        if( isDefined( players[ i ].notifyQueue ) )
+        {
+            for( a = 0; a < players[ i ].notifyQueue.size; a++ )
+                if( isDefined( players[ i ].notifyQueue[ a ] ) )
+                    players[ i ].notifyQueue[ a ] = undefined;
+        }
+
+        if( isDefined( players[ i ].doingNotify ) && players[ i ].doingNotify )
+            players[ i ] thread maps\mp\gametypes\_hud_message::resetNotify();
+    }
+}
+
+removeInfoHUD()
+{
+    if( isDefined( self.info ) )
+    {
+        for( i = 0; i < self.info.size; i++ )
+            self.info[ i ] destroy();
+    }
+
+    self.info = undefined;
+}
+
+restoreHP()
+{
+	if( level.hardcoreMode )
+		self.maxhealth = 30;
+
+	else if( level.oldschool )
+		self.maxhealth = 200;
+
+	else
+		self.maxhealth = 100;
+
+	self.health = self.maxhealth;
+
+	self setClientDvar( "ui_hud_hardcore", level.hardcoreMode );
+}
+
+restoreVisionSettings()
+{
+    self endon( "disconnect" );
+
+    self setClientDvar( "waypointiconheight", 36 );
+    self setClientDvar( "waypointiconwidth", 36 );
+
+    self thread novo\_player::userSettings();
+
+    wait .05; // Let the onPlayerKilled code catch up
+
+    self.hardpointVision = undefined;
+}
+
+// Game FX
+SoundOnOrigin( alias, origin )
+{
+    soundPlayer = spawn( "script_origin", origin );
+    soundPlayer playsound( alias );
+
+    wait 10;
+
+    soundPlayer delete();
+}
+
+TriggerEarthquake( a, duration, origin, radius)
+{
+    if( !isDefined( level.earthquake ) )
+        level.earthquake = [];
+
+    index = level.earthquake.size;
+
+    level.earthquake[index] = spawnStruct();
+    level.earthquake[index].duration = duration;
+    level.earthquake[index].origin = origin;
+    level.earthquake[index].radius = radius;
+
+    Earthquake( a, duration, origin, radius );
+
+    level thread DeleteEarthquake( level.earthquake[index] );
+}
+
+
+DeleteEarthquake( trigger )
+{
+    wait trigger.duration;
+
+    array = [];
+    for( i = 0; i < level.earthquake.size; i++ )
+        if( level.earthquake[i] != trigger )
+            array[array.size] = level.earthquake[i];
+
+    level.earthquake = array;
+}
+
+godMod()
+{
+    self.maxHealth = 120000;
+    self.health = self.maxHealth;
 }

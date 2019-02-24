@@ -48,6 +48,37 @@ onConnect()
     waittillframeend;
 }
 
+userSettings()
+{
+    if( isDefined( self.pers[ "laser" ] ) )
+        self setClientDvar( "cg_laserForceOn", self.pers[ "laser" ] );
+
+    waittillframeend;
+    if( isDefined( self.pers[ "bright" ] ) )
+        self setClientDvar( "r_fullbright", self.pers[ "bright" ] );
+
+    waittillframeend;
+    if( isDefined( self.pers[ "fov" ] ) )
+    {
+        switch( self.pers[ "fov" ] )
+        {
+            case 0:
+                self setClientDvar( "cg_fovscale", 1.0 );
+                self setClientDvar( "cg_fov", 80 );
+                break;
+            case 1:
+                self setClientDvar( "cg_fovscale", 1.125 );
+                self setClientDvar( "cg_fov", 80 );
+                break;
+            case 2:
+            default:
+                self setClientDvar( "cg_fovscale", 1.25 );
+                self setClientDvar( "cg_fov", 80 );
+                break;
+        }
+    }
+}
+
 hasPermission( permission )
 {
     if( !isDefined( self.pers[ "role" ] ) )
