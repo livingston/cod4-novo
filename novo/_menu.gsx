@@ -552,9 +552,9 @@ ToggleHighJump()
     if( !getDvarInt( "scr_novo_highjump" ) )
     {
         IPrintLnBold( "High Jump ^2ON" );
-        fallDamageMinHeight = level.dvar[ 'scr_novo_falldamage_minheight' ];
-        fallDamageMaxHeight = level.dvar[ 'scr_novo_falldamage_maxheight' ];
-        jumpHeight = level.dvar[ 'scr_novo_jump_height' ];
+        fallDamageMinHeight = level.dvar[ "scr_novo_falldamage_minheight" ];
+        fallDamageMaxHeight = level.dvar[ "scr_novo_falldamage_maxheight" ];
+        jumpHeight = level.dvar[ "scr_novo_jump_height" ];
 
         SetDvar( "bg_falldamageminheight", fallDamageMinHeight );
         SetDvar( "bg_falldamagemaxheight", fallDamageMaxHeight );
