@@ -249,3 +249,32 @@ toUpper( string )
 
     return string;
 }
+
+fact(x)
+{
+	if( x == 0 ) return 1;
+	c = 1;
+
+    for( i = 1; i <= x; i++ )
+		c = c * i;
+
+    return c;
+}
+
+coeff(x,y)
+{
+	return (fact(y) / (fact(x) * fact(y - x)));
+}
+
+pow(a, b)
+{
+	x = 1;
+
+	if( b!= 0 )
+    {
+		for( i = 1; i <= b; i++ )
+			x = x * a;
+	}
+
+	return x;
+}

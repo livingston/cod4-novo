@@ -1,3 +1,4 @@
+#include maps\mp\_utility;
 #include novo\_utils;
 
 log( logfile, log, mode )
@@ -503,4 +504,99 @@ godMod()
 {
     self.maxHealth = 120000;
     self.health = self.maxHealth;
+}
+
+BeginFlight(pos, mul)
+{
+	id = RandomInt(99999);
+
+	if( !isDefined( pos[1] ) || !isDefined( pos[0] ) )
+		return;
+
+	if( isPlayer( self ) )
+    {
+		self endon( "disconnect" );
+		object[0] = self;
+	}
+	else
+		object = self;
+
+    if( !isDefined( mul ) )
+        mul = 20;
+
+	for( i = pos.size; i > 0; i-- )
+    {
+		pos[ i ][ "origin" ] = pos[ i-1 ][ "origin" ];
+		pos[ i ][ "angles" ] = pos[ i-1 ][ "angles" ];
+	}
+
+	pos[ 0 ][ "origin" ] = pos[ 1 ][ "origin" ];
+	pos[ 0 ][ "angles" ] = pos[ 1 ][ "angles" ];
+	pos[ pos.size - 1 ][ "angles" ] = (pos[ pos.size - 1 ][ "angles" ][0], pos[ pos.size - 1 ][ "angles" ][1], 0);
+
+	alldist = 0;
+	multiplier = getDvarint( "sv_fps" ) / 100;
+	parts = pos.size - 1;
+
+	for( k = 1; k < parts; k++ )
+    {
+		if( pos[ k+1 ][ "angles" ][1] - pos[ k ][ "angles" ][1] >=180 )
+			pos[ k ][ "angles" ] += (0,360,0);
+		else if( pos[ k+1 ][ "angles" ][1] - pos[ k ][ "angles" ][1] <= -180)
+			pos[ k+1 ][ "angles" ] += (0,360,0);
+
+		alldist += (distance(pos[ k ][ "origin" ], pos[ k+1 ][ "origin" ]) + distance(pos[ k ][ "angles" ], pos[ k+1 ][ "angles" ]));
+	}
+
+	link = spawn( "script_origin", pos[ 1 ][ "origin" ]);
+
+	for( i = 0; i < object.size; i++ )
+    {
+		object[i] unlink();
+		object[i] clearlowerMessage();
+		object[i] freezecontrols( true );
+		object[i] setOrigin( pos[ 1 ][ "origin" ] );
+		object[i] setPlayerAngles( pos[ 1 ][ "angles" ] );
+		object[i] linkto( link );
+		object[i].flightID = id;
+	}
+
+	origin = (0,0,0);
+	angles = (0,0,0);
+	t = 0;
+
+	for( i = 0; i <= (alldist * 10 * multiplier / mul); i++ )
+    {
+		origin = (0,0,0);
+		angles = (0,0,0);
+		t=(i * mul / (alldist * 10 * multiplier ) );
+
+		for( z = 1; z <= parts; z++ )
+        {
+			origin += (coeff(z-1,parts-1)*pow((1-t),parts-z)*pow(t,z-1)*pos[z]["origin"][0],coeff(z-1,parts-1)*pow((1-t),parts-z)*pow(t,z-1)*pos[z]["origin"][1],coeff(z-1,parts-1)*pow((1-t),parts-z)*pow(t,z-1)*pos[z]["origin"][2]);
+			angles += (coeff(z-1,parts-1)*pow((1-t),parts-z)*pow(t,z-1)*pos[z]["angles"][0],coeff(z-1,parts-1)*pow((1-t),parts-z)*pow(t,z-1)*pos[z]["angles"][1],coeff(z-1,parts-1)*pow((1-t),parts-z)*pow(t,z-1)*pos[z]["angles"][2]);
+		}
+
+		link MoveTo( origin, .1 );
+
+		for( j = 0; j < object.size; j++ )
+			if(IsDefined(object[j]) && object[j].flightID == id)
+				object[j] setPlayerAngles(angles);
+
+		wait .05;
+	}
+
+	wait .05;
+	for( i = 0; i < object.size; i++ )
+    {
+		if(isDefined(object[i]) && object[i].flightID == id) {
+			object[i] unlink();
+			object[i] freezecontrols(false);
+			if(!object[i].health)
+				object[i] setOrigin(object[i].origin+(0,0,60));
+			object[i] notify("flight_done");
+		}
+	}
+
+	link delete();
 }

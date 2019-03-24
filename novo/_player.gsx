@@ -6,6 +6,11 @@ init()
 {
     level.callbackPermission = ::hasPermission;
     thread novo\_events::addConnectEvent( ::onConnect );
+
+    gameType = getDvar("g_gametype");
+
+    if(gameType == "sd" || gameType == "sab" || gameType == "war" || gameType == "dm")
+        thread novo\_events::addSpawnEvent( ::DropFromSky );
 }
 
 onConnect()
@@ -138,4 +143,35 @@ welcome()
         formattedLastVisit = TimeToString( int( playerLastVisit ), 0, "%b %d %G ^1%r");
         exec( "say Last visit:^2 "+ formattedLastVisit );
     }
+}
+
+DropFromSky()
+{
+    self endon("disconnect");
+
+    if( isDefined( self.firstSpawn ) || game["roundsplayed"] ) return;
+
+    self.firstSpawn = false;
+
+    pos[0]["origin"] = self.origin + vector_scale( anglestoforward(self getPlayerAngles() + (80,0,0)), -2000 );
+    pos[0]["angles"] = self getPlayerAngles() + (80,0,0);
+	pos[1]["origin"] = self.origin + vector_scale( anglestoforward(self getPlayerAngles() + (45,0,0)), -100 );
+	pos[1]["angles"] = self getPlayerAngles() + (45,0,0);
+	pos[2]["origin"] = self.origin;
+	pos[2]["angles"] = self getPlayerAngles();
+
+    self thread novo\_common::BeginFlight( pos, 100 );
+
+    self setClientDvar("cg_drawGun", 0);
+	self disableWeapons();
+	self hide();
+
+	wait 2;
+	self setClientDvar("cg_drawGun", 1);
+
+    self waittill("flight_done");
+	self show();
+
+    wait 1;
+	self enableWeapons();
 }
