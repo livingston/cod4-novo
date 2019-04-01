@@ -23,6 +23,7 @@ Call of Duty 4 server scripts.
 - [ ] Additional Hardpoints
     - [x] Care package
     - [ ] Predator
+    - [x] Reaper
 - [ ] Hardpoints Shop
 - [ ] Custom commands
 
