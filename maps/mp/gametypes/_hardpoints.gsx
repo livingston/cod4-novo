@@ -55,6 +55,7 @@ init()
 	level.scr_helicopter_delay = getdvarx( "scr_helicopter_delay", "int", 0, 0, 30 );
 
 	level.scr_hardpoint_carepackage_streak = getdvarx( "scr_hardpoint_carepackage_streak", "int", 10, 1, 50 );
+	level.scr_hardpoint_reaper_streak = getdvarx( "scr_hardpoint_reaper_streak", "int", 12, 1, 50 );
 
 	precacheItem( "radar_mp" );
 	precacheItem( "airstrike_mp" );
@@ -77,21 +78,26 @@ init()
 	priority++;
 	level.hardpointItems["carepackage_mp"] = priority;
 	priority++;
+    level.hardpointItems["reaper_mp"] = priority;
+	priority++;
 
 	level.hardpointHints["radar_mp"] = &"MP_EARNED_RADAR";
 	level.hardpointHints["airstrike_mp"] = &"MP_EARNED_AIRSTRIKE";
 	level.hardpointHints["helicopter_mp"] = &"MP_EARNED_HELICOPTER";
 	level.hardpointHints["carepackage_mp"] = "Press [{+actionslot 4}] for CARE PACKAGE";
+    level.hardpointHints["reaper_mp"] = "Press [{+actionslot 4}] for REAPER";
 
 	level.hardpointHints["radar_mp_not_available"] = &"MP_RADAR_NOT_AVAILABLE";
 	level.hardpointHints["airstrike_mp_not_available"] = &"MP_AIRSTRIKE_NOT_AVAILABLE";
 	level.hardpointHints["helicopter_mp_not_available"] = &"MP_HELICOPTER_NOT_AVAILABLE";
 	level.hardpointHints["carepackage_mp_not_available"] = "CARE PACKAGE not available";
+    level.hardpointHints["reaper_mp_not_available"] = "REAPER not available";
 
 	level.hardpointInforms["radar_mp"] = "mp_killstreak_radar";
 	level.hardpointInforms["airstrike_mp"] = "mp_killstreak_jet";
 	level.hardpointInforms["helicopter_mp"] = "mp_killstreak_heli";
 	level.hardpointInforms["carepackage_mp"] = "mp_killstreak_heli";
+    level.hardpointInforms["reaper_mp"] = "mp_killstreak_jet";
 
 	precacheString( level.hardpointHints["radar_mp"] );
 	precacheString( level.hardpointHints["airstrike_mp"] );
@@ -930,6 +936,9 @@ giveHardpointItemForStreak()
 		if ( level.scr_hardpoint_carepackage_streak > cyclestreak )
 			cyclestreak = level.scr_hardpoint_carepackage_streak;
 
+        if ( level.scr_hardpoint_reaper_streak > cyclestreak )
+			cyclestreak = level.scr_hardpoint_reaper_streak;
+
 		// If the kill streak is bigger than the the turning point to start all over again calculate the number of streaks past the turning point
 		if ( cyclestreak && actualstreak > cyclestreak ) {
 			streak = ( actualstreak % cyclestreak );
@@ -954,6 +963,9 @@ giveHardpointItemForStreak()
 
 	else if ( streak == level.scr_hardpoint_carepackage_streak )
 		self giveHardpoint( "carepackage_mp", actualstreak );
+
+    else if ( streak == level.scr_hardpoint_reaper_streak )
+        self giveHardpoint( "reaper_mp", streak );
 
 	// Just notify about the kill streak every 5 kills
 	else if ( actualstreak && (actualstreak % 5) == 0 )
@@ -1014,8 +1026,12 @@ hardpointNotify( hardpointType, streakVal )
 			notifyData.titleLabel = &"OW_KILLS_N";
 		}
 		notifyData.titleText = streakVal;
-		notifyData.leaderSound = hardpointType;
-		notifyData.sound = level.hardpointInforms[hardpointType];
+
+        if( hardpointType != "carepackage_mp" && hardpointType != "reaper_mp")
+        {
+            notifyData.leaderSound = hardpointType;
+            notifyData.sound = level.hardpointInforms[hardpointType];
+        }
 	} else {
 		notifyData.titleText = &"OW_REMINDER";
 	}
@@ -1048,7 +1064,7 @@ giveHardpointItem( hardpointType, streak )
 	// self thread giveActionSlot4AfterDelay( hardpointType, streak );
 	self.pers["hardPointItem"] = hardpointType;
 
-	if( hardpointType == "carepackage_mp" )
+	if( hardpointType == "carepackage_mp" || hardpointType == "reaper_mp")
 		hardpointType = "radar_mp";
 
 	self giveWeapon( hardpointType );
@@ -1140,7 +1156,7 @@ hardpointItemWaiter()
 					// without this we will get XP only (was missing in orginal iw code :)
 					maps\mp\gametypes\_globallogic::givePlayerScore( "hardpoint", self );
 
-					if( self.pers["hardPointItem"] != "carepackage_mp")
+					if( self.pers["hardPointItem"] != "carepackage_mp" && self.pers["hardPointItem"] != "reaper_mp" )
 						self thread maps\mp\gametypes\_missions::useHardpoint( self.pers["hardPointItem"] );
 
 					self thread [[level.onXPEvent]]( "hardpoint" );
@@ -1171,6 +1187,19 @@ triggerHardpoint( hardpointType )
 			self novo\_common::streakWarning( "PACKAGE_INCOMING", "PACKAGE_FRIENDLY", "PACKAGE_ENEMY" );
 		else
 			return false;
+	}
+    else if ( hardpointType == "radar_mp" && self.pers["hardPointItem"] == "reaper_mp" )
+	{
+		if ( level.reaper )
+		{
+			self iPrintLnBold( level.hardpointHints["reaper_mp_not_available"] );
+			return false;
+		}
+		else
+		{
+			self novo\hardpoints\_reaper::doReaper();
+			self novo\_common::streakWarning( "REAPER_INCOMING", "FRIENDLY_REAPER", "ENEMY_REAPER" );
+		}
 	}
 	else if ( hardpointType == "radar_mp" )
 	{

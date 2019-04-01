@@ -120,6 +120,8 @@ init()
 
 	level.teamBased = false;
 
+    level.reaper = false;
+
 	level.overrideTeamScore = false;
 	level.overridePlayerScore = false;
 	level.displayHalftimeText = false;
