@@ -256,7 +256,8 @@ AIDetect( hudElem )
 		wait 1/20;
 
         for( k = 0; k < hudElem.size; k++ )
-            hudElem[k].color = (1,1,1);
+            if( isDefined(hudElem[k]) )
+                hudElem[k].color = (1,1,1);
 	}
 }
 
