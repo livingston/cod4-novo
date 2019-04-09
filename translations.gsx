@@ -15,8 +15,10 @@ LoadLanguages() {
     Lang( "EN", "MENU_TWEAKS",        "Tweaks" );
     Lang( "EN", "MENU_TWEAKS_LASER",  "Toggle Laser" );
     Lang( "EN", "MENU_TWEAKS_BRIGHT", "Toggle Fullbright" );
+    Lang( "EN", "MENU_TWEAKS_TPS",    "Toggle Third person view" );
     Lang( "EN", "TWEAK_LASER",        "Laser reflex" );
     Lang( "EN", "TWEAK_BRIGHT",       "Fullbright" );
+    Lang( "EN", "TWEAK_TPS",          "Third Person View" );
 
     Lang( "EN", "MENU_EMBLEM",         "Change Emblem" );
     Lang( "EN", "MENU_EMBLEM_DEFAULT", "Default Design" );

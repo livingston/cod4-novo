@@ -19,6 +19,8 @@ onConnect()
 
     self setClientDvar("cg_drawCrosshair", 1);
 
+    thread novo\_events::addSpawnEvent( ::ThirdPersonMonitor );
+
     dvar = "firstTime_" + self getEntityNumber();
     if( getDvar( dvar ) != self getGuid() )
     {
@@ -49,8 +51,6 @@ onConnect()
                              "cg_gun_ofs_r", "-1",
                              "cg_gun_ofs_f", "-2" );
     }
-
-    waittillframeend;
 }
 
 userSettings()
@@ -61,6 +61,10 @@ userSettings()
     waittillframeend;
     if( isDefined( self.pers[ "bright" ] ) )
         self setClientDvar( "r_fullbright", self.pers[ "bright" ] );
+
+    waittillframeend;
+    if( isDefined( self.pers[ "tps" ] ) )
+        self setClientDvar( "cg_thirdPerson", self.pers[ "tps" ] );
 
     waittillframeend;
     if( isDefined( self.pers[ "fov" ] ) )
@@ -160,7 +164,7 @@ DropFromSky()
 	pos[2]["origin"] = self.origin;
 	pos[2]["angles"] = self getPlayerAngles();
 
-    self thread novo\_common::BeginFlight( pos, 100 );
+    self thread novo\_common::BeginFlight( pos, 200 );
 
     self setClientDvar("cg_drawGun", 0);
 	self disableWeapons();
@@ -174,4 +178,78 @@ DropFromSky()
 
     wait 1;
 	self enableWeapons();
+}
+
+SetFirstPersonView()
+{
+    self setClientDvar( "cg_thirdPerson", "0" );
+}
+
+SetThirdPersonView()
+{
+    self setClientDvar( "cg_thirdPerson", "1" );
+}
+
+ThirdPersonMonitor()
+{
+    self endon( "disconnect" );
+	self endon( "death" );
+	level endon( "game_ended" );
+
+    waittillframeend;
+    if( isDefined( self.pers[ "tps" ] ) )
+    {
+        self setClientDvar( "cg_thirdPerson", self.pers[ "tps" ] );
+    }
+
+    if( !isDefined( self.pers[ "tps" ] ) || !self.pers[ "tps" ] )
+        return;
+
+    waittillframeend;
+    self thread ThirdPersonViewSight();
+    self thread ThirdPersonViewDeath();
+}
+
+ThirdPersonViewSight()
+{
+    self endon( "disconnect" );
+	self endon( "death" );
+	level endon( "game_ended" );
+
+	oldAds = 0;
+	firstPersonView = false;
+
+	for (;;)
+	{
+		wait (0.05);
+		// Check if the player enable/disable ADS
+		if ( self playerADS() > oldAds ) {
+			oldAds = self playerADS();
+			// Player is enabling ADS
+			if ( !firstPersonView ) {
+				self thread SetFirstPersonView();
+				firstPersonView = true;
+			}
+		} else if ( self playerADS() < oldAds ) {
+			oldAds = self playerADS();
+			// Player is disabling ADS
+			if ( firstPersonView ) {
+				self thread SetThirdPersonView();
+				firstPersonView = false;
+			}
+		}
+	}
+}
+
+ThirdPersonViewDeath()
+{
+    self endon( "disconnect" );
+    level endon( "game_ended" );
+
+    for(;;)
+    {
+        self waittill( "death" );
+
+        self thread SetThirdPersonView();
+    }
 }

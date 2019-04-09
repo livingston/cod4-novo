@@ -13,6 +13,7 @@ init()
     addSubMenu( "MENU_TWEAKS", "tweaks", "none" );
         addMenuOption( "MENU_TWEAKS_LASER",  "tweaks", ::Tweakables, "laser",  false, "none" );
         addMenuOption( "MENU_TWEAKS_BRIGHT", "tweaks", ::Tweakables, "bright", false, "none" );
+        addMenuOption( "MENU_TWEAKS_TPS", "tweaks", ::Tweakables, "tps", true, "none" );
 
     // Killcard Emblem
     addSubMenu( "MENU_EMBLEM", "emblem", "none" );
@@ -65,6 +66,14 @@ onPlayerConnected()
             player.pers[ "bright" ] = playerHasFullbright;
 
             player setClientDvar( "r_fullbright", playerHasFullbright );
+        }
+
+        if( !isDefined( player.pers[ "tps" ] ) )
+        {
+            playerHasTPS = player novo\_common::getCvarInt( "tps" );
+            player.pers[ "tps" ] = playerHasTPS;
+
+            player setClientDvar( "cg_thirdPerson", playerHasTPS );
         }
 
         player thread ToggleMenu();
@@ -500,6 +509,7 @@ Tweakables( tweak )
     tweakLabel = self novo\_common::translate( "TWEAK_" + tweakID );
     tweakDvar[ "laser" ] = "cg_laserForceOn";
     tweakDvar[ "bright" ] = "r_fullbright";
+    tweakDvar[ "tps" ] = "cg_thirdPerson";
 
     if( !self.pers[ tweak ] )
     {
