@@ -164,7 +164,7 @@ DropFromSky()
 	pos[2]["origin"] = self.origin;
 	pos[2]["angles"] = self getPlayerAngles();
 
-    self thread novo\_common::BeginFlight( pos, 200 );
+    self thread novo\_common::BeginFlight( pos, 100 );
 
     self setClientDvar("cg_drawGun", 0);
 	self disableWeapons();
