@@ -13,10 +13,10 @@ Call of Duty 4 server scripts.
         - [x] Laser
         - [x] Full-bright (FPS)
         - [ ] Field-of-View (FOV)
-        - [x] Third-person View
 - [x] Roles & Permissions
 - [ ] Admin in-game Menu
     - [x] High Jump
+    - [x] Dismiss Helicopter
     - [ ] Game modes
     - [ ] Admin controls
 - [ ] HighXP Mode

@@ -30,6 +30,7 @@ LoadLanguages() {
 
     Lang( "EN", "MENU_MANAGE",              "Manage" );
     Lang( "EN", "MENU_MANAGE_TOGGLE_JUMP",  "Toggle High Jump" );
+    Lang( "EN", "MENU_MANAGE_KILL_HELI",    "Dismiss Helicopter" );
 
     Lang( "EN", "PACKAGE_POSITION",     "You cant call a Care Package at this position" );
     Lang( "EN", "PACKAGE_PICKUP",       "Press ^3[[{+activate}]] ^7to pickup Carepackage" );

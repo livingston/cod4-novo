@@ -26,6 +26,7 @@ init()
 
     addSubMenu( "MENU_MANAGE", "manage", "admin" );
         addMenuOption( "MENU_MANAGE_TOGGLE_JUMP", "manage", ::ToggleHighJump, undefined, true, "none" );
+        addMenuOption( "MENU_MANAGE_KILL_HELI", "manage", ::KillHeli, undefined, true, "none" );
 
     // Admin Menu
     // addSubMenu( "MENU_ADMIN", "admin", "super" );
@@ -569,4 +570,16 @@ ToggleHighJump()
     }
 
     self novo\_common::setServerConfig( "highJump", GetDvarInt( "scr_novo_highjump") );
+}
+
+KillHeli()
+{
+    if ( isDefined( level.chopper ) ) {
+        level.chopper thread maps\mp\_helicopter::heli_leave();
+
+        wait 1;
+        IPrintLnBold( "Helicopter sent back to base!" );
+    } else {
+        self IPrintLnBold( "No Helicopter to dismiss!" );
+    }
 }
