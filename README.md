@@ -33,6 +33,7 @@ And more…
 ### Requirements:
 * `CoD4X 1.7a` and above
 * Maxmind geoIP database, available on [MaxMind.com](https://dev.maxmind.com/geoip/legacy/install/country/)
+* OpenWarfare Mod
 
 ### Installation:
 * Place both `novo` and `maps` folders into your `/main_shared/` folder
@@ -43,6 +44,9 @@ And more…
 
 * Customise settings in config file and exec it from your main config file
 * Start the server
+
+### Todo
+[ ] make it independent of openwarfare
 
 ### Credits:
 [CoD4:NE](https://github.com/leiizko/cod4_new_experience), [openwarfare](https://github.com/cod4mw/openwarfare/), [CoD4x Server](https://github.com/callofduty4x/CoD4x_Server), duffman, crazy, [BraXi](https://github.com/BraXi)
